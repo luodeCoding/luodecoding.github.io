@@ -141,7 +141,8 @@
   <section class="post">
     <h1>iOS的Extension Widget开发</h1>
 
-<p></p><h3>1 、初始化Today Extension项目<p></p>
+<h3>1 、初始化Today Extension项目</h3>
+
 <ul>
 <li><h5>新建项目</h5><br><img src="https://luodecoding.github.io/images/ExtensionWidget/NewExtensionWidget1.png" alt="image"></li>
 </ul>
@@ -208,7 +209,8 @@ return UIEdgeInsetsZero;
 // If there&apos;s an update, use NCUpdateResultNewData
 completionHandler(NCUpdateResultNewData);
 }
-</code></pre><p></p><h3>2 、 与APP交互<p></p>
+</code></pre><h3>2 、 与APP交互</h3>
+
 <ul>
 <li><h5>跳转APP</h5>
 
@@ -226,7 +228,9 @@ completionHandler(NCUpdateResultNewData);
     [self.extensionContext openURL:[NSURL URLWithString:schemeString] completionHandler:^(BOOL success) {
     }];
 }
-</code></pre><p></p><h3>3 、 与APP共享数据<p></p>
+</code></pre><h3>3 、 与APP共享数据 </h3>
+
+
 <ul>
 <li><h5>创建APPGroups</h5>
 
@@ -255,7 +259,7 @@ completionHandler(NCUpdateResultNewData);
     NSUserDefaults * userDefault = [[NSUserDefaults alloc] initWithSuiteName:@&quot;group.listennba.appGroup&quot;];
     NSLog(@&quot;读取出的数据为：%@&quot;,[myDefaults objectForKey:@&quot;haha&quot;]);
 }
-</code></pre></h3></h3></h3>
+</code></pre>
   </section>
 
 </article>
