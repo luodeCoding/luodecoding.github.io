@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     
-    <title>SwiftNetWorkWith MoyaAndHandyJson | Roder</title>
+    <title>RxSwift、Moya和HandyJson的结合使用 | Roder</title>
     <meta name="renderer" content="webkit">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -15,11 +15,11 @@
     <meta name="description" content="一个涉世未深的小iOS">
 
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="SwiftNetWorkWith MoyaAndHandyJson | Roder">
+    <meta name="twitter:title" content="RxSwift、Moya和HandyJson的结合使用 | Roder">
     <meta name="twitter:description" content="一个涉世未深的小iOS">
 
     <meta property="og:type" content="article">
-    <meta property="og:title" content="SwiftNetWorkWith MoyaAndHandyJson | Roder">
+    <meta property="og:title" content="RxSwift、Moya和HandyJson的结合使用 | Roder">
     <meta property="og:description" content="一个涉世未深的小iOS">
 
     
@@ -135,11 +135,190 @@
       </span> 
    
     </div>
-    <h1 class="post-title">SwiftNetWorkWith MoyaAndHandyJson</h1>
+    <h1 class="post-title">RxSwift、Moya和HandyJson的结合使用</h1>
   </header>
 
   <section class="post">
-    
+    <h1 id="RxSwift、Alamofire、Moya和HandyJson的结合使用"><a href="#RxSwift、Alamofire、Moya和HandyJson的结合使用" class="headerlink" title="RxSwift、Alamofire、Moya和HandyJson的结合使用"></a>RxSwift、Alamofire、Moya和HandyJson的结合使用</h1><h2>打造swift网络框架</h2>
+
+<blockquote>
+<p>准备工作</p>
+</blockquote>
+<ul>
+<li><p></p><h5>使用Cocopods工具Pod需要使用的相关框架</h5><br>具体的pod用法在这里就不做详解了，如有不懂可以查阅 <a href="https://www.jianshu.com/p/b656c3c59af5" target="_blank" rel="noopener">cocoPods使用</a><p></p>
+<pre><code>pod &apos;Alamofire&apos; 
+pod &apos;Moya/RxSwift&apos;
+pod &apos;HandyJSON&apos;, &apos;~&gt; 5.0.0-beta.1&apos;
+</code></pre></li>
+</ul>
+<blockquote>
+<p>创建文件</p>
+</blockquote>
+<ul>
+<li><h5>APIManager</h5>
+
+
+</li>
+</ul>
+<pre><code>//
+//  APIManager.swift
+//  SwiftNetWorkHelper
+//
+//  Created by 罗德良 on 2019/4/10.
+//  Copyright © 2019 swagTeam. All rights reserved.
+//
+
+import Foundation
+import Moya
+
+enum APIManager {
+    case testApi
+    case testApiPara(para1:String,para2:String)
+    case testApiDict(Dict:[String:Any])
+    case getNbaInfo(getKey:String)
+}
+
+extension APIManager:TargetType {
+    var baseURL: URL {
+        return URL.init(string: &quot;http://op.juhe.cn/onebox/basketball/&quot;)!
+    }
+
+    var path: String {
+        switch self {
+        case .testApi:
+            return &quot;nba&quot;
+        case .testApiPara(let para1, let para2):
+            return &quot;nba&quot;
+        case .testApiDict:
+            return &quot;nba&quot;
+        case .getNbaInfo:
+            return &quot;nba&quot;
+        }
+    }
+
+    var method: Moya.Method {
+        switch self {
+        case .testApi:
+            return .get
+        default:
+            return .post
+        }
+    }
+
+    var sampleData: Data {
+        return &quot;&quot;.data(using: String.Encoding.utf8)!
+    }
+
+    var task: Task {
+        switch self {
+        case .testApi:
+            return .requestPlain
+        case let .testApiPara(para1, _):
+            return .requestParameters(parameters: [&quot;key&quot; : para1], encoding: URLEncoding.default)
+        case .testApiDict(let dict):
+            return .requestParameters(parameters: dict, encoding: JSONEncoding.default)
+        case .getNbaInfo(let getKey):
+            return .requestParameters(parameters: [&quot;key&quot; : getKey], encoding: URLEncoding.default)
+        }
+    }
+
+    var headers: [String : String]? {
+        return [&quot;Content-Type&quot;:&quot;application/x-www-form-urlencoded&quot;]
+    }
+}
+</code></pre><ul>
+<li><h5>RxHandyJSON</h5>
+
+<pre><code>//
+//  RxHandyJSON.swift
+//  SwiftNetWorkHelper
+//
+//  Created by 罗德良 on 2019/4/10.
+//  Copyright © 2019 swagTeam. All rights reserved.
+//
+
+import Foundation
+import RxSwift
+import HandyJSON
+import Moya
+</code></pre></li>
+</ul>
+<pre><code>enum DCUError : Swift.Error {
+    case ParseJSONError
+    case RequestFailed
+    case NoResponse
+    case UnexpectedResult(resultCode: Int?,resultMsg:String?)
+}
+
+enum RequestStatus: Int {
+    case requestSuccess = 200
+    case requestError
+}
+
+fileprivate let RESULT_CODE = &quot;code&quot;
+fileprivate let RESULT_MSG = &quot;reason&quot;
+fileprivate let RESULT_DATA = &quot;result&quot;
+
+public extension Observable {
+    func mapResponseToObject&lt;T: HandyJSON&gt;(type: T.Type) -&gt; Observable&lt;T&gt; {
+        return map { response in
+            guard let response = response as? Moya.Response
+                else {
+                    throw DCUError.NoResponse
+            }
+            guard ((200...209) ~= response.statusCode) else {
+                throw DCUError.RequestFailed
+            }
+
+            let jsonData = try response.mapJSON() as! [String : Any]
+            if let code = jsonData[RESULT_MSG] as? String {
+                if code == &quot;查询成功&quot; {
+                    if let model = JSONDeserializer&lt;T&gt;.deserializeFrom(dict: jsonData){
+                        return model
+                    }
+                }
+            }
+}
+</code></pre><ul>
+<li><h5>TestModel</h5>
+
+<pre><code>//
+//  TestModel.swift
+//  SwiftNetWorkHelper
+//
+//  Created by 罗德良 on 2019/4/10.
+//  Copyright © 2019 swagTeam. All rights reserved.
+//
+
+import HandyJSON
+
+struct TestModel: HandyJSON {
+    var reason :String = &quot;&quot;
+    var result :String = &quot;&quot;
+}
+</code></pre></li>
+</ul>
+<blockquote>
+<p>实现效果</p>
+</blockquote>
+<pre><code>let rxProvider = MoyaProvider&lt;APIManager&gt;()
+        rxProvider.rx.request(.getNbaInfo(getKey: &quot;537f7b3121a797c8d18f4c0523f3c124&quot;)).asObservable().mapResponseToObject(type: TestModel.self)
+            .subscribe { (test) in
+                print(test)
+                let model = test.element
+                print(model?.reason ?? String.self)
+        }
+        .disposed(by: disposeBag)
+</code></pre><blockquote>
+<p>总结</p>
+</blockquote>
+<ul>
+<li><h5>APIManager作为接口内容配置，通过接口地址以及接口数据的组建</h5></li>
+<li><h5>RxHandyJSON作为由于Moya对HandyJson没有扩展，自己实现的扩展，该文件可以根据后台接口定义做调整</h5></li>
+<li><h5>TestModel作为基础数据格式，该处可以创建一个BaseModel，根据后台返回数据进行调整，会有更好的扩展性</h5>
+</li>
+</ul>
+
   </section>
 
 </article>
