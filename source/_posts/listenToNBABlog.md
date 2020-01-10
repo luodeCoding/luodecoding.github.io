@@ -18,10 +18,10 @@ tags:
 
 <h1>展示图</h1>
 
-![image](https://luodecoding.github.io/images/ListenToNBA/ListenNBADemo1.png)
-![image](https://luodecoding.github.io/images/ListenToNBA/ListenNBADemo2.png)
-![image](https://luodecoding.github.io/images/ListenToNBA/ListenNBADemo3.png)
-![image](https://luodecoding.github.io/images/ListenToNBA/ListenNBADemo4.png)
+![image](https://luodecoding.github.io/img/ListenToNBA/ListenNBADemo1.png)
+![image](https://luodecoding.github.io/img/ListenToNBA/ListenNBADemo2.png)
+![image](https://luodecoding.github.io/img/ListenToNBA/ListenNBADemo3.png)
+![image](https://luodecoding.github.io/img/ListenToNBA/ListenNBADemo4.png)
 
 <h1>目录</h1>
 
