@@ -4,11 +4,24 @@
   
   
   <entry>
+    <title>Flutter学习-第二阶段</title>
+    <link href="undefined2020/01/14/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5/"/>
+    <url>2020/01/14/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5/</url>
+    
+    <content type="html"><![CDATA[<h2>应用</h2><blockquote><h4>路由管理</h4></blockquote><p>路由就是页面（page），在iOS中主要是指（ViewController）,路由 管理就是管理页面之间如何跳转，导航管理在Android还是iOS中，都是维护一个路由栈，push（打开新页面）和pop（关闭页面）页面；</p><pre><code>Navigator.push( context,           MaterialPageRoute(builder: (context) {              return NewRoute();           }));</code></pre><ol><li><p><u>Navigator</u> 路由管理的组件，通过一个栈来管理活动路由集合；</p></li><li><p><u>MaterialPageRoute</u> 继承自PageRoute类，表示占有整个屏幕空间的一个模态路由页面，它还定义了路由构建及切换时过渡动画的相关接口及属性。MaterialPageRoute 是Material组件库提供的组件，它可以针对不同平台，实现与平台页面切换动画风格一致的路由切换动画；</p><p>MaterialPageRoute({</p><pre><code>WidgetBuilder builder,RouteSettings settings,bool maintainState = true,bool fullscreenDialog = false,</code></pre><p>  })<br><u>builder</u> : 是一个WidgetBuilder类型的回调函数，它的作用是构建路由页面的具体内容，返回值是一个widget。我们通常要实现此回调，返回新路由的实例。</p><p><u>settings</u> : 包含路由的配置信息，如路由名称、是否初始路由（首页）。</p><p><u>maintainState</u>：默认情况下，当入栈一个新路由时，原来的路由仍然会被保存在内存中，如果想在路由没用的时候释放其所占用的所有资源，可以设置maintainState为false。</p><p><u>fullscreenDialog</u>: 表示新的路由页面是否是一个全屏的模态对话框，在iOS中，如果fullscreenDialog为true，新页面将会从屏幕底部滑入（而不是水平方向）。</p></li><li><p>传值</p><pre><code>TipRoute({    Key key,    @required this.text,  // 接收一个text参数  }) : super(key: key);  final String text; /* 这里是TipRoute页面声明一个text值，准备接收；*/MaterialPageRoute(              builder: (context) {                return TipRoute(                  // 路由参数                  text: &quot;我是提示xxxx&quot;,                );              },            ),          ); /*这里是跳转TipRoute进行值传递*/</code></pre></li><li><p>命名路由</p><blockquote><p>注册路由表</p></blockquote><pre><code>routes:{ &quot;new_page&quot;:(context) =&gt; NewRoute(),  ... // 省略其它路由注册信息} </code></pre><blockquote><p>打开新路由</p></blockquote><pre><code>onPressed: () {  Navigator.pushNamed(context, &quot;new_page&quot;);},</code></pre><blockquote><p>命名路由参数传递</p></blockquote><pre><code> Navigator.of(context).pushNamed(&quot;new_page&quot;, arguments: &quot;hi&quot;);/*打开路由时传递参数*/ class Route extends StatelessWidget {  @override  Widget build(BuildContext context) {    //获取路由参数      var args=ModalRoute.of(context).settings.arguments;    //...省略无关代码  }} /*打开后路由获取路由参数*/</code></pre></li><li><p>路由器生成钩子</p><blockquote><p>onGenerateRoute回调</p></blockquote><pre><code>MaterialApp(  ... //省略无关代码  onGenerateRoute:(RouteSettings settings){      return MaterialPageRoute(builder: (context){           String routeName = settings.name;       // 如果访问的路由页需要登录，但当前未登录，则直接返回登录页路由，       // 引导用户登录；其它情况则正常打开路由。     }   );  });</code></pre></li></ol><blockquote><h4>包管理</h4></blockquote><ul><li>name：应用或包名称</li><li>description：应用或包的描述、简介</li><li>version：应用或包的版本号</li><li>dev_dependencies：开发环境依赖的工具包（而不是flutter应用本身依赖的包）</li><li>flutter：flutter相关的配置选项</li></ul>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Flutter学习-第一阶段</title>
     <link href="undefined2020/01/10/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5/"/>
     <url>2020/01/10/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5/</url>
     
-    <content type="html"><![CDATA[<h2 id="Flutter学习"><a href="#Flutter学习" class="headerlink" title="Flutter学习"></a>Flutter学习</h2><blockquote><h3>环境配置 注意事项</h3></blockquote><h5>1.官方文档中当你把flutter下载到电脑之后，要想全局命令运行flutter，需要配置环境变量 </h5><pre><code>export PATH=$PATH:/Users/roder/Desktop/flutter/bin</code></pre><h6>这里注意 ：$PATH:后面的是你下载的flutter里面的bin的路径，可以通过找到bin这个文件夹拖到终端命令里面就会自动显示该路径。</h6><h5>2.打开终端执行</h5><pre><code>open ~/.bash_profile</code></pre><h6>弹出一个编辑框后，把第一步的路径复制进去，保存。</h6><h5>3.再在终端执行</h5><pre><code>source .bash_profile</code></pre><h6>基本上到这一步都是可以了，但是如果你的终端命令配置的是zshrc ，那么就需要，继续看下面</h6><h5>4.在终端执行</h5><pre><code>open .zshrc</code></pre><h5>5.弹出编辑框后，再把第一步的路径粘贴进去，换行，把第3步的命令粘贴进去，保存，再执行</h5><pre><code>source .zshrc</code></pre><h6>最后验证在终端执行</h6><pre><code>flutter doctor</code></pre>]]></content>
+    <content type="html"><![CDATA[<h2 id="Flutter第一阶段"><a href="#Flutter第一阶段" class="headerlink" title="Flutter第一阶段"></a>Flutter第一阶段</h2><blockquote><h3>环境配置 注意事项</h3></blockquote><h5>1.官方文档中当你把flutter下载到电脑之后，要想全局命令运行flutter，需要配置环境变量 </h5><pre><code>export PATH=$PATH:/Users/roder/Desktop/flutter/bin</code></pre><h6>这里注意 ：$PATH:后面的是你下载的flutter里面的bin的路径，可以通过找到bin这个文件夹拖到终端命令里面就会自动显示该路径。</h6><h5>2.打开终端执行</h5><pre><code>open ~/.bash_profile</code></pre><h6>弹出一个编辑框后，把第一步的路径复制进去，保存。</h6><h5>3.再在终端执行</h5><pre><code>source .bash_profile</code></pre><h6>基本上到这一步都是可以了，但是如果你的终端命令配置的是zshrc ，那么就需要，继续看下面</h6><h5>4.在终端执行</h5><pre><code>open .zshrc</code></pre><h5>5.弹出编辑框后，再把第一步的路径粘贴进去，换行，把第3步的命令粘贴进去，保存，再执行</h5><pre><code>source .zshrc</code></pre><h6>最后验证在终端执行</h6><pre><code>flutter doctor</code></pre>]]></content>
     
     
     

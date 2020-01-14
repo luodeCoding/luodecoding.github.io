@@ -117,6 +117,47 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/14/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5/">
+        <p class="h4 index-header">Flutter学习-第二阶段</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">应用
+
+
+路由管理
+
+路由就是页面（page），在iOS中主要是指（ViewController）,路由 管理就是管理页面之间如何跳转，导航管理在Android还是iOS中，都是维护一个路由栈，push（打开新页面）和pop（关闭页面）页面；
+Navigator.push( context,
+           MaterialPageRoute(builder: (context) {
+              return NewRoute();
+           }));
+Navigator 路由管理的组件，通过一个栈来管理活动路由集合；
+
+MaterialPageRoute 继承自PageRoute类，表示占有整个屏幕空间的一个模态路由页面，它还定义了路由构建及切换时过渡动画的相关接口及属性。MaterialPageRoute 是Material组件库提供的组件，它可以针对不同平台，实现与平台页面切换动画风格一致的路由切换动画；
+MaterialPageRoute({
+WidgetBuilder builder,
+RouteSettings settings,
+bool</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-14&nbsp;&nbsp;
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/01/10/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5/">
         <p class="h4 index-header">Flutter学习-第一阶段</p>
         
@@ -124,7 +165,7 @@
           
         
         <div class="index-excerpt" >
-          <div class="index-text mb-1">Flutter学习
+          <div class="index-text mb-1">Flutter第一阶段
 环境配置 注意事项
 
 1.官方文档中当你把flutter下载到电脑之后，要想全局命令运行flutter，需要配置环境变量 

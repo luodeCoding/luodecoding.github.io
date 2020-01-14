@@ -15,7 +15,7 @@
   <meta name="description" content="一个涉世未深的小iOS">
   <meta name="author" content="Roder">
   <meta name="keywords" content="">
-  <title>归档 ~ Roder</title>
+  <title>Flutter学习-第二阶段 ~ Roder</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -31,7 +31,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -90,6 +90,9 @@
             </span>
 
             
+              <br>
+              <p class="mt-3">星期二, 一月 14日 2020, 10:39 上午</p>
+            
           </div>
 
           
@@ -100,41 +103,142 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 8 篇文章</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/01/14/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Flutter学习-第二阶段</span>
-      <span style="float: right;">01-14</span>
-    </a>
-  
-    
-    <a href="/2020/01/10/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Flutter学习-第一阶段</span>
-      <span style="float: right;">01-10</span>
-    </a>
-  
-</div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h2>应用</h2>
 
-              </div>
-            </div>
+<blockquote>
+<h4>路由管理</h4>
+</blockquote>
+<p>路由就是页面（page），在iOS中主要是指（ViewController）,路由 管理就是管理页面之间如何跳转，导航管理在Android还是iOS中，都是维护一个路由栈，push（打开新页面）和pop（关闭页面）页面；</p>
+<pre><code>Navigator.push( context,
+           MaterialPageRoute(builder: (context) {
+              return NewRoute();
+           }));</code></pre><ol>
+<li><p><u>Navigator</u> 路由管理的组件，通过一个栈来管理活动路由集合；</p>
+</li>
+<li><p><u>MaterialPageRoute</u> 继承自PageRoute类，表示占有整个屏幕空间的一个模态路由页面，它还定义了路由构建及切换时过渡动画的相关接口及属性。MaterialPageRoute 是Material组件库提供的组件，它可以针对不同平台，实现与平台页面切换动画风格一致的路由切换动画；</p>
+<p>MaterialPageRoute({</p>
+<pre><code>WidgetBuilder builder,
+RouteSettings settings,
+bool maintainState = true,
+bool fullscreenDialog = false,</code></pre><p>  })<br><u>builder</u> : 是一个WidgetBuilder类型的回调函数，它的作用是构建路由页面的具体内容，返回值是一个widget。我们通常要实现此回调，返回新路由的实例。</p>
+<p><u>settings</u> : 包含路由的配置信息，如路由名称、是否初始路由（首页）。</p>
+<p><u>maintainState</u>：默认情况下，当入栈一个新路由时，原来的路由仍然会被保存在内存中，如果想在路由没用的时候释放其所占用的所有资源，可以设置maintainState为false。</p>
+<p><u>fullscreenDialog</u>: 表示新的路由页面是否是一个全屏的模态对话框，在iOS中，如果fullscreenDialog为true，新页面将会从屏幕底部滑入（而不是水平方向）。</p>
+</li>
+<li><p>传值</p>
+<pre><code>TipRoute({
+    Key key,
+    @required this.text,  // 接收一个text参数
+  }) : super(key: key);
+  final String text; /* 这里是TipRoute页面声明一个text值，准备接收；*/
+
+MaterialPageRoute(
+              builder: (context) {
+                return TipRoute(
+                  // 路由参数
+                  text: &quot;我是提示xxxx&quot;,
+                );
+              },
+            ),
+          ); /*这里是跳转TipRoute进行值传递*/</code></pre></li>
+<li><p>命名路由</p>
+<blockquote>
+<p>注册路由表</p>
+</blockquote>
+<pre><code>routes:{
+ &quot;new_page&quot;:(context) =&gt; NewRoute(),
+  ... // 省略其它路由注册信息
+} </code></pre><blockquote>
+<p>打开新路由</p>
+</blockquote>
+<pre><code>onPressed: () {
+  Navigator.pushNamed(context, &quot;new_page&quot;);
+},</code></pre><blockquote>
+<p>命名路由参数传递</p>
+</blockquote>
+<pre><code> Navigator.of(context).pushNamed(&quot;new_page&quot;, arguments: &quot;hi&quot;);/*打开路由时传递参数*/
+
+ class Route extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    //获取路由参数  
+    var args=ModalRoute.of(context).settings.arguments;
+    //...省略无关代码
+  }
+} /*打开后路由获取路由参数*/</code></pre></li>
+<li><p>路由器生成钩子</p>
+<blockquote>
+<p>onGenerateRoute回调</p>
+</blockquote>
+<pre><code>MaterialApp(
+  ... //省略无关代码
+  onGenerateRoute:(RouteSettings settings){
+      return MaterialPageRoute(builder: (context){
+           String routeName = settings.name;
+       // 如果访问的路由页需要登录，但当前未登录，则直接返回登录页路由，
+       // 引导用户登录；其它情况则正常打开路由。
+     }
+   );
+  }
+);</code></pre></li>
+</ol>
+<blockquote>
+<h4>包管理</h4>
+</blockquote>
+<ul>
+<li>name：应用或包名称</li>
+<li>description：应用或包的描述、简介</li>
+<li>version：应用或包的版本号</li>
+<li>dev_dependencies：开发环境依赖的工具包（而不是flutter应用本身依赖的包）</li>
+<li>flutter：flutter相关的配置选项</li>
+</ul>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -188,6 +292,11 @@
   <script src="/js/lazyload.js" ></script>
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
   <script src="/lib/prettify/prettify.min.js" ></script>
   <script>
@@ -203,7 +312,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "Flutter学习-第二阶段&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
