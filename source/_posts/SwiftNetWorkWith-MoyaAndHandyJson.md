@@ -9,6 +9,7 @@ tags:
 > 准备工作
 
 * <h5>使用CocoaPods工具Pod需要使用的相关框架</h5>
+
 具体的pod用法在这里就不做详解了，如有不懂可以查阅 [CocoaPods使用](https://www.jianshu.com/p/b656c3c59af5)
 
         pod 'Alamofire' 
@@ -16,6 +17,7 @@ tags:
         pod 'HandyJSON', '~> 5.0.0-beta.1'
 
 >创建文件
+
 
 * <h5>APIManager</h5>
 
@@ -89,6 +91,7 @@ tags:
 
 
 * <h5>RxHandyJSON</h5>
+
 
 	    //
 	    //  RxHandyJSON.swift
@@ -169,6 +172,7 @@ tags:
 	        .disposed(by: disposeBag)
 		
 > 总结
+
 
 * <h5>APIManager作为接口内容配置，通过接口地址以及接口数据的组建</h5>
 * <h5>RxHandyJSON作为由于Moya对HandyJson没有扩展，自己实现的扩展，该文件可以根据后台接口定义做调整</h5>
