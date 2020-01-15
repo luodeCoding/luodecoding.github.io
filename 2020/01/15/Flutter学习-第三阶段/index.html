@@ -15,7 +15,7 @@
   <meta name="description" content="一个涉世未深的小iOS">
   <meta name="author" content="Roder">
   <meta name="keywords" content="">
-  <title>归档 ~ Roder</title>
+  <title>Flutter学习-第三阶段 ~ Roder</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -31,7 +31,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -90,6 +90,9 @@
             </span>
 
             
+              <br>
+              <p class="mt-3">星期三, 一月 15日 2020, 3:20 下午</p>
+            
           </div>
 
           
@@ -100,35 +103,93 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 9 篇文章</p>
-  <hr>
-  
-    
       
-      <p class="h5">2018</p>
-    
-    <a href="/2018/10/23/listenToNBABlog/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">listenToNBABlog</span>
-      <span style="float: right;">10-23</span>
-    </a>
-  
-</div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h2>基础控件</h2>
 
-              </div>
-            </div>
+<blockquote>
+<p>Widget</p>
+</blockquote>
+<ol>
+<li><p>介绍</p>
+<ul>
+<li><p>Widget实际上就是Element的配置数据，Widget树实际上是一个配置树，而真正的UI渲染树是由Element构成；不过，由于Element是通过Widget生成的，所以它们之间有对应关系，在大多数场景，我们可以宽泛地认为Widget树就是指UI控件树或UI渲染树。</p>
+<ul>
+<li>一个Widget对象可以对应多个Element对象。这很好理解，根据同    一份配置（Widget），可以创建多个实例（Element）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>StatelessWidget</p>
+<ul>
+<li></li>
+</ul>
+</li>
+<li><p>StatefulWidget</p>
+</li>
+<li><p>State</p>
+<ul>
+<li>widget  </li>
+<li>context</li>
+</ul>
+</li>
+<li><p>回调函数</p>
+<ul>
+<li>initState：</li>
+<li>didChangeDependencies()：</li>
+<li>build()：</li>
+<li>reassemble()：</li>
+<li>didUpdateWidget()：</li>
+<li>deactivate()：</li>
+<li>dispose()：</li>
+</ul>
+</li>
+</ol>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -182,6 +243,11 @@
   <script src="/js/lazyload.js" ></script>
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
   <script src="/lib/prettify/prettify.min.js" ></script>
   <script>
@@ -197,7 +263,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "Flutter学习-第三阶段&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

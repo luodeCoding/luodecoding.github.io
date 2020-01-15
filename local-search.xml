@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>Flutter学习-第三阶段</title>
+    <link href="undefined2020/01/15/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%B8%89%E9%98%B6%E6%AE%B5/"/>
+    <url>2020/01/15/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%B8%89%E9%98%B6%E6%AE%B5/</url>
+    
+    <content type="html"><![CDATA[<h2>基础控件</h2><blockquote><p>Widget</p></blockquote><ol><li><p>介绍</p><ul><li><p>Widget实际上就是Element的配置数据，Widget树实际上是一个配置树，而真正的UI渲染树是由Element构成；不过，由于Element是通过Widget生成的，所以它们之间有对应关系，在大多数场景，我们可以宽泛地认为Widget树就是指UI控件树或UI渲染树。</p><ul><li>一个Widget对象可以对应多个Element对象。这很好理解，根据同    一份配置（Widget），可以创建多个实例（Element）。</li></ul></li></ul></li><li><p>StatelessWidget</p><ul><li></li></ul></li><li><p>StatefulWidget</p></li><li><p>State</p><ul><li>widget  </li><li>context</li></ul></li><li><p>回调函数</p><ul><li>initState：</li><li>didChangeDependencies()：</li><li>build()：</li><li>reassemble()：</li><li>didUpdateWidget()：</li><li>deactivate()：</li><li>dispose()：</li></ul></li></ol>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Flutter学习-第二阶段</title>
     <link href="undefined2020/01/14/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5/"/>
     <url>2020/01/14/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5/</url>
