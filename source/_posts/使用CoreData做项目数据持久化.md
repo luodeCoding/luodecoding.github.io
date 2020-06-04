@@ -31,7 +31,7 @@ tags:
 
 选中.xcdatamodeld文件
 
-![image](https://luodecoding.github.io/img/LearnCoreData/LearnCoreData01.png)
+![image](https://luodecoding.github.io/img/LearnCoreData/LearnCoreData03.png)
 
 1. 配置Person类的参数
 2. 配置关联数据
