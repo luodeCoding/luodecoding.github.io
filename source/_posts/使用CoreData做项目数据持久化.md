@@ -20,13 +20,18 @@ tags:
    <h4>两种方式</h4>
    
    * <h5>如果创建项目的时候就勾选了UseCoreData也就会自动生成一个.xcdatamodeld后缀的文件</h5>
+
+   ![image](https://luodecoding.github.io/img/LearnCoreData/LearnCoreData01.png)
+   
    * <h5>如果已有项目中就需要手动去创建一个TestModel文件</h5>
+
+      ![image](https://luodecoding.github.io/img/LearnCoreData/LearnCoreData02.png)
    
 > 配置TestModel
 
 选中.xcdatamodeld文件
 
-![image](https://luodecoding.github.io/img/ExtensionWidget/AppGroupsExtensionWidget1.png)
+![image](https://luodecoding.github.io/img/LearnCoreData/LearnCoreData01.png)
 
 1. 配置Person类的参数
 2. 配置关联数据
@@ -105,3 +110,10 @@ tags:
         //获取Model缓存文件路径
         print(NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.applicationSupportDirectory, FileManager.SearchPathDomainMask.userDomainMask, true) )
 	    }
+	    
+	  
+4. 使用NavicatPremium工具通过路径查看数据模型
+
+NavicatPremium工具：[传送门](https://xclient.info/s/navicat-premium.html)
+
+![image](https://luodecoding.github.io/img/LearnCoreData/LearnCoreData04.png)
