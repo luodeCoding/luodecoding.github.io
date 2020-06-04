@@ -117,6 +117,82 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/06/03/%E4%BD%BF%E7%94%A8CoreData%E5%81%9A%E9%A1%B9%E7%9B%AE%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">
+        <p class="h4 index-header">使用CoreData做项目数据持久化</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">CoreData数据持久化
+
+
+概念
+
+CoreData是Apple官方为iOS提供的一个数据持久化方案，其本质是一个通过封装底层数据操作，让程序员以面向对象的方式存储和管理数据的ORM框架（Object-Relational Mapping：对象-关系映射，简称ORM）。虽然底层支持SQLite、二进制数据、xml等多种文件存储，但是主要还是用来操作SQLite数据库。
+
+
+NSManagedObjectContext 是托管对象上下文，数据库的大多数操作是在这个类操作
+NSManagedObjectModel 是托管对象模型，其中一个托管对象模型关联到一个模型文件，里面存储着数据库的数据结构。
+NSPersistentStoreCoordinator 是持久化存储协调器，主要负责协调上下文玉存储的区域的关系。
+NSManagedObject 是托管对象类，其中CoreData里面的托管对象都会继承此类。
+
+
+
+
+创建相关文件
+
+   两种方式
+
+
+如果创建项目的时候就勾选了UseCoreData也就会自动生成一个.xcdatamodeld后缀的文件
+如果已有项目中就需要手动去创建一</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-03&nbsp;&nbsp;
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/16/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E5%9B%9B%E9%98%B6%E6%AE%B5/">
+        <p class="h4 index-header">Flutter学习-第四阶段</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">
+ListView 列表
+
+一个线性布局的widgets列表
+</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-16&nbsp;&nbsp;
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/01/15/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%B8%89%E9%98%B6%E6%AE%B5/">
         <p class="h4 index-header">Flutter学习-第三阶段</p>
         
@@ -491,73 +567,18 @@ swift项目桥接OC第三方库
     </div>
   </div>
 
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2018/10/23/listenToNBABlog/">
-        <p class="h4 index-header">listenToNBABlog</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">iOS ListenToNBA APP
-观看NBA直播并支持后台收听功能的APP
-
-结构
-
-本项目使用Object-C开发，共分为三个部分。
 
 
-基础页面布局（包含首页的Banner和列表展示以及webview相关内容）；
-数据方面（采用第三方SDK：LeanCloud，在平台端建表录入数据，APP端获取即可）；
-直播控件开发（围绕AVPlayer展开）
-
-展示图
-
-
-目录
-
-
-基础页面布局
-
-内容
-
-
-
-
-基础数据
-
-内容
-
-
-
-
-直播控件开发
-
-内容
-
-
-
-作者
-
-luodeCoding, 我的博客
-</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2018-10-23&nbsp;&nbsp;
-        
-        
-        
-      </div>
-    </div>
-  </div>
-
-
+  <nav aria-label="index posts navigation">
+    <ul class="pagination pg-blue justify-content-center mt-5">
+      
+      
+        <li class="page-item">
+          <a class="page-link" href="/page/2/#board">下一页</a>
+        </li>
+      
+    </ul>
+  </nav>
 
 
 
