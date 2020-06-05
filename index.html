@@ -124,7 +124,36 @@
           
         
         <div class="index-excerpt" >
-          <div class="index-text mb-1"></div>
+          <div class="index-text mb-1">iOS封装CoreData+HandyJson实现本地缓存
+
+
+准备工作
+
+
+选中Tagets->BuildPhases->LinkBinaryWithLibraries 添加CoreData.framework
+
+使用CocoaPods工具Pod需要使用的相关框架
+
+pod &apos;AlecrimCoreData&apos;
+pod &apos;HandyJSON&apos;, &apos;~&gt; 5.0.1&apos;
+
+
+CoreData基本使用查看上篇博客《CoreData数据持久化》
+
+链接如下：CoreData数据持久化
+
+配置 PersistentContainer
+
+
+创建PersistentContainer+App.swift
+
+代码如下
+import Foundation
+import AlecrimCoreData
+
+extension PersistentContainer {
+    public convenience init(name: String? = nil, bundle: Bundle? = nil) {
+        try! s</div>
         </div>
       </a>
 
