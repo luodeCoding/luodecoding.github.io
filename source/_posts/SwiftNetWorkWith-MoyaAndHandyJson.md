@@ -173,7 +173,10 @@ tags:
 		
 > 总结
 
+[Demo链接](https://github.com/luodeCoding/SwiftNetWorkHelper)
 
 * <h5>APIManager作为接口内容配置，通过接口地址以及接口数据的组建</h5>
 * <h5>RxHandyJSON作为由于Moya对HandyJson没有扩展，自己实现的扩展，该文件可以根据后台接口定义做调整</h5>
 * <h5>TestModel作为基础数据格式，该处可以创建一个BaseModel，根据后台返回数据进行调整，会有更好的扩展性</h5>
+
+Roder, [我的博客](https://luodecoding.github.io/) 
