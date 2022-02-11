@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" type="image/png" href="/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="一个涉世未深的小iOS">
+  <meta name="author" content="Roder">
+  <meta name="keywords" content="">
+  <title>使用CoreData做项目数据持久化 ~ Roder</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Roder</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/default.png')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期三, 六月 3日 2020, 2:00 下午</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h2>CoreData数据持久化</h2>
+
+<blockquote>
+<p>概念</p>
+</blockquote>
+<h5>CoreData是Apple官方为iOS提供的一个数据持久化方案，其本质是一个通过封装底层数据操作，让程序员以面向对象的方式存储和管理数据的ORM框架（Object-Relational Mapping：对象-关系映射，简称ORM）。虽然底层支持SQLite、二进制数据、xml等多种文件存储，但是主要还是用来操作SQLite数据库。</h5>
+
+<ul>
+<li><h5>NSManagedObjectContext 是托管对象上下文，数据库的大多数操作是在这个类操作</h5></li>
+<li><h5>NSManagedObjectModel 是托管对象模型，其中一个托管对象模型关联到一个模型文件，里面存储着数据库的数据结构。</h5></li>
+<li><h5>NSPersistentStoreCoordinator 是持久化存储协调器，主要负责协调上下文玉存储的区域的关系。</h5></li>
+<li><h5>NSManagedObject 是托管对象类，其中CoreData里面的托管对象都会继承此类。</h5>
+
+</li>
+</ul>
+<blockquote>
+<p>创建相关文件</p>
+</blockquote>
+   <h4>两种方式</h4>
+
+<ul>
+<li><h5>如果创建项目的时候就勾选了UseCoreData也就会自动生成一个.xcdatamodeld后缀的文件</h5>
+
+<p><img src="https://luodecoding.github.io/img/LearnCoreData/LearnCoreData01.png" srcset="/img/loading.gif" alt="image"></p>
+</li>
+<li><h5>如果已有项目中就需要手动去创建一个TestModel文件</h5>
+
+<p> <img src="https://luodecoding.github.io/img/LearnCoreData/LearnCoreData02.png" srcset="/img/loading.gif" alt="image"></p>
+</li>
+</ul>
+<blockquote>
+<p>配置TestModel</p>
+</blockquote>
+<p>选中.xcdatamodeld文件</p>
+<p><img src="https://luodecoding.github.io/img/LearnCoreData/LearnCoreData03.png" srcset="/img/loading.gif" alt="image"></p>
+<ol>
+<li><p>配置Person类的参数</p>
+</li>
+<li><p>配置关联数据</p>
+</li>
+<li><p>把它们看做数据库表 </p>
+</li>
+<li><p>设置Codegen：</p>
+<ul>
+<li><h5>选择Manual/None就需要手动去创建对应的类文件（Robot+CoreDataClass 和 Robot+CoreDataProperties）</h5></li>
+<li><h5>选择Class Definition会在编译时生成这两个文件，不需要自己定义对应的类型</h5></li>
+<li><h5>选择Category/Extension，在编译时只会默认生成Robot+CoreDataProperties文件，需要手动创建Robot+CoreDataClass定义该类型</h5>
+
+</li>
+</ul>
+<p>注意：目前项目只用默认选择Class Definition</p>
+</li>
+</ol>
+<blockquote>
+<p>代码示例</p>
+</blockquote>
+<p>首先在AppDelegate文件里面创建persistentContainer</p>
+<pre><code>lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: &quot;TestModel&quot;)
+        container.loadPersistentStores { description, error in
+            if let error = error {
+                fatalError(&quot;Unable to load persistent stores: \(error)&quot;)
+            }
+        }
+        return container
+    }()</code></pre><p>在ViewController文件里面</p>
+<ol>
+<li><p>获取存储器上下文</p>
+<pre><code>func getContext() -&gt; NSManagedObjectContext {
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                return appDelegate.persistentContainer.viewContext
+            }</code></pre></li>
+<li><p>批量写入数据</p>
+<pre><code>func inssertClasses() {
+        for i in 1...100 {
+            let classId = Int16(i)
+            let name = &quot;name&quot;+&quot;\(i)&quot;
+            insertClass(classId: classId, name: name)
+        }
+    }</code></pre></li>
+<li><p>写入数据</p>
+<pre><code>func insertClass(classId:Int16,name:String) {
+
+//获取上下文对象
+
+let context = getContext()
+
+//两种方式创建数据
+
+//1.创建一个实例并赋值
+let personEntity = NSEntityDescription.insertNewObject(forEntityName: &quot;Person&quot;, into: context) as! Person
+//Person对象赋值
+personEntity.id = classId
+personEntity.name = name
+
+//2.通过指定实体名 得到对象实例
+let Entity = NSEntityDescription.entity(forEntityName: &quot;Person&quot;, in: context)
+let classEntity = NSManagedObject(entity: Entity!, insertInto: context)
+classEntity.setValue(classId, forKey: &quot;id&quot;)
+classEntity.setValue(name, forKey: &quot;name&quot;)
+
+//保存实体对象
+do {
+    try context.save()
+} catch  {
+    let nserror = error as NSError
+    fatalError(&quot;错误:\(nserror),\(nserror.userInfo)&quot;)
+}
+
+//获取Model缓存文件路径
+print(NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.applicationSupportDirectory, FileManager.SearchPathDomainMask.userDomainMask, true) )
+}</code></pre></li>
+</ol>
+<ol start="4">
+<li>使用NavicatPremium工具通过路径查看数据模型</li>
+</ol>
+<p>NavicatPremium工具：<a href="https://xclient.info/s/navicat-premium.html" target="_blank" rel="noopener">传送门</a></p>
+<p><img src="https://luodecoding.github.io/img/LearnCoreData/LearnCoreData04.png" srcset="/img/loading.gif" alt="image"></p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "使用CoreData做项目数据持久化&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>
