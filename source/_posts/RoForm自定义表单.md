@@ -10,7 +10,9 @@ tags:
 
 > 效果
 
-![](https://raw.githubusercontent.com/luodeCoding/imageStorage/main/imageFolder/formDemo.gif)
+![image](https://raw.githubusercontent.com/luodeCoding/imageStorage/main/imageFolder/formDemo.gif)
+
+
 
 > 如何导入
 
