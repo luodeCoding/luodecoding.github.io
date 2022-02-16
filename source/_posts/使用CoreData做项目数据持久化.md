@@ -21,17 +21,17 @@ tags:
 
 * <h5>如果创建项目的时候就勾选了UseCoreData也就会自动生成一个.xcdatamodeld后缀的文件</h5>
   
-  ![image](https://raw.githubusercontent.com/luodeCoding/imageStorage/main/imageFolder/LearnCoreData01.png)
+  ![image](https://gitee.com/SwagGroup/image-storage/raw/master/imageFolder/LearnCoreData01.png)
 
 * <h5>如果已有项目中就需要手动去创建一个TestModel文件</h5>
   
-   ![image](https://raw.githubusercontent.com/luodeCoding/imageStorage/main/imageFolder/LearnCoreData02.png)
+   ![image](https://gitee.com/SwagGroup/image-storage/raw/master/imageFolder/LearnCoreData02.png)
 
 > 配置TestModel
 
 选中.xcdatamodeld文件
 
-![image](https://raw.githubusercontent.com/luodeCoding/imageStorage/main/imageFolder/LearnCoreData03.png)
+![image](https://gitee.com/SwagGroup/image-storage/raw/master/imageFolder/LearnCoreData03.png)
 
 1. 配置Person类的参数
 
@@ -118,4 +118,4 @@ tags:
 
 NavicatPremium工具：[传送门](https://xclient.info/s/navicat-premium.html)
 
-![image](https://raw.githubusercontent.com/luodeCoding/imageStorage/main/imageFolder/LearnCoreData04.png)
+![image](https://gitee.com/SwagGroup/image-storage/raw/master/imageFolder/LearnCoreData04.png)

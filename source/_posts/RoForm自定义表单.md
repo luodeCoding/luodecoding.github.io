@@ -10,7 +10,7 @@ tags:
 
 > 效果
 
-![image](https://raw.githubusercontent.com/luodeCoding/imageStorage/main/imageFolder/formDemo.gif)
+![image](https://gitee.com/SwagGroup/image-storage/raw/master/imageFolder/formDemo.gif)
 
 
 
