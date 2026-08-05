@@ -20,14 +20,16 @@
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
   <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
-  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
   
     <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
   
   <link rel="stylesheet" href="/css/main.css"  >
 
   
-</head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 <body>
@@ -117,6 +119,63 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/04/19/SwiftNetWorkWith-MoyaAndHandyJson/">
+        <p class="h4 index-header">RxSwift、Alamofire、Moya和HandyJson的结合使用</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">打造swift网络框架
+
+
+准备工作
+
+
+使用CocoaPods工具Pod需要使用的相关框架
+
+具体的pod用法在这里就不做详解了，如有不懂可以查阅 CocoaPods使用
+    pod &#39;Alamofire&#39; 
+    pod &#39;Moya/RxSwift&#39;
+    pod &#39;HandyJSON&#39;, &#39;~&gt; 5.0.0-beta.1&#39;
+
+
+创建文件
+
+
+APIManager
+
+  //
+  //  APIManager.swift
+  //  SwiftNetWorkHelper
+  //
+  //  Created by 罗德良 on 2019/4/10.
+  //  Copyright © 2019 swagTeam. All rights reserved.
+  //
+
+  import Foundation
+  import Moya
+
+  enum APIManager &#123;
+      case testApi
+      case testApiPara(para1:String,para2:</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-04-19&nbsp;&nbsp;
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2018/11/12/%E9%80%9A%E7%9F%A5%E6%A0%8F%E6%89%A9%E5%B1%95%E5%AD%A6%E4%B9%A0/">
         <p class="h4 index-header">通知栏扩展学习</p>
         
@@ -134,31 +193,33 @@
 
 
 
-
-
 布局方式
-
-
 
 
 storeyboard布局
 
 MainInterface.storeybord
 
+
+
 纯代码编写
 
 需要配置info.plist的俩项参数移除NSExtensionMainStoryboard键，并添加NSExtensionPrincipalClass键，使用view controller的名字作为值。
 
+
+
 折叠功能
 
-- (void)viewWillAppear:(BOOL)animated { 
-            [super viewWillAppear:animated];
-            self.extensionContext.widgetLargestAvailableDisplayMode = 
-    NCWidgetDisplayModeExpanded;
-    }
+  - (void)viewWillAppear:(BOOL)animated &#123; 
+              [super viewWillAppear:animated];
+              self.extensionContext.widgetLargestAvailableDisplayMode = 
+      NCWidgetDisplayModeExpanded;
+      &#125;
+
+
 隐藏Today Extension
 
-NCWidgetController *widgetController = [NCWidgetControlle</div>
+  NCWidgetController *widgetControl</div>
         </div>
       </a>
 
@@ -193,7 +254,7 @@ swift项目桥接OC第三方库
 
 在本项目的taget下路径：target-&gt;Build Setting-&gt;Search Path-&gt;User Header Search Paths 设置目录的路径${SRCROOT},然后选择recursive
 
-3. 在本项目的taget下路径：target-&gt;Build Setting-&gt;Swift Compiler - General -&gt;Objective-C Bridging Header 双击输入$(SRCROOT)/本项目名称/xxx.h
+3. 在本项目的taget下路径：target-&gt;Build Setting-&gt;Swift Compiler - General -&gt;Objective-C Bridging Header 双击输入$(SRCROOT)/本项目名称/xxx.h  
 
 
 在Pod的taget下路径：target-&gt;Build Setting-&gt;Search Path-&gt;User Header Search Paths 设置目录的路径${SRCROOT},然后选择recursive

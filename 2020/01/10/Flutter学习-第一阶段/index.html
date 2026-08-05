@@ -20,14 +20,16 @@
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
   <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
-  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
   
     <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
   
   <link rel="stylesheet" href="/css/main.css"  >
 
   
-</head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 <body>
@@ -117,23 +119,35 @@
 </blockquote>
 <h5>1.官方文档中当你把flutter下载到电脑之后，要想全局命令运行flutter，需要配置环境变量 </h5>
 
-<pre><code>export PATH=$PATH:/Users/roder/Desktop/flutter/bin</code></pre><h6>这里注意 ：$PATH:后面的是你下载的flutter里面的bin的路径，可以通过找到bin这个文件夹拖到终端命令里面就会自动显示该路径。</h6>
+<pre><code>export PATH=$PATH:/Users/roder/Desktop/flutter/bin
+</code></pre>
+<h6>这里注意 ：$PATH:后面的是你下载的flutter里面的bin的路径，可以通过找到bin这个文件夹拖到终端命令里面就会自动显示该路径。</h6>
 
 <h5>2.打开终端执行</h5>
 
-<pre><code>open ~/.bash_profile</code></pre><h6>弹出一个编辑框后，把第一步的路径复制进去，保存。</h6>
+<pre><code>open ~/.bash_profile
+</code></pre>
+<h6>弹出一个编辑框后，把第一步的路径复制进去，保存。</h6>
 
 <h5>3.再在终端执行</h5>
 
-<pre><code>source .bash_profile</code></pre><h6>基本上到这一步都是可以了，但是如果你的终端命令配置的是zshrc ，那么就需要，继续看下面</h6>
+<pre><code>source .bash_profile
+</code></pre>
+<h6>基本上到这一步都是可以了，但是如果你的终端命令配置的是zshrc ，那么就需要，继续看下面</h6>
 
 <h5>4.在终端执行</h5>
+    
+<pre><code>open .zshrc
+</code></pre>
+<h5>5.弹出编辑框后，再把第一步的路径粘贴进去，换行，把第3步的命令粘贴进去，保存，再执行</h5>
+    
+<pre><code>source .zshrc
+</code></pre>
+<h6>最后验证在终端执行</h6>
 
-<pre><code>open .zshrc</code></pre><h5>5.弹出编辑框后，再把第一步的路径粘贴进去，换行，把第3步的命令粘贴进去，保存，再执行</h5>
+<pre><code>flutter doctor
+</code></pre>
 
-<pre><code>source .zshrc</code></pre><h6>最后验证在终端执行</h6>
-
-<pre><code>flutter doctor</code></pre>
             <hr>
           </div>
           <br>
@@ -144,7 +158,7 @@
               
             </p>
             
-              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
             
           </div>
         </div>

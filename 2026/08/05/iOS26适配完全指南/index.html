@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" type="image/png" href="/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="一个涉世未深的小iOS">
+  <meta name="author" content="Roder">
+  <meta name="keywords" content="">
+  <title>iOS 26/27 适配完全指南：自动化扫描 + 零遗漏总账 + 踩坑实录 ~ Roder</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Roder</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/default.png')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期三, 八月 5日 2026, 10:00 上午</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h1 id="🚀-iOS-26-27-适配完全指南：自动化扫描-零遗漏总账-踩坑实录"><a href="#🚀-iOS-26-27-适配完全指南：自动化扫描-零遗漏总账-踩坑实录" class="headerlink" title="🚀 iOS 26&#x2F;27 适配完全指南：自动化扫描 + 零遗漏总账 + 踩坑实录"></a>🚀 iOS 26&#x2F;27 适配完全指南：自动化扫描 + 零遗漏总账 + 踩坑实录</h1><blockquote>
+<p><strong>TL;DR</strong>：4 月 28 日 App Store 强制 iOS 26 SDK，9 月 Xcode 27 强制 Liquid Glass，明年 4 月强制 iOS 27 SDK（未迁 UIScene 直接无法启动）。本文分享一套开源适配方案：Python 扫描脚本（50+ 规则）+ 50 项覆盖总账（AI 适配零遗漏）、Swift&#x2F;OC 双语言模板、可一键安装到 Claude Code&#x2F;Qoder 的 AI 技能，承诺只改 iOS 26&#x2F;27 相关代码、不冲击主项目。GitHub 已开源，可直接用于生产。</p>
+</blockquote>
+<hr>
+<h2 id="📌-为什么写这篇文章"><a href="#📌-为什么写这篇文章" class="headerlink" title="📌 为什么写这篇文章"></a>📌 为什么写这篇文章</h2><p>上周团队收到苹果邮件：<strong>4 月 28 日之后，所有新提交和更新必须使用 iOS 26 SDK 构建</strong>。deadline 就在眼前，但网上资料分散，缺乏系统性方案。</p>
+<p>于是我们做了两轮深度 QA 排查，整理出了这套<strong>开源适配框架</strong>。本文把项目背景、扫描工具实现、以及排查过程中发现的坑一次性讲清楚。</p>
+<blockquote>
+<p>GitHub：<a target="_blank" rel="noopener" href="https://github.com/luodeCoding/ios26-adaptation-skill">github.com&#x2F;luodeCoding&#x2F;ios26-adaptation-skill</a> ⭐</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>日期</th>
+<th>要求</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>2026-04-28</strong>（已生效）</td>
+<td>强制使用 iOS 26 SDK</td>
+<td>不合规 &#x3D; 直接拒审 ❌</td>
+</tr>
+<tr>
+<td><strong>~2026-09</strong></td>
+<td>Xcode 27 发布，Liquid Glass 强制启用</td>
+<td><code>UIDesignRequiresCompatibility</code> 失效</td>
+</tr>
+<tr>
+<td><strong>~2027-04（预估）</strong></td>
+<td>强制使用 iOS 27 SDK（WWDC26 已确认）</td>
+<td>未迁移 UIScene 生命周期 &#x3D; <strong>App 无法启动</strong> ❌</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>📅 每个时间节点该适配什么，项目里有一页式总览：<code>docs/timeline.zh.md</code></p>
+</blockquote>
+<hr>
+<h2 id="🛡-低冲击适配：只动-iOS-26-27，不碰你的业务代码"><a href="#🛡-低冲击适配：只动-iOS-26-27，不碰你的业务代码" class="headerlink" title="🛡 低冲击适配：只动 iOS 26&#x2F;27，不碰你的业务代码"></a>🛡 低冲击适配：只动 iOS 26&#x2F;27，不碰你的业务代码</h2><p>很多人不敢让 AI 直接改主项目，怕改飞了。这套方案把<strong>影响边界写进了技能文档</strong>，AI 执行时必须遵守：</p>
+<table>
+<thead>
+<tr>
+<th>✅ 只会改</th>
+<th>❌ 绝不碰</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>扫描命中的废弃 API 调用点</td>
+<td>Deployment Target &#x2F; 最低支持版本</td>
+</tr>
+<tr>
+<td>SceneDelegate 架构 + Info.plist 场景清单</td>
+<td>业务逻辑、无关文件的重构&#x2F;格式化</td>
+</tr>
+<tr>
+<td>新增的扩展&#x2F;适配器文件</td>
+<td>iOS 12 及更早的兼容路径</td>
+</tr>
+<tr>
+<td><code>#available</code> 版本分支包裹的差异</td>
+<td><code>Pods/</code> 和第三方 SDK 源码</td>
+</tr>
+</tbody></table>
+<p>执行流程也可审计：<strong>扫描 → 列出改动文件清单 + 逐项理由 → 确认后才动手 → 改完重扫直到 Error 清零</strong>。</p>
+<p>每一项适配要求都能追溯到苹果官方来源（Upcoming Requirements、Release Notes、WWDC、TN3187），不夹带私货。</p>
+<hr>
+<h2 id="🛠-两阶段适配策略"><a href="#🛠-两阶段适配策略" class="headerlink" title="🛠 两阶段适配策略"></a>🛠 两阶段适配策略</h2><h3 id="Phase-1：SDK-构建适配（4-月-28-日前必须完成）"><a href="#Phase-1：SDK-构建适配（4-月-28-日前必须完成）" class="headerlink" title="Phase 1：SDK 构建适配（4 月 28 日前必须完成）"></a>Phase 1：SDK 构建适配（4 月 28 日前必须完成）</h3><p><strong>核心任务</strong>：</p>
+<ol>
+<li><code>keyWindow</code> &#x2F; <code>delegate.window</code> → 统一窗口访问接口</li>
+<li><code>UNNotificationPresentationOptionAlert</code> → <code>Banner \| List</code>（iOS 14.0+）</li>
+<li>SceneDelegate 架构迁移</li>
+<li>临时禁用 Liquid Glass：<code>UIDesignRequiresCompatibility = YES</code></li>
+<li>StoreKit 1 → StoreKit 2（Xcode 26 中 StoreKit 1 已<strong>移除</strong>）</li>
+<li>添加 Privacy Manifest：<code>PrivacyInfo.xcprivacy</code></li>
+</ol>
+<h3 id="Phase-2：Liquid-Glass-完整适配（Xcode-27-发布前）"><a href="#Phase-2：Liquid-Glass-完整适配（Xcode-27-发布前）" class="headerlink" title="Phase 2：Liquid Glass 完整适配（Xcode 27 发布前）"></a>Phase 2：Liquid Glass 完整适配（Xcode 27 发布前）</h3><p><strong>核心任务</strong>：</p>
+<ol>
+<li>移除兼容标志</li>
+<li>处理浮动 TabBar 导致的 safeArea 变化</li>
+<li>移除自定义背景色，避免与 glass 效果冲突</li>
+</ol>
+<hr>
+<h2 id="🔍-自动化扫描工具"><a href="#🔍-自动化扫描工具" class="headerlink" title="🔍 自动化扫描工具"></a>🔍 自动化扫描工具</h2><h3 id="一行命令检测废弃-API"><a href="#一行命令检测废弃-API" class="headerlink" title="一行命令检测废弃 API"></a>一行命令检测废弃 API</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 scripts/ios26-scanner.py /path/to/your/ios/project</span><br></pre></td></tr></table></figure>
+
+<p>输出示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># iOS 26 Adaptation Scan Report</span><br><span class="line">**Files Scanned:** 247</span><br><span class="line">**Total Issues:** 12  (Errors: 3, Warnings: 9)</span><br><span class="line"></span><br><span class="line">| Rule ID | Severity | File | Line | Message |</span><br><span class="line">|---------|----------|------|------|---------|</span><br><span class="line">| WINDOW-001 | ERROR | LoginVC.swift | 45 | Deprecated keyWindow usage |</span><br><span class="line">| STOREKIT-001 | ERROR | IAPManager.m | 128 | StoreKit 1 API removed |</span><br><span class="line">| PRIVACY-001 | ERROR | ./ | 0 | Missing PrivacyInfo.xcprivacy |</span><br></pre></td></tr></table></figure>
+
+<h3 id="三层规则体系（50-规则）"><a href="#三层规则体系（50-规则）" class="headerlink" title="三层规则体系（50+ 规则）"></a>三层规则体系（50+ 规则）</h3><table>
+<thead>
+<tr>
+<th>类别</th>
+<th>规则数</th>
+<th>代表规则</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>窗口访问</td>
+<td>6</td>
+<td><code>keyWindow</code>、<code>delegate.window</code>、<code>UIScreen.main</code></td>
+</tr>
+<tr>
+<td>通知</td>
+<td>1</td>
+<td><code>UNNotificationPresentationOptionAlert</code></td>
+</tr>
+<tr>
+<td>StoreKit</td>
+<td>1</td>
+<td><code>SKPaymentTransaction</code> 等 StoreKit 1 API</td>
+</tr>
+<tr>
+<td>SiriKit</td>
+<td>1</td>
+<td>废弃 intent domain</td>
+</tr>
+<tr>
+<td>SwiftUI</td>
+<td>3</td>
+<td><code>NavigationView</code>、<code>.cornerRadius()</code>、<code>.foregroundColor()</code></td>
+</tr>
+<tr>
+<td>CoreData</td>
+<td>1</td>
+<td>iCloud 同步 key 移除</td>
+</tr>
+<tr>
+<td>网络</td>
+<td>1</td>
+<td>TLS 1.0&#x2F;1.1</td>
+</tr>
+<tr>
+<td>隐私</td>
+<td>1</td>
+<td><code>PrivacyInfo.xcprivacy</code> 缺失</td>
+</tr>
+<tr>
+<td>Web</td>
+<td>1</td>
+<td><code>UIWebView</code></td>
+</tr>
+<tr>
+<td>照片</td>
+<td>1</td>
+<td><code>UIImagePickerController</code></td>
+</tr>
+</tbody></table>
+<h3 id="核心设计：规则即配置"><a href="#核心设计：规则即配置" class="headerlink" title="核心设计：规则即配置"></a>核心设计：规则即配置</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">RULES = [</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;id&quot;</span>: <span class="string">&quot;WINDOW-001&quot;</span>,</span><br><span class="line">        <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Deprecated keyWindow usage (Swift)&quot;</span>,</span><br><span class="line">        <span class="string">&quot;pattern&quot;</span>: re.<span class="built_in">compile</span>(<span class="string">r&quot;UIApplication\.shared\.keyWindow&quot;</span>),</span><br><span class="line">        <span class="string">&quot;extensions&quot;</span>: &#123;<span class="string">&quot;.swift&quot;</span>&#125;,</span><br><span class="line">        <span class="string">&quot;severity&quot;</span>: <span class="string">&quot;error&quot;</span>,</span><br><span class="line">        <span class="string">&quot;suggestion&quot;</span>: <span class="string">&quot;Use UIApplication.shared.mainWindow&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>新增规则只需加 5 行代码，无需改扫描引擎。除上表外，还覆盖：iOS 26 运行时实战坑（<code>tabBar</code> KVC 闪退、<code>navigationBar addSubview</code> 失效、<code>rightBarButtonItems</code> 顺序反转）和 iOS 27 前瞻检查（<code>canOpenURL</code>、<code>-ld_classic</code>、<code>LSApplicationQueriesSchemes</code> 25 条上限、ODR、MetricKit）。项目级检查新增：<strong>启动屏强制项</strong>（含生成式 Info.plist）、App 扩展 target、第三方 SDK 清单核对。</p>
+<h3 id="🧾-为什么-AI-适配不再漏项：50-项覆盖总账"><a href="#🧾-为什么-AI-适配不再漏项：50-项覆盖总账" class="headerlink" title="🧾 为什么 AI 适配不再漏项：50 项覆盖总账"></a>🧾 为什么 AI 适配不再漏项：50 项覆盖总账</h3><p>用 AI 做适配最常见的痛点：<strong>一会儿漏这样、一会儿漏那样</strong>。本方案用三层机制堵死遗漏：</p>
+<ol>
+<li><strong>覆盖总账</strong>（<code>scripts/adaptation-ledger.json</code>）：50 项适配项的完整清单（Phase 1&#x2F;2&#x2F;3 + 环境 + 上线门禁），每项绑定检测方式、规则 ID、验收标准、苹果官方来源。AI 必须逐项对照执行，不允许凭记忆取子集。</li>
+<li><strong>报告自带人工核对清单 + 上线门禁（SHIP-01~05）</strong>：扫描报告末尾会列出无法静态检测的项（如转场动画 completion 幂等、C++ find 语义），并定义”可上线”的完成标准——门禁全绿才算完成，而不是”代码能编译”。</li>
+<li><strong>CI 一致性测试</strong>：总账中每个自动检测项必须对应真实存在的扫描规则，未来漏项会直接测试失败。</li>
+</ol>
+<p>目标效果：<strong>用这套技能改完后，再修一轮 bug，基本就能上线。</strong>完整 50 项矩阵见仓库 <code>docs/coverage.zh.md</code>。</p>
+<hr>
+<h2 id="📁-模板速览"><a href="#📁-模板速览" class="headerlink" title="📁 模板速览"></a>📁 模板速览</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">templates/</span><br><span class="line">├── swift/</span><br><span class="line">│   ├── UIApplication+MainWindow.swift</span><br><span class="line">│   ├── SceneDelegate.swift</span><br><span class="line">│   ├── AppDelegate+Setup.swift</span><br><span class="line">│   ├── UNNotificationOptions+Adapter.swift</span><br><span class="line">│   └── Swift6ConcurrencyAdapter.swift     # Swift 6 并发适配</span><br><span class="line">├── objc/</span><br><span class="line">│   ├── UIApplication+MainWindow.h/.m</span><br><span class="line">│   ├── SceneDelegate.h/.m</span><br><span class="line">│   ├── AppDelegate+Setup.h/.m</span><br><span class="line">│   └── UNNotificationOptionsAdapter.h/.m</span><br><span class="line">├── mixed/</span><br><span class="line">│   └── README.md                          # 混合项目桥接指南</span><br><span class="line">└── PrivacyInfo.xcprivacy                  # Privacy Manifest 模板</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🧐-两轮-QA-排查：15-个盲点"><a href="#🧐-两轮-QA-排查：15-个盲点" class="headerlink" title="🧐 两轮 QA 排查：15 个盲点"></a>🧐 两轮 QA 排查：15 个盲点</h2><h3 id="第一轮（基础适配项）"><a href="#第一轮（基础适配项）" class="headerlink" title="第一轮（基础适配项）"></a>第一轮（基础适配项）</h3><table>
+<thead>
+<tr>
+<th>#</th>
+<th>差距项</th>
+<th>优先级</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>UIScreen.main</code> 正式废弃</td>
+<td>🔴</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Swift 6 严格并发检查</td>
+<td>🔴</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Liquid Glass TabBar safeArea 变化</td>
+<td>🔴</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>4</td>
+<td>TLS 1.0&#x2F;1.1 最低版本提升</td>
+<td>🟡</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>5</td>
+<td>CoreData iCloud Sync Key 移除</td>
+<td>🟡</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<h3 id="第二轮（进阶项）"><a href="#第二轮（进阶项）" class="headerlink" title="第二轮（进阶项）"></a>第二轮（进阶项）</h3><table>
+<thead>
+<tr>
+<th>#</th>
+<th>差距项</th>
+<th>优先级</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>6</td>
+<td>Privacy Manifest 缺失</td>
+<td>🔴</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>7</td>
+<td>StoreKit 1 API 移除</td>
+<td>🔴</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>8</td>
+<td>SiriKit Intent Domains 废弃</td>
+<td>🔴</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>9</td>
+<td>SwiftUI <code>NavigationView</code> 废弃</td>
+<td>🟡</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>UIImagePickerController</code> 废弃</td>
+<td>🟡</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<p><strong>合计：15 项差距，全部已修复。</strong></p>
+<hr>
+<h2 id="📦-第三方-SDK-兼容性"><a href="#📦-第三方-SDK-兼容性" class="headerlink" title="📦 第三方 SDK 兼容性"></a>📦 第三方 SDK 兼容性</h2><table>
+<thead>
+<tr>
+<th>SDK</th>
+<th>问题</th>
+<th>最低兼容版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Facebook iOS SDK</td>
+<td>StoreKit 1 API 编译失败</td>
+<td>18.1.0+</td>
+</tr>
+<tr>
+<td>RevenueCat</td>
+<td>StoreKit 1 废弃警告</td>
+<td>5.0.0+</td>
+</tr>
+<tr>
+<td>Firebase Analytics</td>
+<td>缺少 Privacy Manifest</td>
+<td>10.24.0+</td>
+</tr>
+<tr>
+<td>极光推送</td>
+<td>通知选项替换逻辑</td>
+<td>最新版</td>
+</tr>
+</tbody></table>
+<p>完整列表见项目 <code>docs/sdk-compatibility.md</code>。</p>
+<hr>
+<h2 id="🚀-快速开始"><a href="#🚀-快速开始" class="headerlink" title="🚀 快速开始"></a>🚀 快速开始</h2><h3 id="方式一：装成-AI-技能，一句话搞定（推荐）"><a href="#方式一：装成-AI-技能，一句话搞定（推荐）" class="headerlink" title="方式一：装成 AI 技能，一句话搞定（推荐）"></a>方式一：装成 AI 技能，一句话搞定（推荐）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Claude Code：安装到用户技能目录</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/luodeCoding/ios26-adaptation-skill.git ~/.claude/skills/ios26-adaptation</span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后在你的 iOS 项目里对 AI 说：</span></span><br><span class="line"><span class="comment">#   “帮我适配 iOS 26”</span></span><br><span class="line"><span class="comment"># AI 会自动：加载 50 项总账 → 扫描 → 列改动清单 → 修改代码 → 重扫验证 → 关闭上线门禁</span></span><br></pre></td></tr></table></figure>
+
+<p>Qoder &#x2F; 其他 Agent 工具同理：从 GitHub 地址安装为插件，或克隆后让 Agent 指向该目录。</p>
+<h3 id="方式二：手动扫描-复制模板"><a href="#方式二：手动扫描-复制模板" class="headerlink" title="方式二：手动扫描 + 复制模板"></a>方式二：手动扫描 + 复制模板</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 克隆项目</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/luodeCoding/ios26-adaptation-skill.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 扫描你的项目</span></span><br><span class="line"><span class="built_in">cd</span> ios26-adaptation-skill</span><br><span class="line">python3 scripts/ios26-scanner.py /path/to/your/ios/project</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 根据扫描结果，复制模板修改</span></span><br><span class="line"><span class="built_in">cp</span> templates/swift/*.swift /your/project/path/</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="📝-总结"><a href="#📝-总结" class="headerlink" title="📝 总结"></a>📝 总结</h2><p>这套方案不是简单代码片段，而是经过<strong>两轮深度 QA 排查</strong>、对照 Apple 官方文档验证后的系统性解决方案。</p>
+<p>如果你的团队正在面临 iOS 26 适配 deadline，希望这套开源方案能帮你省下几周的踩坑时间。</p>
+<blockquote>
+<p>⭐ 有用的话欢迎点 Star，也欢迎提 Issue 和 PR！</p>
+</blockquote>
+<p><strong>相关链接</strong>：</p>
+<ul>
+<li>GitHub：<a target="_blank" rel="noopener" href="https://github.com/luodeCoding/ios26-adaptation-skill">github.com&#x2F;luodeCoding&#x2F;ios26-adaptation-skill</a></li>
+<li>Apple 官方要求：<a target="_blank" rel="noopener" href="https://developer.apple.com/news/upcoming-requirements">developer.apple.com&#x2F;news&#x2F;upcoming-requirements</a></li>
+<li>时间线总览（仓库内）：<code>docs/timeline.zh.md</code></li>
+<li>覆盖矩阵（仓库内）：<code>docs/coverage.zh.md</code></li>
+<li>适配影响声明（仓库内）：<code>INTEGRATION.md</code></li>
+</ul>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/iOS%E5%BC%80%E5%8F%91">iOS开发</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/iOS">iOS</a>
+              
+                <a class="hover-with-bg" href="/tags/iOS26">iOS26</a>
+              
+                <a class="hover-with-bg" href="/tags/Liquid%20Glass">Liquid Glass</a>
+              
+                <a class="hover-with-bg" href="/tags/Xcode">Xcode</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "iOS 26/27 适配完全指南：自动化扫描 + 零遗漏总账 + 踩坑实录&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>
