@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" type="image/png" href="/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="一个涉世未深的小iOS">
+  <meta name="author" content="Roder">
+  <meta name="keywords" content="">
+  <title>用AI写毕业论文的完整踩坑实录：查重、AIGC检测、28条实战经验已开源 ~ Roder</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Roder</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/default.png')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期四, 八月 6日 2026, 10:00 上午</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <p>最近完整走完了一次”AI 辅助毕业论文”的全流程——从选题到初稿提交，中间踩了无数坑。把这些经验提炼成了一套方法论 + 3 个可直接运行的检测脚本，全部开源了：</p>
+<blockquote>
+<p>GitHub：<a target="_blank" rel="noopener" href="https://github.com/luodeCoding/ai-thesis-writing">github.com&#x2F;luodeCoding&#x2F;ai-thesis-writing</a> ⭐</p>
+</blockquote>
+<p>先说结论：<strong>用 AI 写论文，最大的风险不是”写不出来”，而是写出来之后过不了查重、过不了 AIGC 检测、前后章节数据互相打架。</strong></p>
+<hr>
+<h2 id="📌-五个最致命的坑"><a href="#📌-五个最致命的坑" class="headerlink" title="📌 五个最致命的坑"></a>📌 五个最致命的坑</h2><h3 id="坑1：第2章（相关技术）是查重重灾区"><a href="#坑1：第2章（相关技术）是查重重灾区" class="headerlink" title="坑1：第2章（相关技术）是查重重灾区"></a>坑1：第2章（相关技术）是查重重灾区</h3><p>AI 生成的技术介绍——“XX是一种基于YY的技术范式”——网上到处都是雷同表述。我的解法：<strong>调整写作顺序，先写系统实现（代码现成，查重天然低），最后写技术章节</strong>。等你把系统都做完了，这些技术已经消化了，能用自己的话重写。</p>
+<p>推荐顺序：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">第5章 系统实现 ← 第一个写（最安全）</span><br><span class="line">第4章 系统设计</span><br><span class="line">第1章 绪论</span><br><span class="line">第3章 需求分析</span><br><span class="line">第6章 系统测试（跑真实系统）</span><br><span class="line">第7章 总结与展望</span><br><span class="line">第2章 相关技术 ← 最后写（风险最高）</span><br><span class="line">摘要 + 关键词</span><br></pre></td></tr></table></figure>
+
+<h3 id="坑2：论文自己跟自己重复"><a href="#坑2：论文自己跟自己重复" class="headerlink" title="坑2：论文自己跟自己重复"></a>坑2：论文自己跟自己重复</h3><p>绪论”研究内容”和各章开头天然重复 60-75%，绪论和结论重复 55-70%。这些”结构性重复”是查重率的主要来源之一，但可以免费修。</p>
+<p>我写了个自查重脚本（jieba 分词 + TF-IDF + 余弦相似度），<strong>花钱买知网查重之前先跑一遍</strong>，能省不少冤枉钱：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 check_plagiarism.py ~/my-thesis --glob <span class="string">&quot;chapters/*.md&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="坑3：设计章和实现章贴相同代码-相似度100"><a href="#坑3：设计章和实现章贴相同代码-相似度100" class="headerlink" title="坑3：设计章和实现章贴相同代码 &#x3D; 相似度100%"></a>坑3：设计章和实现章贴相同代码 &#x3D; 相似度100%</h3><p>这是最隐蔽的查重炸弹。解法：<strong>设计章改用”方法签名表格 + 文字说明”，实现章保留完整代码</strong>。实测相似度从 100% 降到 0%。</p>
+<h3 id="坑4：AIGC-检测不过"><a href="#坑4：AIGC-检测不过" class="headerlink" title="坑4：AIGC 检测不过"></a>坑4：AIGC 检测不过</h3><p>“值得注意的是”、”综上所述”、”首先…其次…最后…”这些 AI 味词汇要全部清理。我做了个双模式检测脚本：有 torch 环境就用检测模型，没有就自动降级为规则评分（连接词密度、套话统计），照样能定位高风险段落：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 check_aigc.py ~/my-thesis --glob <span class="string">&quot;chapters/*.md&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="坑5：多轮修改后数据打架"><a href="#坑5：多轮修改后数据打架" class="headerlink" title="坑5：多轮修改后数据打架"></a>坑5：多轮修改后数据打架</h3><p>这是最痛的教训：论文被多个 AI 工具轮流编辑后，绪论写”13项功能”，结论写”17项”；这章叫”管理端”，那章叫”后台系统”。<strong>答辩时老师对照着看，当场就能发现。</strong></p>
+<p>我写了一致性检查脚本，把互斥术语和互斥数字传进去，全文扫描：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3 check_consistency.py . --glob <span class="string">&quot;*.md&quot;</span> \</span><br><span class="line">  --terms <span class="string">&quot;管理端,后台系统&quot;</span> \</span><br><span class="line">  --numbers <span class="string">&quot;13项,17项&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>还有一个铁律：<strong>代码是唯一事实来源</strong>。论文里写节点数、代码行数、模块数，必须去代码里 grep&#x2F;wc 实测，绝不能凭记忆。我曾经凭印象把”11个节点”改成”10个”，后来克隆代码仓库核实——代码里就是 11 个，按代码写的才是对的。</p>
+<hr>
+<h2 id="🛠-开源了什么"><a href="#🛠-开源了什么" class="headerlink" title="🛠 开源了什么"></a>🛠 开源了什么</h2><table>
+<thead>
+<tr>
+<th>内容</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SKILL.md</code></td>
+<td>完整方法论：写作顺序、降重策略、AIGC清理、MD→Word工作流、28条实战坑清单</td>
+</tr>
+<tr>
+<td><code>check_plagiarism.py</code></td>
+<td>内部查重（jieba + TF-IDF + 余弦相似度）</td>
+</tr>
+<tr>
+<td><code>check_aigc.py</code></td>
+<td>AIGC检测（模型+规则双模式，自动降级）</td>
+</tr>
+<tr>
+<td><code>check_consistency.py</code></td>
+<td>术语漂移&#x2F;数字矛盾检查</td>
+</tr>
+</tbody></table>
+<p>所有脚本参数化设计，指定论文目录和文件匹配模式就能用，不绑定任何具体项目。</p>
+<p>也可以直接装成 Claude Code Skill：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/luodeCoding/ai-thesis-writing.git ~/.claude/skills/ai-thesis-writing</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="📝-28条坑里最值钱的10条"><a href="#📝-28条坑里最值钱的10条" class="headerlink" title="📝 28条坑里最值钱的10条"></a>📝 28条坑里最值钱的10条</h2><ol>
+<li>测试数据不能编——跑真实系统记录，编数据答辩一问就穿</li>
+<li>绪论用”将要做什么”未来时态，结论用”做到了什么”+量化，才能拉开差异</li>
+<li>降重时最容易术语漂移——改完必须全文 grep 验证统一</li>
+<li>降重时数字最容易出错——必须回头核实源表格，不能凭印象</li>
+<li>改了一章的数字，其他章引用处要同步（答辩稿、开题报告也算）</li>
+<li>摘要关键词用”；”分隔，不是”、”</li>
+<li>文献综述不能只罗列”XX提出了XX”，必须有对比分析和选型理由</li>
+<li>近三年文献占比≥80% 这条最容易不达标，提前统计</li>
+<li>多个 AI 轮流编辑会互相回退——接手先读 PLAN.md &#x2F; CHANGELOG.md</li>
+<li>花钱查重前先自查内部重复，内部重复往往是查重率大头</li>
+</ol>
+<p>完整 28 条见仓库 <a target="_blank" rel="noopener" href="https://github.com/luodeCoding/ai-thesis-writing/blob/main/SKILL.md">SKILL.md</a>。</p>
+<hr>
+<h2 id="💡-写在最后"><a href="#💡-写在最后" class="headerlink" title="💡 写在最后"></a>💡 写在最后</h2><p>AI 是写论文的效率放大器，但<strong>质量控制的责任还是在人</strong>。查重、AIGC、一致性这三道关，每一道都有工具可以提前自查，不要等到提交前才发现问题。</p>
+<p>这套工具就是把我踩过的坑变成自动化检查——希望你不用再踩一遍。</p>
+<blockquote>
+<p>⭐ 有用的话欢迎点 Star，也欢迎提 Issue 和 PR！</p>
+</blockquote>
+<p><strong>相关链接</strong>：</p>
+<ul>
+<li>GitHub：<a target="_blank" rel="noopener" href="https://github.com/luodeCoding/ai-thesis-writing">github.com&#x2F;luodeCoding&#x2F;ai-thesis-writing</a></li>
+<li>我的另一篇：<a href="/2026/08/05/iOS26%E9%80%82%E9%85%8D%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/">iOS 26&#x2F;27 适配完全指南</a></li>
+</ul>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/AI">AI</a>
+              
+                <a class="hover-with-bg" href="/tags/%E6%AF%95%E4%B8%9A%E8%AE%BA%E6%96%87">毕业论文</a>
+              
+                <a class="hover-with-bg" href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7">效率工具</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "用AI写毕业论文的完整踩坑实录：查重、AIGC检测、28条实战经验已开源&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>
