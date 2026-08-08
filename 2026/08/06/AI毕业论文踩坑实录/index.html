@@ -159,13 +159,28 @@
 </tr>
 <tr>
 <td><code>check_consistency.py</code></td>
-<td>术语漂移&#x2F;数字矛盾检查</td>
+<td>术语漂移&#x2F;数字矛盾检查（含跨文件预警）</td>
+</tr>
+<tr>
+<td><code>references/</code></td>
+<td>学校要求摄入流程：官方文件→硬约束规范</td>
 </tr>
 </tbody></table>
 <p>所有脚本参数化设计，指定论文目录和文件匹配模式就能用，不绑定任何具体项目。</p>
 <p>也可以直接装成 Claude Code Skill：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/luodeCoding/ai-thesis-writing.git ~/.claude/skills/ai-thesis-writing</span><br></pre></td></tr></table></figure>
 
+<hr>
+<h2 id="🆕-更新记录"><a href="#🆕-更新记录" class="headerlink" title="🆕 更新记录"></a>🆕 更新记录</h2><p><strong>v1.2.0（2026-08-08）</strong></p>
+<ul>
+<li>一致性脚本升级：数字检查新增<strong>跨文件矛盾预警</strong>——ch01 写”46个”、ch02 写”48个”这种分散在不同文件的矛盾也会标黄提示（之前只查同一文件内）</li>
+<li>AIGC 脚本现在会明确提示当前是模型检测还是规则检测，不会再误以为模型已生效</li>
+<li>补了 <code>requirements.txt</code> 依赖清单；项目开始正式版本管理（CHANGELOG + Git tag + Release），后续更新都有迹可循</li>
+</ul>
+<p><strong>v1.1.0（2026-08-07）</strong></p>
+<ul>
+<li>新增<strong>学校要求摄入工作流</strong>：拿到学校的通知、格式规范、模板、评分标准后，先全部喂给 AI 合并生成一份 <code>school-requirements-spec.md</code> 硬约束规范，之后写&#x2F;改论文、生成 Word、提交前自查全部以它为准——不靠记忆、不靠”应该够”。这是避免”定稿后才发现格式不合格”返工的关键一步，含 PDF&#x2F;doc&#x2F;docx&#x2F;xlsx 各格式的提取方法和规范骨架模板。</li>
+</ul>
 <hr>
 <h2 id="📝-28条坑里最值钱的10条"><a href="#📝-28条坑里最值钱的10条" class="headerlink" title="📝 28条坑里最值钱的10条"></a>📝 28条坑里最值钱的10条</h2><ol>
 <li>测试数据不能编——跑真实系统记录，编数据答辩一问就穿</li>
