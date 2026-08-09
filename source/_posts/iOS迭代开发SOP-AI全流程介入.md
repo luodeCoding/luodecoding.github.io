@@ -132,17 +132,14 @@ categories: 技术分享
 
 ## 🆕 更新记录
 
-**v1.1.0（2026-08-08）：个人级·独立开发篇上线**
+**v2.0.0（2026-08-08）：个人篇拆分独立**
 
-和公司级配套的个人项目版本来了——一人 + AI 分饰所有角色（需求/产品/架构/开发/测试），核心内容：
+按「公司级与个人级完全分开」的原则，个人级内容已拆分为独立仓库和独立博文：
 
-- **个人项目死法 Top 3**：想到哪写到哪架构腐烂、没有验收标准半成品堆积、没有记录下次断片
-- **入口判定矩阵**：不要每个需求都走完整流程，按意图切入角色（"改个 bug"直接 DEV，"想加新功能"才走完整链）
-- **产物落盘纪律**：Draft/PRD/Design 必须写进磁盘，禁止只输出在对话里——对话会丢，磁盘不会
-- **防断片三件套**：AGENTS.md + dev-log.md + AI_BRIDGE.md，多 AI 接力不断档
-- **12 条个人项目实战坑**：没有 Git 就开工、AI 重复声明已有类型、手改 .pbxproj 损坏工程、版权资产随包发布……
+- 仓库：[ios-indie-dev-sop](https://github.com/luodeCoding/ios-indie-dev-sop)（一人 + AI 分饰多角的独立开发方法论）
+- 博文：[个人iOS独立开发SOP](/2026/08/08/iOS个人独立开发SOP/)
 
-全文：[个人级·独立开发SOP](https://github.com/luodeCoding/ios-ai-dev-sop/blob/main/docs/个人级-独立开发SOP.md)
+本仓库继续专注公司/外包团队场景。
 
 ---
 
@@ -156,6 +153,6 @@ categories: 技术分享
 
 **相关链接**：
 - GitHub：[github.com/luodeCoding/ios-ai-dev-sop](https://github.com/luodeCoding/ios-ai-dev-sop)
-- 个人级篇：[个人级·独立开发SOP](https://github.com/luodeCoding/ios-ai-dev-sop/blob/main/docs/个人级-独立开发SOP.md)
+- 个人级篇（独立仓库）：[ios-indie-dev-sop](https://github.com/luodeCoding/ios-indie-dev-sop) ｜ [个人iOS独立开发SOP 博文](/2026/08/08/iOS个人独立开发SOP/)
 - 相关阅读：[用AI写毕业论文的完整踩坑实录](/2026/08/06/AI毕业论文踩坑实录/)
 - 相关阅读：[iOS 26/27 适配完全指南](/2026/08/05/iOS26适配完全指南/)
