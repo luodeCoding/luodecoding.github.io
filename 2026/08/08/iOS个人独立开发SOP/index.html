@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" type="image/png" href="/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="一个涉世未深的小iOS">
+  <meta name="author" content="Roder">
+  <meta name="keywords" content="">
+  <title>个人iOS独立开发SOP：一人+AI分饰整个团队的实战经验（已开源） ~ Roder</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Roder</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/default.png')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期六, 八月 8日 2026, 9:00 晚上</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <p>个人独立开发最爽的是没有约束，最惨的也是没有约束——<strong>没有产品经理写需求，没有测试验收，没有同事 review，想到哪写到哪</strong>。结果就是个人项目的三大死法：架构腐烂、半成品堆积、过两个月自己接手都断片。</p>
+<p>这几年我用”一人 + AI 分饰整个团队”的方式做个人项目，沉淀了一套个人级独立开发 SOP，脱敏后开源了：</p>
+<blockquote>
+<p>GitHub：<a target="_blank" rel="noopener" href="https://github.com/luodeCoding/ios-indie-dev-sop">github.com&#x2F;luodeCoding&#x2F;ios-indie-dev-sop</a> ⭐</p>
+</blockquote>
+<p>先说结论：<strong>个人项目的 SOP 核心不是”流程合规”，而是用最小的文档成本换来三件事——不断片、不腐烂、能验收。</strong></p>
+<hr>
+<h2 id="📌-一人-AI-的完整角色链"><a href="#📌-一人-AI-的完整角色链" class="headerlink" title="📌 一人 + AI 的完整角色链"></a>📌 一人 + AI 的完整角色链</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RD(需求) → PM(产品) → [合规官] → ARCH(架构) → DEV(开发) → QA(测试)</span><br></pre></td></tr></table></figure>
+
+<p>你出想法，AI 分饰其余所有角色。每个角色的产出都落盘成文档：</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>产物</th>
+<th>门禁（产出前自检）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RD</td>
+<td><code>&#123;模块&#125;_Draft.md</code> 交互草案</td>
+<td>场景分析、页面流程、ASCII 布局图</td>
+</tr>
+<tr>
+<td>PM</td>
+<td><code>&#123;模块&#125;_PRD.md</code></td>
+<td>功能 P0&#x2F;P1&#x2F;P2 分级、验收标准≥3条且可独立检查</td>
+</tr>
+<tr>
+<td>ARCH</td>
+<td><code>&#123;模块&#125;_Design.md</code></td>
+<td>数据模型关系、状态管理方案、技术路线对比</td>
+</tr>
+<tr>
+<td>DEV</td>
+<td>Swift 源码</td>
+<td>编译通过、每个 View 含 Preview、无硬编码颜色</td>
+</tr>
+<tr>
+<td>QA</td>
+<td>测试清单</td>
+<td>所有 P0 验收标准有用例、边界&#x2F;异常全覆盖</td>
+</tr>
+</tbody></table>
+<p>命名规范 <code>&#123;日期&#125;_&#123;模块&#125;_&#123;产物&#125;_&#123;版本&#125;.md</code>，代码版本由 Git 管。</p>
+<hr>
+<h2 id="🚪-入口判定：个人项目最关键的提效点"><a href="#🚪-入口判定：个人项目最关键的提效点" class="headerlink" title="🚪 入口判定：个人项目最关键的提效点"></a>🚪 入口判定：个人项目最关键的提效点</h2><p><strong>不要每个需求都走完整流程。</strong> 按你这次的意图切入：</p>
+<table>
+<thead>
+<tr>
+<th>你说的话</th>
+<th>切入角色</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>“想加个新功能”</td>
+<td>RD，走完整链</td>
+</tr>
+<tr>
+<td>“写需求文档&#x2F;验收标准”</td>
+<td>PM</td>
+</tr>
+<tr>
+<td>“设计技术方案”</td>
+<td>ARCH</td>
+</tr>
+<tr>
+<td>“写代码&#x2F;实现这个功能”</td>
+<td>DEV</td>
+</tr>
+<tr>
+<td>“改个 bug”</td>
+<td>DEV（涉及数据模型 → 回退 ARCH）</td>
+</tr>
+<tr>
+<td>“调个颜色&#x2F;间距”</td>
+<td>DEV，不触发上游</td>
+</tr>
+</tbody></table>
+<p>再配合规模路由：S 级（1-2 文件）直接改 → 编译验证；M 级走 Plan；L 级（新模块）才走完整链。<strong>流程是给大功能用的，小改走走流程就是浪费生命。</strong></p>
+<hr>
+<h2 id="🧱-个人项目也要有的工程纪律"><a href="#🧱-个人项目也要有的工程纪律" class="headerlink" title="🧱 个人项目也要有的工程纪律"></a>🧱 个人项目也要有的工程纪律</h2><p>这几条成本极低、收益极高：</p>
+<ol>
+<li><strong>Git 基线</strong>：项目第一个动作 <code>git init</code> + 基线提交。没有 Git 的个人项目 &#x3D; 没有后悔药</li>
+<li><strong>工程文件真源</strong>：用 XcodeGen 就改 <code>project.yml</code>；不用的项目**禁止手动编辑 <code>.pbxproj</code>**——Xcode 15+ 的文件系统同步组和手改冲突会直接损坏工程</li>
+<li><strong>克制单例</strong>：新增能力优先独立 Service，别往全局 Manager 堆职责，上帝对象成型后拆分成本指数上升</li>
+<li><strong>设计系统收口</strong>：颜色一律走 <code>AppColors</code>，新增先登记，禁止散落硬编码 hex</li>
+<li><strong>每次改动后真机编译验证</strong>，不留”理论正确”的代码</li>
+</ol>
+<hr>
+<h2 id="🤖-多-AI-协作：防断片三件套"><a href="#🤖-多-AI-协作：防断片三件套" class="headerlink" title="🤖 多 AI 协作：防断片三件套"></a>🤖 多 AI 协作：防断片三件套</h2><p>个人项目经常多个 AI 工具轮着用（便宜&#x2F;强项不同），断片和冲突是家常便饭。解法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AGENTS.md     → 项目规范，每个 AI 进项目先读</span><br><span class="line">dev-log.md    → 每天做了什么 / 坑 / 决策 / 待做</span><br><span class="line">AI_BRIDGE.md  → AI 之间的交接记录</span><br></pre></td></tr></table></figure>
+
+<p>冲突处理：当前 AI 暂停 → 在 AI_BRIDGE 记录方案 A&#x2F;B 对比 → <strong>人来决策</strong>。禁止 AI 之间互相说服、禁止未经确认覆盖另一个 AI 写的文件。</p>
+<hr>
+<h2 id="📝-实战坑清单（节选）"><a href="#📝-实战坑清单（节选）" class="headerlink" title="📝 实战坑清单（节选）"></a>📝 实战坑清单（节选）</h2><ol>
+<li>没有 Git 就开工——改坏了没后悔药</li>
+<li>直接开写代码不写 PRD——写到一半忘了当初想做什么</li>
+<li>AI 重复声明已有类型——它不记得项目里有什么，新建任何东西前先 grep</li>
+<li>Preview 触发真实网络&#x2F;写真实数据库——Preview 数据必须 Mock</li>
+<li>SwiftData 双向关系不设 deleteRule——级联误删等着你</li>
+<li>版权资产随包发布——开发用的测试音视频混入发布构建，上架直接踩雷</li>
+<li>核心功能没收尾就开新功能——半成品堆积的根源</li>
+</ol>
+<p>完整 12 条 + 全部模板见仓库 <a target="_blank" rel="noopener" href="https://github.com/luodeCoding/ios-indie-dev-sop/blob/main/docs/%E4%B8%AA%E4%BA%BA%E7%BA%A7-%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91SOP.md">个人级·独立开发SOP</a>。</p>
+<hr>
+<h2 id="💡-写在最后"><a href="#💡-写在最后" class="headerlink" title="💡 写在最后"></a>💡 写在最后</h2><p>公司级项目管的是”协作损耗”，个人项目管的是”自我损耗”。这篇是个人级；团队&#x2F;外包场景的姊妹篇在这里：</p>
+<blockquote>
+<p>公司级篇：<a target="_blank" rel="noopener" href="https://github.com/luodeCoding/ios-ai-dev-sop">github.com&#x2F;luodeCoding&#x2F;ios-ai-dev-sop</a></p>
+</blockquote>
+<blockquote>
+<p>⭐ 有用的话欢迎点 Star，也欢迎提 Issue 交流！</p>
+</blockquote>
+<p><strong>相关链接</strong>：</p>
+<ul>
+<li>GitHub：<a target="_blank" rel="noopener" href="https://github.com/luodeCoding/ios-indie-dev-sop">github.com&#x2F;luodeCoding&#x2F;ios-indie-dev-sop</a></li>
+<li>姊妹篇：<a href="/2026/08/08/iOS%E8%BF%AD%E4%BB%A3%E5%BC%80%E5%8F%91SOP-AI%E5%85%A8%E6%B5%81%E7%A8%8B%E4%BB%8B%E5%85%A5/">公司级iOS项目迭代开发SOP</a></li>
+<li>相关阅读：<a href="/2026/08/06/AI%E6%AF%95%E4%B8%9A%E8%AE%BA%E6%96%87%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/">用AI写毕业论文的完整踩坑实录</a></li>
+</ul>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/AI">AI</a>
+              
+                <a class="hover-with-bg" href="/tags/iOS">iOS</a>
+              
+                <a class="hover-with-bg" href="/tags/SOP">SOP</a>
+              
+                <a class="hover-with-bg" href="/tags/%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91">独立开发</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "个人iOS独立开发SOP：一人+AI分饰整个团队的实战经验（已开源）&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>
