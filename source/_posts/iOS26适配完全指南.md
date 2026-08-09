@@ -239,6 +239,18 @@ cp templates/swift/*.swift /your/project/path/
 
 > ⭐ 有用的话欢迎点 Star，也欢迎提 Issue 和 PR！
 
+---
+
+## 🆕 更新记录
+
+**v1.13.0（2026-08-08）：扫描器接入 CI 门禁**
+
+- 新增 `--strict` 参数：发现 ERROR 级问题时退出码为 1，把 SHIP-01 上线门禁直接接进 CI 流水线（GitHub Actions 一行接入）
+- 新增 `--version` 参数，CI 日志可溯源扫描器版本
+- 默认模式退出码不变，无破坏性变更；新增 4 个 CLI 端到端测试（共 62 个）
+
+---
+
 **相关链接**：
 - GitHub：[github.com/luodeCoding/ios26-adaptation-skill](https://github.com/luodeCoding/ios26-adaptation-skill)
 - Apple 官方要求：[developer.apple.com/news/upcoming-requirements](https://developer.apple.com/news/upcoming-requirements)
