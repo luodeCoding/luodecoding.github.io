@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" type="image/png" href="/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="一个涉世未深的小iOS">
+  <meta name="author" content="Roder">
+  <meta name="keywords" content="">
+  <title>Flutter学习-第五阶段：2026 年的现代 Flutter 开发 ~ Roder</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Roder</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/default.png')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期六, 八月 8日 2026, 9:30 晚上</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <blockquote>
+<p>这个系列的前四个阶段写于 2020 年（环境配置 → 路由管理 → Widget 基础 → ListView）。6 年过去，Flutter 已经从 1.x 迭代到 3.4x，很多东西都变了。这一阶段把「现在的 Flutter」重新梳理一遍。</p>
+</blockquote>
+<p>我机器上的环境：Flutter 3.41.0-pre（master 通道），Dart 3.12。目前稳定版节奏是每年 4 个版本：3.41（2 月）、3.44（5 月）、3.47（8 月）、3.50（11 月）。</p>
+<hr>
+<h2 id="一、2026-年-Flutter-的几个大变化"><a href="#一、2026-年-Flutter-的几个大变化" class="headerlink" title="一、2026 年 Flutter 的几个大变化"></a>一、2026 年 Flutter 的几个大变化</h2><h3 id="1-Material-Cupertino-库正在解耦"><a href="#1-Material-Cupertino-库正在解耦" class="headerlink" title="1. Material &#x2F; Cupertino 库正在解耦"></a>1. Material &#x2F; Cupertino 库正在解耦</h3><p>官方正在把 Material 和 Cupertino 从 SDK 核心拆成独立 package。好处：</p>
+<ul>
+<li>设计库不用等季度版 SDK，随时升级</li>
+<li>iOS 出 “Liquid Glass”、Android 出 “Material 3 Expressive” 这种大改版时，Flutter 能更快跟上</li>
+<li>老项目可以锁 SDK 版本、只升设计包</li>
+</ul>
+<h3 id="2-Impeller-渲染引擎成为默认"><a href="#2-Impeller-渲染引擎成为默认" class="headerlink" title="2. Impeller 渲染引擎成为默认"></a>2. Impeller 渲染引擎成为默认</h3><p>当年iOS 上臭名昭著的「首次动画卡顿」（shader 编译 jank）已经成为历史——Impeller 在构建期预编译 shader，默认启用。</p>
+<h3 id="3-Widget-Previews（实验性）"><a href="#3-Widget-Previews（实验性）" class="headerlink" title="3. Widget Previews（实验性）"></a>3. Widget Previews（实验性）</h3><p>在 IDE 里直接预览单个 Widget，类似 Xcode 的 <code>#Preview</code>，还内置了 Flutter Inspector。做 UI 组件时不用跑整个 App 了。</p>
+<h3 id="4-平台特定资源"><a href="#4-平台特定资源" class="headerlink" title="4. 平台特定资源"></a>4. 平台特定资源</h3><p><code>pubspec.yaml</code> 里可以指定资源只打进某些平台的包，移动端不用背桌面端的大资源：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">flutter:</span></span><br><span class="line">  <span class="attr">assets:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">assets/logo.png</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">assets/web_worker.js</span></span><br><span class="line">      <span class="attr">platforms:</span> [<span class="string">web</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-iOS-插件正在迁往-Swift-Package-Manager"><a href="#5-iOS-插件正在迁往-Swift-Package-Manager" class="headerlink" title="5. iOS 插件正在迁往 Swift Package Manager"></a>5. iOS 插件正在迁往 Swift Package Manager</h3><p>CocoaPods 逐渐退出 Flutter 生态，插件往 SwiftPM 迁移。iOS 开发者迁移插件时注意看插件的文档说明。</p>
+<hr>
+<h2 id="二、Dart-3-现代语法（2020-年那会还没有）"><a href="#二、Dart-3-现代语法（2020-年那会还没有）" class="headerlink" title="二、Dart 3 现代语法（2020 年那会还没有）"></a>二、Dart 3 现代语法（2020 年那会还没有）</h2><h3 id="Records（记录）——-轻量多返回值"><a href="#Records（记录）——-轻量多返回值" class="headerlink" title="Records（记录）—— 轻量多返回值"></a>Records（记录）—— 轻量多返回值</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以前要写个类或者用 dynamic 列表，现在：</span></span><br><span class="line">(<span class="built_in">double</span>, <span class="built_in">String</span>) getUser() =&gt; (<span class="number">18.5</span>, <span class="string">&#x27;正常&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> (bmi, label) = getUser();</span><br></pre></td></tr></table></figure>
+
+<h3 id="Patterns-switch-表达式"><a href="#Patterns-switch-表达式" class="headerlink" title="Patterns + switch 表达式"></a>Patterns + switch 表达式</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span> describe(<span class="built_in">int</span> code) =&gt; <span class="keyword">switch</span> (code) &#123;</span><br><span class="line">  <span class="number">200</span> =&gt; <span class="string">&#x27;成功&#x27;</span>,</span><br><span class="line">  <span class="number">404</span> =&gt; <span class="string">&#x27;未找到&#x27;</span>,</span><br><span class="line">  &gt;= <span class="number">500</span> =&gt; <span class="string">&#x27;服务器错误&#x27;</span>,</span><br><span class="line">  _ =&gt; <span class="string">&#x27;未知&#x27;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Sealed-Class-——-状态管理的绝配"><a href="#Sealed-Class-——-状态管理的绝配" class="headerlink" title="Sealed Class —— 状态管理的绝配"></a>Sealed Class —— 状态管理的绝配</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sealed</span> <span class="class"><span class="keyword">class</span> <span class="title">LoadState</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Loading</span> <span class="keyword">extends</span> <span class="title">LoadState</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Success</span> <span class="keyword">extends</span> <span class="title">LoadState</span> </span>&#123; <span class="keyword">final</span> data; Success(<span class="keyword">this</span>.data); &#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Failure</span> <span class="keyword">extends</span> <span class="title">LoadState</span> </span>&#123; <span class="keyword">final</span> error; Failure(<span class="keyword">this</span>.error); &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// switch 可以穷举检查，漏一个分支编译器直接报错</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三、路由：从-Navigator-1-0-到-go-router"><a href="#三、路由：从-Navigator-1-0-到-go-router" class="headerlink" title="三、路由：从 Navigator 1.0 到 go_router"></a>三、路由：从 Navigator 1.0 到 go_router</h2><p>第二阶段的 <code>Navigator.push</code> 写法现在只推荐用于简单场景。正式项目用 <strong>go_router</strong>（声明式路由）：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> router = GoRouter(</span><br><span class="line">  routes: [</span><br><span class="line">    GoRoute(path: <span class="string">&#x27;/&#x27;</span>, builder: (_, __) =&gt; HomePage()),</span><br><span class="line">    GoRoute(</span><br><span class="line">      path: <span class="string">&#x27;/detail/:id&#x27;</span>,               <span class="comment">// 路径参数</span></span><br><span class="line">      builder: (_, state) =&gt; DetailPage(id: state.pathParameters[<span class="string">&#x27;id&#x27;</span>]!),</span><br><span class="line">    ),</span><br><span class="line">  ],</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 跳转</span></span><br><span class="line">context.go(<span class="string">&#x27;/detail/42&#x27;</span>);</span><br><span class="line">context.push(<span class="string">&#x27;/detail/42&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>好处：深链接&#x2F;Web URL 天然支持、路由表集中管理、嵌套导航（ShellRoute）做 TabBar 页面切换时各 Tab 独立路由栈。</p>
+<hr>
+<h2 id="四、状态管理：别再纠结了"><a href="#四、状态管理：别再纠结了" class="headerlink" title="四、状态管理：别再纠结了"></a>四、状态管理：别再纠结了</h2><p>2020 年大家的纠结：setState &#x2F; Provider &#x2F; Bloc &#x2F; GetX &#x2F; Redux… 2026 年的答案已经很收敛：</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>适用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Riverpod 2</strong></td>
+<td>主流推荐。编译期安全、可测试、不依赖 BuildContext</td>
+</tr>
+<tr>
+<td>Bloc</td>
+<td>大团队、强约束场景（事件→状态流转非常规范）</td>
+</tr>
+<tr>
+<td>Provider</td>
+<td>老项目维护，新项目不建议再入坑</td>
+</tr>
+<tr>
+<td>setState</td>
+<td>单个页面内的局部状态，依然够用</td>
+</tr>
+</tbody></table>
+<p>Riverpod 的核心写法：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> counterProvider = StateProvider&lt;<span class="built_in">int</span>&gt;((ref) =&gt; <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CounterView</span> <span class="keyword">extends</span> <span class="title">ConsumerWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context, WidgetRef ref) &#123;</span><br><span class="line">    <span class="keyword">final</span> count = ref.watch(counterProvider);</span><br><span class="line">    <span class="keyword">return</span> Text(<span class="string">&#x27;<span class="subst">$count</span>&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、动画新姿势"><a href="#五、动画新姿势" class="headerlink" title="五、动画新姿势"></a>五、动画新姿势</h2><p>声明式的重复动画不用自己管 AnimationController 了：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">RepeatingAnimationBuilder&lt;Offset&gt;(</span><br><span class="line">  animatable: Tween&lt;Offset&gt;(begin: Offset(-<span class="number">1</span>, <span class="number">0</span>), end: Offset(<span class="number">1</span>, <span class="number">0</span>)),</span><br><span class="line">  duration: <span class="built_in">Duration</span>(seconds: <span class="number">1</span>),</span><br><span class="line">  repeatMode: RepeatMode.reverse,</span><br><span class="line">  builder: (context, offset, child) =&gt;</span><br><span class="line">      FractionalTranslation(translation: offset, child: child),</span><br><span class="line">  child: FlutterLogo(size: <span class="number">100</span>),</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="六、这一阶段的学习建议"><a href="#六、这一阶段的学习建议" class="headerlink" title="六、这一阶段的学习建议"></a>六、这一阶段的学习建议</h2><ol>
+<li>老项目里的 <code>Navigator.push</code> 不用急着改，新页面用 go_router</li>
+<li>状态管理直接学 Riverpod，不要再从 Provider 入门</li>
+<li>Dart 3 的 records&#x2F;patterns&#x2F;sealed 花半天过一遍，写代码立刻用得上</li>
+<li>关注 Material&#x2F;Cupertino 解耦进度，明年设计库可能要单独引入</li>
+</ol>
+<hr>
+<p><strong>系列回顾</strong>：</p>
+<ul>
+<li><a href="/2020/01/10/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5/">第一阶段：环境配置</a></li>
+<li><a href="/2020/01/14/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5/">第二阶段：路由管理</a></li>
+<li><a href="/2020/01/15/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%B8%89%E9%98%B6%E6%AE%B5/">第三阶段：Widget 基础</a></li>
+<li><a href="/2020/01/16/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E5%9B%9B%E9%98%B6%E6%AE%B5/">第四阶段：ListView</a></li>
+</ul>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">学习笔记</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/Flutter">Flutter</a>
+              
+                <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">学习笔记</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Flutter学习-第五阶段：2026 年的现代 Flutter 开发&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>

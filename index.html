@@ -119,6 +119,101 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2026/08/08/Agent%E5%8D%8F%E4%BD%9C%E5%86%99%E8%AE%BA%E6%96%87/">
+        <p class="h4 index-header">用 AI Agent 写毕业论文学到的 Agent 协作课：防回退、防漂移、防断片</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">之前发过一篇《用AI写毕业论文的完整踩坑实录》，讲的是查重、AIGC 检测这些”业务坑”。这篇换个角度：一个完整论文周期跑下来，我对 AI Agent 协作本身学到的几堂课——这些经验不只适用于写论文，做任何 AI 辅助的长周期项目都用得上。
+对应的工具箱已开源：github.com&#x2F;luodeCoding&#x2F;ai-thesis-writing
+
+第一课：多 Agent 轮流编辑，会互相”回退”论文这种长周期项目，不可能只用一个 AI：这个模型写初稿便宜，那个模型改格式细心。问题来了——后一个 Agent 不知道前一个改了什么，会把它认为”不对”的地方改回去。
+真实事故：Agent A 把节点数从代码里核实后改成 11 个；第二天 Agent B 凭”印象”觉得不对，又改回 10 个。
+解法：给 Agent 们建”交接班”机制。
+12PLAN.md       → 唯一权威进度文件（时间线 + 任务清单 + 质量指标）CHANGELOG.md  → 每次改动记录（改了什么文件、为什么、依据是什么）
+
+规矩只有一条：任何 Agent 接手前必须先读这两个文件，改完必须更</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2026-08-08&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/AI">AI</a>&nbsp;
+          
+            <a href="/tags/%E6%AF%95%E4%B8%9A%E8%AE%BA%E6%96%87">毕业论文</a>&nbsp;
+          
+            <a href="/tags/Agent">Agent</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2026/08/08/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%BA%94%E9%98%B6%E6%AE%B5/">
+        <p class="h4 index-header">Flutter学习-第五阶段：2026 年的现代 Flutter 开发</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">
+这个系列的前四个阶段写于 2020 年（环境配置 → 路由管理 → Widget 基础 → ListView）。6 年过去，Flutter 已经从 1.x 迭代到 3.4x，很多东西都变了。这一阶段把「现在的 Flutter」重新梳理一遍。
+
+我机器上的环境：Flutter 3.41.0-pre（master 通道），Dart 3.12。目前稳定版节奏是每年 4 个版本：3.41（2 月）、3.44（5 月）、3.47（8 月）、3.50（11 月）。
+
+一、2026 年 Flutter 的几个大变化1. Material &#x2F; Cupertino 库正在解耦官方正在把 Material 和 Cupertino 从 SDK 核心拆成独立 package。好处：
+
+设计库不用等季度版 SDK，随时升级
+iOS 出 “Liquid Glass”、Android 出 “Material 3 Expressive” 这种大改版时，Flutter 能更快跟上
+老项目可以锁 SDK 版本、只升设计包
+
+2. Impeller 渲染引擎成为默认当年iOS 上臭名昭著的「首次动画卡顿」（sh</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2026-08-08&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">学习笔记</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Flutter">Flutter</a>&nbsp;
+          
+            <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">学习笔记</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2026/08/08/iOS%E4%B8%AA%E4%BA%BA%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91SOP/">
         <p class="h4 index-header">个人iOS独立开发SOP：一人+AI分饰整个团队的实战经验（已开源）</p>
         
@@ -495,101 +590,6 @@ ListView 列表
       <div>
         
           <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-16&nbsp;&nbsp;
-        
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/01/15/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%B8%89%E9%98%B6%E6%AE%B5/">
-        <p class="h4 index-header">Flutter学习-第三阶段</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">基础控件
-
-
-Widget
-
-
-介绍
-
-
-Widget实际上就是Element的配置数据，Widget树实际上是一个配置树，而真正的UI渲染树是由Element构成；不过，由于Element是通过Widget生成的，所以它们之间有对应关系，在大多数场景，我们可以宽泛地认为Widget树就是指UI控件树或UI渲染树。
-一个Widget对象可以对应多个Element对象。这很好理解，根据同	一份配置（Widget），可以创建多个实例（Element）。
-
-
-StatelessWidget
-
-StatefulWidget
-
-State
-
-widget  
-context
-
-
-回调函数
-
-initState：初始状态
-didChangeDependencies()：当State对象的依赖发送变化时被调用
-build()：主要用于构建Wiget子树
-reassemble()：此回调是专门为了开发调试而提供的，在热重载(hot reload)时会被调用，此回调在Release模式下永远不会被调用。
-didUpdateWidget()：判断是否要刷新，回调这个方法
-deactivate()：当Sta</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-15&nbsp;&nbsp;
-        
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/01/14/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5/">
-        <p class="h4 index-header">Flutter学习-第二阶段</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">应用
-
-
-路由管理
-
-路由就是页面（page），在iOS中主要是指（ViewController）,路由 管理就是管理页面之间如何跳转，导航管理在Android还是iOS中，都是维护一个路由栈，push（打开新页面）和pop（关闭页面）页面；
-Navigator.push( context,
-           MaterialPageRoute(builder: (context) &#123;
-              return NewRoute();
-           &#125;));
-
-
-Navigator 路由管理的组件，通过一个栈来管理活动路由集合；
-
-MaterialPageRoute 继承自PageRoute类，表示占有整个屏幕空间的一个模态路由页面，它还定义了路由构建及切换时过渡动画的相关接口及属性。MaterialPageRoute 是Material组件库提供的组件，它可以针对不同平台，实现与平台页面切换动画风格一致的路由切换动画；
-MaterialPageRoute({WidgetBuilder builder,RouteSettings sett</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-14&nbsp;&nbsp;
         
         
         

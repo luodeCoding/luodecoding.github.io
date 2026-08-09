@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" type="image/png" href="/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="一个涉世未深的小iOS">
+  <meta name="author" content="Roder">
+  <meta name="keywords" content="">
+  <title>用 AI Agent 写毕业论文学到的 Agent 协作课：防回退、防漂移、防断片 ~ Roder</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Roder</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/default.png')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期六, 八月 8日 2026, 10:00 晚上</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <p>之前发过一篇<a href="/2026/08/06/AI%E6%AF%95%E4%B8%9A%E8%AE%BA%E6%96%87%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/">《用AI写毕业论文的完整踩坑实录》</a>，讲的是查重、AIGC 检测这些”业务坑”。这篇换个角度：一个完整论文周期跑下来，我对 <strong>AI Agent 协作</strong>本身学到的几堂课——这些经验不只适用于写论文，做任何 AI 辅助的长周期项目都用得上。</p>
+<p>对应的工具箱已开源：<a target="_blank" rel="noopener" href="https://github.com/luodeCoding/ai-thesis-writing">github.com&#x2F;luodeCoding&#x2F;ai-thesis-writing</a></p>
+<hr>
+<h2 id="第一课：多-Agent-轮流编辑，会互相”回退”"><a href="#第一课：多-Agent-轮流编辑，会互相”回退”" class="headerlink" title="第一课：多 Agent 轮流编辑，会互相”回退”"></a>第一课：多 Agent 轮流编辑，会互相”回退”</h2><p>论文这种长周期项目，不可能只用一个 AI：这个模型写初稿便宜，那个模型改格式细心。问题来了——<strong>后一个 Agent 不知道前一个改了什么，会把它认为”不对”的地方改回去。</strong></p>
+<p>真实事故：Agent A 把节点数从代码里核实后改成 11 个；第二天 Agent B 凭”印象”觉得不对，又改回 10 个。</p>
+<p><strong>解法：给 Agent 们建”交接班”机制。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PLAN.md       → 唯一权威进度文件（时间线 + 任务清单 + 质量指标）</span><br><span class="line">CHANGELOG.md  → 每次改动记录（改了什么文件、为什么、依据是什么）</span><br></pre></td></tr></table></figure>
+
+<p>规矩只有一条：<strong>任何 Agent 接手前必须先读这两个文件，改完必须更新它们。</strong> 没有记忆文件的 Agent，每天都是第一天上班的实习生。</p>
+<h2 id="第二课：数据类修改，必须有”可验证来源”"><a href="#第二课：数据类修改，必须有”可验证来源”" class="headerlink" title="第二课：数据类修改，必须有”可验证来源”"></a>第二课：数据类修改，必须有”可验证来源”</h2><p>Agent（和人一样）会凭感觉写数字。”13 项功能”还是”17 项”？它上次说是 13，这次可能就写 17。</p>
+<p>定的铁律是：<strong>论文里所有数字，必须能回溯到代码或源表格。</strong> 不确定就现场验证：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep add_node src/agents/*.py | <span class="built_in">wc</span> -l   <span class="comment"># 节点数，以代码为准</span></span><br></pre></td></tr></table></figure>
+
+<p>代码是唯一事实来源，论文描述与代码不一致时改论文，不改代码。</p>
+<p>配套做法：写一个一致性检查脚本，把互斥术语组、互斥数字组传进去全文扫描，降重改写后必跑：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3 check_consistency.py . --glob <span class="string">&quot;*.md&quot;</span> \</span><br><span class="line">  --terms <span class="string">&quot;管理端,后台系统&quot;</span> \</span><br><span class="line">  --numbers <span class="string">&quot;13项,17项&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="第三课：把”学校要求”做成-Agent-的硬约束输入"><a href="#第三课：把”学校要求”做成-Agent-的硬约束输入" class="headerlink" title="第三课：把”学校要求”做成 Agent 的硬约束输入"></a>第三课：把”学校要求”做成 Agent 的硬约束输入</h2><p>这是花最多返工成本换来的经验。学校发的格式规范散落在通知、模板、评分表好几个文件里，Agent 不知道，写出来的东西格式全错，定稿后返工。</p>
+<p>解法是一个”摄入工作流”：**先把所有官方文件喂给 AI，合并生成一份 <code>school-requirements-spec.md</code>**：</p>
+<ol>
+<li>归档：学校文件原件放 <code>school-docs/</code>，只读不动</li>
+<li>提取：PDF 用 pymupdf（图片型 PDF 提图给视觉模型读）、.doc 用 textutil、.docx 用 python-docx</li>
+<li>生成规范：数字保留原文、写成”必须&#x2F;不得&#x2F;≥&#x2F;≤”的硬约束、按主题分章</li>
+<li>使用协议：写&#x2F;改论文前必须加载它；学校发新通知，先更新它再动笔</li>
+</ol>
+<p>本质上这就是现在流行的 <strong>context engineering</strong>：Agent 的输出质量上限，取决于你喂给它的约束质量。</p>
+<h2 id="第四课：让-Agent-自查，比人盯有效"><a href="#第四课：让-Agent-自查，比人盯有效" class="headerlink" title="第四课：让 Agent 自查，比人盯有效"></a>第四课：让 Agent 自查，比人盯有效</h2><p>论文有三道关：查重、AIGC 检测、一致性。每一道都让 Agent 先自查一遍：</p>
+<ul>
+<li><strong>内部查重</strong>：jieba 分词 + TF-IDF + 余弦相似度，查出绪论和结论重复 60% 这类结构性问题</li>
+<li><strong>AIGC 检测</strong>：双模式——有模型环境用检测模型，没有就降级为规则模式（AI 味关键词密度评分）</li>
+<li><strong>一致性</strong>：术语漂移、数字矛盾扫描</li>
+</ul>
+<p>Agent 生成 → 脚本检测 → Agent 修复 → 再检测，这个闭环跑几轮，比人逐段盯效率高得多。</p>
+<h2 id="第五课：Agent-协作也要有”门禁”"><a href="#第五课：Agent-协作也要有”门禁”" class="headerlink" title="第五课：Agent 协作也要有”门禁”"></a>第五课：Agent 协作也要有”门禁”</h2><p>收尾阶段最容易出的问题是：Agent 为了”显得有产出”，硬找毛病制造新改动。定的规矩是：</p>
+<ul>
+<li>正文达标后只做<strong>回归验证 + 口径核对</strong>，不做新改动</li>
+<li>问题分级：🔴 必须修 &#x2F; 🟠 应该修 &#x2F; 🟡 可以改，🔴 清零才准交付</li>
+<li>提交前把老师通知拆成硬指标，逐条对照实测，输出对照表——<strong>不凭”应该够”下结论</strong></li>
+</ul>
+<hr>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>这五堂课其实是一句话：<strong>把 Agent 当团队管，而不是当工具用。</strong> 工具用完就丢，团队需要交接文档、事实来源、输入约束、自查闭环和交付门禁。</p>
+<p>所有方法论和脚本都在仓库里：<a target="_blank" rel="noopener" href="https://github.com/luodeCoding/ai-thesis-writing">ai-thesis-writing</a>，当前 v1.2.0，欢迎 Star。</p>
+<p><strong>相关链接</strong>：</p>
+<ul>
+<li>上一篇：<a href="/2026/08/06/AI%E6%AF%95%E4%B8%9A%E8%AE%BA%E6%96%87%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/">用AI写毕业论文的完整踩坑实录</a></li>
+<li>相关：<a href="/2026/08/08/iOS%E8%BF%AD%E4%BB%A3%E5%BC%80%E5%8F%91SOP-AI%E5%85%A8%E6%B5%81%E7%A8%8B%E4%BB%8B%E5%85%A5/">公司级iOS项目迭代开发SOP</a></li>
+<li>相关：<a href="/2026/08/08/iOS%E4%B8%AA%E4%BA%BA%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91SOP/">个人iOS独立开发SOP</a></li>
+</ul>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/AI">AI</a>
+              
+                <a class="hover-with-bg" href="/tags/%E6%AF%95%E4%B8%9A%E8%AE%BA%E6%96%87">毕业论文</a>
+              
+                <a class="hover-with-bg" href="/tags/Agent">Agent</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "用 AI Agent 写毕业论文学到的 Agent 协作课：防回退、防漂移、防断片&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>
