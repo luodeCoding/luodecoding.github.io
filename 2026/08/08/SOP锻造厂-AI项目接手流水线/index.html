@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" type="image/png" href="/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="一个涉世未深的小iOS">
+  <meta name="author" content="Roder">
+  <meta name="keywords" content="">
+  <title>SOP锻造厂：给 AI 用的&#34;项目接手流水线&#34;（SOP 系列第三篇） ~ Roder</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Roder</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/default.png')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期六, 八月 8日 2026, 10:40 晚上</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <p>前面发了两篇 SOP：<a href="/2026/08/08/iOS%E8%BF%AD%E4%BB%A3%E5%BC%80%E5%8F%91SOP-AI%E5%85%A8%E6%B5%81%E7%A8%8B%E4%BB%8B%E5%85%A5/">公司级迭代开发</a> 和 <a href="/2026/08/08/iOS%E4%B8%AA%E4%BA%BA%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91SOP/">个人级独立开发</a>。写完发现一个更根本的问题：<strong>这些 SOP 是怎么来的？换一个项目，能不能再造一套？</strong></p>
+<p>答案是能——因为我还有一套”生产 SOP 的 SOP”，一个 AI 协作元框架，我叫它 <strong>SOP 锻造厂（SOP-Forge）</strong>。这篇就讲它。</p>
+<hr>
+<h2 id="它解决什么问题"><a href="#它解决什么问题" class="headerlink" title="它解决什么问题"></a>它解决什么问题</h2><p>用 AI 做项目，三个反复出现的痛：</p>
+<ol>
+<li><strong>AI 接手项目时两眼一抹黑</strong> — 不知道项目结构、技术栈、坑在哪，每次都是从零开始的实习生</li>
+<li><strong>一套 SOP 打天下，水土不服</strong> — 公司项目的流程套到个人项目上，重得跑不动；反过来又太野</li>
+<li><strong>经验散落在对话里</strong> — 这个项目踩的坑、验证过的好方案，对话一关就没了，下个项目接着踩</li>
+</ol>
+<p>SOP-Forge 的思路：<strong>不直接帮 AI 干活，而是给 AI 造一条”接手项目”的流水线。</strong></p>
+<hr>
+<h2 id="四阶段流水线"><a href="#四阶段流水线" class="headerlink" title="四阶段流水线"></a>四阶段流水线</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">01-Scout 扫描 → 02-TeamForge 角色链 → 03-SOPForge 组装 → 04-Execution 执行</span><br><span class="line">                                                              ↓</span><br><span class="line">                                              05-Insights 反哺（经验回流，框架进化）</span><br></pre></td></tr></table></figure>
+
+<h3 id="01-Scout：项目扫描-→-标准化画像"><a href="#01-Scout：项目扫描-→-标准化画像" class="headerlink" title="01-Scout：项目扫描 → 标准化画像"></a>01-Scout：项目扫描 → 标准化画像</h3><p>AI 先不写代码，先给项目做”体检”，输出标准化 ScoutReport：技术栈、目录结构、依赖、风险点、决策节点。<strong>画像存进 Playbooks&#x2F; 存档，可追溯、可对比。</strong></p>
+<h3 id="02-TeamForge：按画像生成角色链"><a href="#02-TeamForge：按画像生成角色链" class="headerlink" title="02-TeamForge：按画像生成角色链"></a>02-TeamForge：按画像生成角色链</h3><p>不是每个项目都需要完整团队。健康数据类项目要加”合规官”；简单工具项目砍到只有 DEV + QA。<strong>角色链是根据项目画像算出来的，不是拍脑袋定的。</strong></p>
+<h3 id="03-SOPForge：组装专属-SOP"><a href="#03-SOPForge：组装专属-SOP" class="headerlink" title="03-SOPForge：组装专属 SOP"></a>03-SOPForge：组装专属 SOP</h3><p>通用模板（技术无关）+ 技术栈适配层 &#x3D; 这个项目的专属 SOP。包含入口判定、质量门禁、执行纪律、暂停条件、回环规则——就是前两篇 SOP 里那些内容的”生产线”。</p>
+<h3 id="04-05：执行-反哺"><a href="#04-05：执行-反哺" class="headerlink" title="04&#x2F;05：执行 + 反哺"></a>04&#x2F;05：执行 + 反哺</h3><p>AI 在真实项目里按 SOP 干活，踩到的坑、验证过的方案记录为 Insight，反哺通用模板升级。</p>
+<hr>
+<h2 id="两个设计细节最值钱"><a href="#两个设计细节最值钱" class="headerlink" title="两个设计细节最值钱"></a>两个设计细节最值钱</h2><p><strong>1. Playbook 存档机制</strong><br>每个项目在 01&#x2F;02&#x2F;03 阶段都有独立存档（<code>&#123;日期&#125;_&#123;项目&#125;_&#123;产物&#125;_&#123;版本&#125;.md</code>）。新项目的 SOP 不是从零生成，是站在所有历史项目的存档上演化。</p>
+<p><strong>2. 版本一致性检查</strong><br>元框架有 VERSION.md，每个项目 SOP 头部标注”基于框架 vX.Y.Z 生成”。AI 执行时先比对版本：框架升级了而项目 SOP 没更新，就提示重新生成——<strong>防止 SOP 自己腐烂。</strong></p>
+<hr>
+<h2 id="实战验证过的反模式（已反哺进框架）"><a href="#实战验证过的反模式（已反哺进框架）" class="headerlink" title="实战验证过的反模式（已反哺进框架）"></a>实战验证过的反模式（已反哺进框架）</h2><table>
+<thead>
+<tr>
+<th>反模式</th>
+<th>现象</th>
+<th>框架级对策</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>编码前不搜索</td>
+<td>AI 新建文件导致 <code>invalid redeclaration</code></td>
+<td>DEV 门禁强制”先 grep 后编码”</td>
+</tr>
+<tr>
+<td>手改 .pbxproj</td>
+<td>Xcode 15+ 自动同步冲突，工程文件损坏</td>
+<td>安全红线：禁止手动编辑工程文件</td>
+</tr>
+<tr>
+<td>一套 SOP 打天下</td>
+<td>重流程拖死小项目</td>
+<td>规模路由 + 按画像裁剪角色链</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="和前两篇-SOP-的关系"><a href="#和前两篇-SOP-的关系" class="headerlink" title="和前两篇 SOP 的关系"></a>和前两篇 SOP 的关系</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SOP-Forge（元框架：生产 SOP 的流水线）</span><br><span class="line">    ├── 公司级 · 迭代开发 SOP（团队/外包场景的产物）</span><br><span class="line">    └── 个人级 · 独立开发 SOP（一人 + AI 场景的产物）</span><br></pre></td></tr></table></figure>
+
+<p>公司级和个人级是”果”，SOP-Forge 是”因”。前两篇可以直接拿去用，这篇的思路适合想给自己项目造 SOP 的人。</p>
+<blockquote>
+<p>两篇 SOP 已开源：<a target="_blank" rel="noopener" href="https://github.com/luodeCoding/ios-ai-dev-sop">公司级</a> ｜ <a target="_blank" rel="noopener" href="https://github.com/luodeCoding/ios-indie-dev-sop">个人级</a>。SOP-Forge 本身还在持续进化，沉淀成熟后再开源。</p>
+</blockquote>
+<hr>
+<p><strong>系列链接</strong>：</p>
+<ul>
+<li><a href="/2026/08/08/iOS%E8%BF%AD%E4%BB%A3%E5%BC%80%E5%8F%91SOP-AI%E5%85%A8%E6%B5%81%E7%A8%8B%E4%BB%8B%E5%85%A5/">公司级 iOS 项目迭代开发 SOP</a></li>
+<li><a href="/2026/08/08/iOS%E4%B8%AA%E4%BA%BA%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91SOP/">个人 iOS 独立开发 SOP</a></li>
+</ul>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/AI">AI</a>
+              
+                <a class="hover-with-bg" href="/tags/SOP">SOP</a>
+              
+                <a class="hover-with-bg" href="/tags/Agent">Agent</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "SOP锻造厂：给 AI 用的"项目接手流水线"（SOP 系列第三篇）&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>
