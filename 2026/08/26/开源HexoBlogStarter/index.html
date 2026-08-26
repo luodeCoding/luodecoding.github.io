@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" type="image/png" href="/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="一个涉世未深的小iOS">
+  <meta name="author" content="Roder">
+  <meta name="keywords" content="">
+  <title>我把&#34;发博客&#34;这件事开源了：一个人和 AI 都能用的工具包 ~ Roder</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Roder</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/default.png')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期三, 八月 26日 2026, 10:00 上午</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h2 id="一、起因：一个文件夹引发的思考"><a href="#一、起因：一个文件夹引发的思考" class="headerlink" title="一、起因：一个文件夹引发的思考"></a>一、起因：一个文件夹引发的思考</h2><p>前两天发博客的时候我突然意识到一件事：我这套 Hexo 博客环境，从安装依赖、配置主题、写文章到部署上线，整个流程已经被 AI 跑得很顺了——顺到我自己都快要记不住具体命令了。</p>
+<p>然后我就冒出一个想法：<strong>既然这套东西对我来说已经是”一键”的，为什么不把它打包出来，让别人也能一键拥有？</strong></p>
+<p>于是有了这个项目：<a target="_blank" rel="noopener" href="https://github.com/luodeCoding/HexoBlogStarter">HexoBlogStarter</a> —— 一个开箱即用的 Hexo 博客工具包，内置 Fluid 主题，clone 下来改 3 处配置，10 分钟就能拥有自己的博客。</p>
+<p>但它真正有意思的地方不在”又一个 Hexo 模板”，而在于它的设计思路。</p>
+<h2 id="二、双通道设计：README-给人看，AGENTS-md-给-AI-看"><a href="#二、双通道设计：README-给人看，AGENTS-md-给-AI-看" class="headerlink" title="二、双通道设计：README 给人看，AGENTS.md 给 AI 看"></a>二、双通道设计：README 给人看，AGENTS.md 给 AI 看</h2><p>这个仓库里有两份”说明书”：</p>
+<ul>
+<li><strong>README.md</strong> —— 传统的，给人类看的教程：四步上手、目录结构、FAQ</li>
+<li><strong>AGENTS.md</strong> —— 给 AI Agent 看的操作手册：环境怎么装、文章怎么发、故障怎么排查、红线是什么</li>
+</ul>
+<p>为什么要专门给 AI 写一份？因为这是我<a href="/2026/08/24/%E7%94%A8AI%E7%94%9F%E6%88%90%E8%A7%84%E5%88%99%E6%96%87%E6%A1%A3%E8%A7%A3%E5%86%B3%E5%A4%9A%E7%AB%AF%E6%B2%9F%E9%80%9A%E6%AD%A7%E4%B9%89/">上一篇文章</a>里那个观点的又一次实践：<strong>Markdown 正在同时成为人和 AI 的共同语言。</strong></p>
+<p>拿到这个仓库的人有两种用法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 玩法一：自己来</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/luodeCoding/HexoBlogStarter.git</span><br><span class="line"><span class="comment"># 读 README.md，跟着四步走</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 玩法二：让 AI 来</span></span><br><span class="line"><span class="comment"># 把仓库丢给任意 AI Agent（Kimi / Claude / Cursor / GPT...）</span></span><br><span class="line"><span class="comment"># 说一句：&quot;读 AGENTS.md，帮我把博客搭好&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>AGENTS.md 里我写了 AI 需要的全部上下文：关键文件在哪、每个任务的标净操作流程、发布前要确认什么、什么事情不许做（比如未获许可不许 deploy、不许删已有文章）。<strong>它本质上是一份”给 AI 的岗位说明书”。</strong></p>
+<p>我越来越觉得，未来开源项目的完整交付物应该是三件套：<strong>代码 + 人读的文档 + AI 读的文档</strong>。缺了第三样，就等于放弃了”AI 代劳”这个越来越主流的使用入口。</p>
+<h2 id="三、工具包里面有什么"><a href="#三、工具包里面有什么" class="headerlink" title="三、工具包里面有什么"></a>三、工具包里面有什么</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">HexoBlogStarter/</span><br><span class="line">├── README.md      ← 给人：四步上手教程</span><br><span class="line">├── AGENTS.md      ← 给 AI：完整操作手册</span><br><span class="line">├── bin/           ← 4 个一键脚本</span><br><span class="line">│   ├── 1-安装环境.sh</span><br><span class="line">│   ├── 2-新建文章.sh</span><br><span class="line">│   ├── 3-本地预览.sh</span><br><span class="line">│   └── 4-一键发布.sh</span><br><span class="line">├── _config.yml    ← 只有 3 处 TODO 要改</span><br><span class="line">├── scaffolds/     ← 文章模板</span><br><span class="line">└── themes/fluid/  ← 主题内置，离线可用</span><br></pre></td></tr></table></figure>
+
+<p>设计上有几个刻意的取舍：</p>
+<ol>
+<li><strong>主题直接打进包里</strong>。不依赖 <code>npm install hexo-theme-fluid</code> 或 clone 主题仓库，断网也能跑。代价是包大一点（zip 3.6M），换来的是零网络依赖的确定性。</li>
+<li><strong>脚本用中文命名</strong>。<code>4-一键发布.sh</code> 比 <code>deploy.sh</code> 对新手友好得多，编号的顺序就是使用顺序。</li>
+<li><strong>配置只留 3 个 TODO</strong>。<code>_config.yml</code> 里把需要改的地方全部标了出来，其他的都给了合理默认值。配置项越少，放弃的人越少。</li>
+<li><strong>发布脚本带防呆</strong>。没填仓库地址直接运行发布，会拦住你并提示去哪改，而不是抛一串 git 报错。</li>
+</ol>
+<h2 id="四、踩到的坑：Hexo-的保留目录"><a href="#四、踩到的坑：Hexo-的保留目录" class="headerlink" title="四、踩到的坑：Hexo 的保留目录"></a>四、踩到的坑：Hexo 的保留目录</h2><p>打包过程中实测踩了一个值得记录的坑：我一开始把脚本放在 <code>scripts/</code> 目录，结果 Hexo 构建时报了一堆 <code>Script load failed</code>。</p>
+<p>查了一下才发现：**<code>scripts/</code> 是 Hexo 的保留目录，它会尝试把里面的每个文件当作 JS 插件加载**——我的 shell 脚本被当成 JavaScript 执行，自然全线报错。改名为 <code>bin/</code> 后解决。</p>
+<p>另一个坑是 <code>package.json</code> 里必须保留 <code>&quot;hexo&quot;: &#123; &quot;version&quot;: &quot;x.x.x&quot; &#125;</code> 字段，否则 <code>hexo-cli</code> 识别不了站点，<code>hexo generate</code> 直接给你打印帮助信息，什么也不生成。</p>
+<p>这类”约定大于配置”的隐式规则，官方文档里散落在各个角落，只有亲手打包一次才会撞上。这也是我觉得这类 starter 项目存在的意义：<strong>把别人撞过的坑提前填平。</strong></p>
+<h2 id="五、写在最后"><a href="#五、写在最后" class="headerlink" title="五、写在最后"></a>五、写在最后</h2><p>前两篇文章我聊了两个观点：AI 时代”细心、负责、钻研”比开发经验更值钱；Markdown 文档正在成为人和 AI 的共同语言。</p>
+<p>这个项目算是把两个观点落到了地上：</p>
+<ul>
+<li>整个工具包是我和 AI 协作完成的，但<strong>每一版发布前我都要求实测验证</strong>——于是才撞上了 <code>scripts/</code> 保留目录这个坑。这就是”把关”的价值：AI 负责速度，人负责正确性。</li>
+<li>而 AGENTS.md 这份”给 AI 看的文档”，让这个项目从”被人用”扩展到了”被 AI 用”。<strong>开源的受众，从今天起多了一整个物种。</strong></li>
+</ul>
+<p>项目地址在这里，欢迎 star、fork、提 issue：</p>
+<p>👉 <strong><a target="_blank" rel="noopener" href="https://github.com/luodeCoding/HexoBlogStarter">https://github.com/luodeCoding/HexoBlogStarter</a></strong></p>
+<p>如果你一直想开个博客但懒得折腾环境，这次真的没有借口了。</p>
+<hr>
+<p><em>相关阅读：</em></p>
+<ul>
+<li><em><a href="/2026/08/24/AI%E6%97%B6%E4%BB%A3%E6%AF%94%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C%E6%9B%B4%E9%87%8D%E8%A6%81%E7%9A%84%E4%B8%89%E4%BB%B6%E4%BA%8B/">《AI 时代，比开发经验更重要的三件事》</a></em></li>
+<li><em><a href="/2026/08/24/%E7%94%A8AI%E7%94%9F%E6%88%90%E8%A7%84%E5%88%99%E6%96%87%E6%A1%A3%E8%A7%A3%E5%86%B3%E5%A4%9A%E7%AB%AF%E6%B2%9F%E9%80%9A%E6%AD%A7%E4%B9%89/">《一种 AI 时代的新型沟通方式：用 Markdown 规则文档终结多端扯皮》</a></em></li>
+</ul>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/AI">AI</a>
+              
+                <a class="hover-with-bg" href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7">效率工具</a>
+              
+                <a class="hover-with-bg" href="/tags/Hexo">Hexo</a>
+              
+                <a class="hover-with-bg" href="/tags/%E5%BC%80%E6%BA%90">开源</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "我把"发博客"这件事开源了：一个人和 AI 都能用的工具包&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>

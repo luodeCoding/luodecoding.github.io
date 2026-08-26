@@ -119,6 +119,67 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2018/11/12/%E9%80%9A%E7%9F%A5%E6%A0%8F%E6%89%A9%E5%B1%95%E5%AD%A6%E4%B9%A0/">
+        <p class="h4 index-header">通知栏扩展学习</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">iOS的Extension Widget开发
+
+1 、初始化Today Extension项目
+
+
+新建项目
+
+
+
+
+布局方式
+
+
+storeyboard布局
+
+MainInterface.storeybord
+
+
+
+纯代码编写
+
+需要配置info.plist的俩项参数移除NSExtensionMainStoryboard键，并添加NSExtensionPrincipalClass键，使用view controller的名字作为值。
+
+
+
+折叠功能
+
+  - (void)viewWillAppear:(BOOL)animated &#123; 
+              [super viewWillAppear:animated];
+              self.extensionContext.widgetLargestAvailableDisplayMode = 
+      NCWidgetDisplayModeExpanded;
+      &#125;
+
+
+隐藏Today Extension
+
+  NCWidgetController *widgetControl</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2018-11-12&nbsp;&nbsp;
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2018/11/06/swfit%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93%E4%B8%80/">
         <p class="h4 index-header">swfit问题总结一</p>
         
