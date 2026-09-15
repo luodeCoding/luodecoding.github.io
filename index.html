@@ -119,6 +119,55 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2026/09/15/%E4%BB%8EMCP%E5%88%B0Harness-%E5%8F%8CMCP%E6%89%93%E9%80%9A%E8%AE%BE%E8%AE%A1%E7%A8%BF%E5%88%B0%E7%9C%9F%E6%9C%BA%E9%AA%8C%E8%AF%81%E9%97%AD%E7%8E%AF/">
+        <p class="h4 index-header">从 MCP 到 Harness：用双 MCP 打通「设计稿 → 代码 → 真机验证」的 AI 开发闭环</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">
+一篇关于「把 MCP 用好」而不是「把 MCP 装好」的实践记录。我在一个车企超级 APP 项目的 iOS 迭代里，用蓝湖（Lanhu）MCP + Lookin MCP 搭了一套项目无关的工具层（harness），把 AI 写代码从「看着截图猜」变成了「读着需求写、对着真机验」。这篇文章讲清楚两件事：MCP 和 harness 到底差在哪一层，以及这套东西是怎么一步步落地的。
+
+一、先分清两件事：MCP 是协议，Harness 是交付形态这两年 MCP（Model Context Protocol）很火，但很多人把它当成万能药：装个 MCP server，AI 就能用了。实际用下来你会发现，MCP 只解决「连接」，不解决「复用」。
+我的理解是两层：
+
+MCP 层：一种开放协议，让 AI 应用（Claude Code、Cursor、ZCode……）以统一方式调用外部工具。它回答的问题是「AI 怎么连上某个能力」。
+Harness 层：在能力之上做一层项目无关的封装——命令行入口、接入模板、提示词模板、产出目录约定。它回答的问题是「这个能力怎么被任何项目、任何 AI 工具顺手用起来」。
+</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2026-09-15&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7">效率工具</a>&nbsp;
+          
+            <a href="/tags/iOS">iOS</a>&nbsp;
+          
+            <a href="/tags/MCP">MCP</a>&nbsp;
+          
+            <a href="/tags/AI%20%E5%BC%80%E5%8F%91">AI 开发</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2026/08/26/%E5%BC%80%E6%BA%90HexoBlogStarter/">
         <p class="h4 index-header">我把&#34;发博客&#34;这件事开源了：一个人和 AI 都能用的工具包</p>
         
@@ -347,9 +396,9 @@ SOP-Forge 的思路：不直接帮 AI 干活，而是给 AI 造一条”接手�
           
             <a href="/tags/AI">AI</a>&nbsp;
           
-            <a href="/tags/%E6%AF%95%E4%B8%9A%E8%AE%BA%E6%96%87">毕业论文</a>&nbsp;
-          
             <a href="/tags/Agent">Agent</a>&nbsp;
+          
+            <a href="/tags/%E6%AF%95%E4%B8%9A%E8%AE%BA%E6%96%87">毕业论文</a>&nbsp;
           
         
       </div>
@@ -568,54 +617,6 @@ GitHub：github.com&#x2F;luodeCoding&#x2F;ai-thesis-writing ⭐
             <a href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7">效率工具</a>&nbsp;
           
             <a href="/tags/%E6%AF%95%E4%B8%9A%E8%AE%BA%E6%96%87">毕业论文</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2026/08/05/iOS26%E9%80%82%E9%85%8D%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/">
-        <p class="h4 index-header">iOS 26/27 适配完全指南：自动化扫描 + 零遗漏总账 + 踩坑实录</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">🚀 iOS 26&#x2F;27 适配完全指南：自动化扫描 + 零遗漏总账 + 踩坑实录
-TL;DR：4 月 28 日 App Store 强制 iOS 26 SDK，9 月 Xcode 27 强制 Liquid Glass，明年 4 月强制 iOS 27 SDK（未迁 UIScene 直接无法启动）。本文分享一套开源适配方案：Python 扫描脚本（50+ 规则）+ 50 项覆盖总账（AI 适配零遗漏）、Swift&#x2F;OC 双语言模板、可一键安装到 Claude Code&#x2F;Qoder 的 AI 技能，承诺只改 iOS 26&#x2F;27 相关代码、不冲击主项目。GitHub 已开源，可直接用于生产。
-
-
-📌 为什么写这篇文章上周团队收到苹果邮件：4 月 28 日之后，所有新提交和更新必须使用 iOS 26 SDK 构建。deadline 就在眼前，但网上资料分散，缺乏系统性方案。
-于是我们做了两轮深度 QA 排查，整理出了这套开源适配框架。本文把项目背景、扫描工具实现、以及排查过程中发现的坑一次性讲清楚。
-
-GitHub：github.com&#x2F;luo</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2026-08-05&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/iOS%E5%BC%80%E5%8F%91">iOS开发</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/iOS">iOS</a>&nbsp;
-          
-            <a href="/tags/iOS26">iOS26</a>&nbsp;
-          
-            <a href="/tags/Liquid%20Glass">Liquid Glass</a>&nbsp;
-          
-            <a href="/tags/Xcode">Xcode</a>&nbsp;
           
         
       </div>
