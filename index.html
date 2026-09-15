@@ -119,6 +119,73 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2026/09/15/%E6%99%AE%E9%80%9A%E4%BA%BA%E6%80%8E%E4%B9%88%E6%8A%8A-AI-%E8%A3%85%E8%BF%9B%E9%A3%9E%E4%B9%A6/">
+        <p class="h4 index-header">普通人怎么把 AI 装进飞书：一份从零到能对话的开通向导</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">
+上一篇《把飞书变成 AI Agent 的日常操作台》拆的是「AI 在飞书里怎么干活」——运行时接入层的架构和踩坑。但那篇文章默认你已经有了一个能对话的机器人。这篇补上前半截：一个不懂代码的普通人，怎么从零开始，把 AI 真正装进飞书。全程网页后台点击 + 一份五层体检脚本，大概 20 分钟能跑通。
+
+一、先说清楚：这件事其实只有两层很多人卡在第一步，是因为把「开通」想象成了一个庞然大物。实际拆开看，把 AI 装进飞书只有两层事：
+
+
+
+层
+干什么
+占的工作量
+需要写代码吗
+
+
+
+飞书侧开通
+在飞书开放平台建应用、开权限、订阅事件、发布版本
+约 80%
+不需要，全程网页后台点击
+
+
+agent 侧接入
+把 app_id &#x2F; app_secret 填进你用的 AI agent 配置
+约 20%
+复制粘贴一段配置
+
+
+关键点在于：飞书侧这 80% 和你在 agent 侧用什么框架完全无关。你在飞书后台做完所有配置，拿到的唯一产出就是两个值——app_id（形如 cli_xxxxxxxx）和 app_secret。之后不管你是接 Hermes Agent 还是别的任何支持飞书机器人</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2026-09-15&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7">效率工具</a>&nbsp;
+          
+            <a href="/tags/%E5%BC%80%E6%BA%90">开源</a>&nbsp;
+          
+            <a href="/tags/AI%20Agent">AI Agent</a>&nbsp;
+          
+            <a href="/tags/%E9%A3%9E%E4%B9%A6">飞书</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2026/09/15/%E6%8A%8A%E9%A3%9E%E4%B9%A6%E5%8F%98%E6%88%90-AI-Agent-%E7%9A%84%E6%97%A5%E5%B8%B8%E6%93%8D%E4%BD%9C%E5%8F%B0/">
         <p class="h4 index-header">把飞书变成 AI Agent 的日常操作台：一次平台接入层的拆解与踩坑</p>
         
@@ -565,60 +632,6 @@ PM
             <a href="/tags/iOS">iOS</a>&nbsp;
           
             <a href="/tags/%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91">独立开发</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2026/08/08/iOS%E8%BF%AD%E4%BB%A3%E5%BC%80%E5%8F%91SOP-AI%E5%85%A8%E6%B5%81%E7%A8%8B%E4%BB%8B%E5%85%A5/">
-        <p class="h4 index-header">公司级iOS项目迭代开发SOP：AI全流程介入的实战经验（已开源）</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">在多个商业外包 iOS 项目里摸爬滚打了几年，我发现公司级项目最消耗人的不是技术难度，而是流程损耗：需求理解偏差导致返工、多人&#x2F;人机混编导致规范漂移、测试流于形式、踩过的坑换个项目接着踩。
-这几年我把迭代流程逐步标准化，再让 AI 介入每个环节，沉淀成了一套完整的 SOP。最近把它脱敏整理后开源了：
-
-GitHub：github.com&#x2F;luodeCoding&#x2F;ios-ai-dev-sop ⭐
-
-先说结论：这套 SOP 的核心不是”流程文档”，而是把流程切成标准阶段、每个阶段配好模板和质量门禁，再让 AI 承担每个环节里可自动化的部分——把”人盯流程”变成”流程盯人”。
-
-📌 五阶段迭代主流程1需求输入 → 架构师分析 → 开发实现 → UI 测试 → 逻辑测试 → 交付
-
-每个阶段都有明确的产出物模板，挑几个最关键的：
-架构师分析：最重要的防返工闸门收到需求后三件事，顺序不可颠倒：
-
-需求理解确认 — 必须先读产品文档再动手！产品文档包含业务规则（权限要求、用户类型限制），跳过这步返工率极高
-技术方案 — 中&#x2F;大功能必须写清：改动范围、新增&</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2026-08-08&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/AI">AI</a>&nbsp;
-          
-            <a href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7">效率工具</a>&nbsp;
-          
-            <a href="/tags/SOP">SOP</a>&nbsp;
-          
-            <a href="/tags/iOS">iOS</a>&nbsp;
           
         
       </div>

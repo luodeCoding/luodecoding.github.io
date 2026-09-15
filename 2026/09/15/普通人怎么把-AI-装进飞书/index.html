@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" type="image/png" href="/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="一个涉世未深的小iOS">
+  <meta name="author" content="Roder">
+  <meta name="keywords" content="">
+  <title>普通人怎么把 AI 装进飞书：一份从零到能对话的开通向导 ~ Roder</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Roder</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/default.png')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期二, 九月 15日 2026, 5:00 下午</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <blockquote>
+<p>上一篇《把飞书变成 AI Agent 的日常操作台》拆的是「AI 在飞书里怎么干活」——运行时接入层的架构和踩坑。但那篇文章默认你已经有了一个能对话的机器人。这篇补上前半截：<strong>一个不懂代码的普通人，怎么从零开始，把 AI 真正装进飞书</strong>。全程网页后台点击 + 一份五层体检脚本，大概 20 分钟能跑通。</p>
+</blockquote>
+<h2 id="一、先说清楚：这件事其实只有两层"><a href="#一、先说清楚：这件事其实只有两层" class="headerlink" title="一、先说清楚：这件事其实只有两层"></a>一、先说清楚：这件事其实只有两层</h2><p>很多人卡在第一步，是因为把「开通」想象成了一个庞然大物。实际拆开看，把 AI 装进飞书只有两层事：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>干什么</th>
+<th>占的工作量</th>
+<th>需要写代码吗</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>飞书侧开通</td>
+<td>在飞书开放平台建应用、开权限、订阅事件、发布版本</td>
+<td>约 80%</td>
+<td>不需要，全程网页后台点击</td>
+</tr>
+<tr>
+<td>agent 侧接入</td>
+<td>把 <code>app_id</code> &#x2F; <code>app_secret</code> 填进你用的 AI agent 配置</td>
+<td>约 20%</td>
+<td>复制粘贴一段配置</td>
+</tr>
+</tbody></table>
+<p>关键点在于：<strong>飞书侧这 80% 和你在 agent 侧用什么框架完全无关</strong>。你在飞书后台做完所有配置，拿到的唯一产出就是两个值——<code>app_id</code>（形如 <code>cli_xxxxxxxx</code>）和 <code>app_secret</code>。之后不管你是接 Hermes Agent 还是别的任何支持飞书机器人的框架，填的都是这俩。所以本文讲的开通流程是通用的，agent 侧只是最后一步填空。</p>
+<p>对普通人的好消息是：飞书侧全是点鼠标，agent 侧好的框架也就几行配置。真正的门槛不在技术，在于<strong>飞书后台有一套自己的规矩</strong>——这套规矩没人讲清楚，就会被卡在各种「明明配置了却不生效」的玄学里。这正是这篇向导要解决的。</p>
+<p>前置条件只有一个：一个飞书账号（个人版即可），并且你是这个组织的管理员——个人免费版组织里你自己就是管理员，所以这条基本自动满足。</p>
+<h2 id="二、六步开通链路：建应用-→-能验证"><a href="#二、六步开通链路：建应用-→-能验证" class="headerlink" title="二、六步开通链路：建应用 → 能验证"></a>二、六步开通链路：建应用 → 能验证</h2><p>下面是我整理并实战验证过的完整链路，全程在<a target="_blank" rel="noopener" href="https://open.feishu.cn/">飞书开放平台</a>后台完成，约 15 分钟。</p>
+<h3 id="Step-1：创建应用，拿到凭据"><a href="#Step-1：创建应用，拿到凭据" class="headerlink" title="Step 1：创建应用，拿到凭据"></a>Step 1：创建应用，拿到凭据</h3><p>开发者后台 → 创建企业自建应用 → 填名称、描述、图标。建好后进应用详情页，左侧「凭证与基础信息」里记下两个值：<code>App ID</code> 和 <code>App Secret</code>（secret 要点「获取」并手机验证码确认）。</p>
+<p>⚠️ <strong>拿到 secret 的第一时间存进密码管理器</strong>。它等价于这个机器人的全部身份——泄露了，任何人都能以它的名义收发你组织里的消息。</p>
+<h3 id="Step-2：开权限（最小三个）"><a href="#Step-2：开权限（最小三个）" class="headerlink" title="Step 2：开权限（最小三个）"></a>Step 2：开权限（最小三个）</h3><p>应用详情 → 权限管理 → 搜索开通。跑通「收发消息」的最小可用集就三个：</p>
+<table>
+<thead>
+<tr>
+<th>权限</th>
+<th>干什么用</th>
+<th>不开会怎样</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>im:message</code>（获取与发送单聊、群组消息）</td>
+<td>收用户消息 + 发 AI 回复，基本盘</td>
+<td>机器人完全无法收发消息</td>
+</tr>
+<tr>
+<td><code>im:message.group_at_msg:readonly</code>（获取群组中用户@机器人消息）</td>
+<td>群里 @ 它才响应，不刷屏</td>
+<td>私聊正常，群里 @ 没反应</td>
+</tr>
+<tr>
+<td><code>im:chat</code>（获取群信息）</td>
+<td>知道消息来自哪个群</td>
+<td>多群场景没法分流</td>
+</tr>
+</tbody></table>
+<p>注意一个时效性坑：旧教程里的 <code>im:message.group_at_msg</code>（不带 <code>:readonly</code>）已于 2024-09-30 被官方下线，现在开只读版。图片&#x2F;语音等进阶权限先不开，跑通后再按需补。</p>
+<h3 id="Step-3：启用机器人能力（高频遗忘点）"><a href="#Step-3：启用机器人能力（高频遗忘点）" class="headerlink" title="Step 3：启用机器人能力（高频遗忘点）"></a>Step 3：启用机器人能力（高频遗忘点）</h3><p>应用详情 → 应用能力 → 机器人 → 启用。<strong>不开这个，权限开全了也没有「机器人」这个实体可对话</strong>——应用只是个空壳。建应用时它默认是关的，这是最容易漏的一步。</p>
+<h3 id="Step-4：配置事件订阅（AI-能收到消息的关键）"><a href="#Step-4：配置事件订阅（AI-能收到消息的关键）" class="headerlink" title="Step 4：配置事件订阅（AI 能收到消息的关键）"></a>Step 4：配置事件订阅（AI 能收到消息的关键）</h3><p>应用详情 → 事件与回调 → 事件配置：</p>
+<ol>
+<li>订阅方式选<strong>长连接（WebSocket）</strong>。这是个人用户的首选——不需要公网服务器、不需要域名，你的电脑跑 agent 就能收到事件。选 HTTP 回调则需要公网可访问的 https 地址，内网用户直接卡死在这步。</li>
+<li>添加事件：<code>接收消息 im.message.receive_v1</code>。</li>
+<li>提示「权限不足」就回 Step 2 补对应权限。</li>
+</ol>
+<h3 id="Step-5：发布版本（最高频遗忘点-⚠️）"><a href="#Step-5：发布版本（最高频遗忘点-⚠️）" class="headerlink" title="Step 5：发布版本（最高频遗忘点 ⚠️）"></a>Step 5：发布版本（最高频遗忘点 ⚠️）</h3><p>飞书后台有个硬规则：<strong>所有权限、能力、可用范围的改动只落在草稿上，必须创建版本并发布才生效</strong>。路径：版本管理与发布 → 创建版本 → 填版本号（如 1.0.0）→ 提交。个人&#x2F;免费组织自己就是管理员，直接通过；企业组织走管理员审批。状态变「已启用」才算上线。</p>
+<h3 id="Step-6：验证飞书侧通了"><a href="#Step-6：验证飞书侧通了" class="headerlink" title="Step 6：验证飞书侧通了"></a>Step 6：验证飞书侧通了</h3><p>打开飞书客户端（不是网页后台），搜索你的应用名，点进单聊发一句「hi」。此时机器人<strong>还不会回复</strong>（agent 还没接）——但只要消息没有红色感叹号、机器人能被搜到，说明飞书侧链路已经通了。至此你手上有了 <code>app_id</code> + <code>app_secret</code>，去 agent 侧完成最后接入即可。</p>
+<h2 id="三、权限三铁律：比清单本身更重要"><a href="#三、权限三铁律：比清单本身更重要" class="headerlink" title="三、权限三铁律：比清单本身更重要"></a>三、权限三铁律：比清单本身更重要</h2><p>权限管理是整个开通流程里最容易反复折腾的部分。比起逐项清单，先记住三条铁律：</p>
+<ol>
+<li><strong>最小够用。</strong> 先只开「收发消息」三个权限跑通，之后缺什么开什么。每开一个都问自己一句「不开会缺什么」，答不上来就别开——机器人权限越大，被 @ 一次它能做的事就越多，也越需要谨慎。</li>
+<li><strong>开了不发布 &#x3D; 没开。</strong> 权限开通后必须走版本发布才生效。「权限明明开了还是报错」，十有八九是这个原因。</li>
+<li><strong>报错会告诉你缺哪个。</strong> 调用接口报 <code>99991672</code> 时，返回体里的 <code>error.permission_violations</code> 字段会直接列出缺的权限名，照着补就行，不用猜。</li>
+</ol>
+<p>这三条里，第 2 条值得展开：它本质上是说飞书后台是「改动」和「发布」两层结构，你所有的操作都在草稿层。把这个机制记牢，后面 70% 的「玄学问题」都有了统一的解释。</p>
+<h2 id="四、五层体检脚本：坏了先跑它，直接告诉你断在哪层"><a href="#四、五层体检脚本：坏了先跑它，直接告诉你断在哪层" class="headerlink" title="四、五层体检脚本：坏了先跑它，直接告诉你断在哪层"></a>四、五层体检脚本：坏了先跑它，直接告诉你断在哪层</h2><p>向导写到这就完了吗？没有。真正的不确定性在<strong>坏了怎么办</strong>。配置类问题最折磨人的地方是症状和根因经常对不上：「机器人不回复」可能是权限没开、可能是版本没发、可能是 agent 没启动，肉眼完全分不出来。</p>
+<p>我的解法是把整条链路切成五层，写一个体检脚本从底层往上逐层探，<strong>停在第一处断掉的层，并直接给出修复指引</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>检查什么</th>
+<th>典型症状</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>L1 凭据有效性</td>
+<td>用 app_id&#x2F;secret 换 tenant_access_token</td>
+<td>报 <code>99991543</code>（凭据不存在），多半是抄错或 secret 重置过</td>
+</tr>
+<tr>
+<td>L2 权限比对</td>
+<td>拿 token 调只读接口探权限</td>
+<td>报 <code>99991672</code>（缺权限），返回体直接告诉你缺哪个</td>
+</tr>
+<tr>
+<td>L3 应用状态</td>
+<td>应用是否启用、机器人能力是否开了</td>
+<td>飞书里搜不到机器人；报 <code>99991662</code></td>
+</tr>
+<tr>
+<td>L4 事件订阅</td>
+<td>静态自查清单：长连接进程活着吗 &#x2F; HTTP 地址公网可达吗</td>
+<td>搜得到、发消息不报错，但 AI 收不到</td>
+</tr>
+<tr>
+<td>L5 agent 侧</td>
+<td>本机配置文件里 feishu 段是否配对、enabled</td>
+<td>飞书侧全绿但 AI 不理人</td>
+</tr>
+</tbody></table>
+<p>脚本设计上刻意做了几个决定：<strong>纯 Python 标准库、零依赖</strong>，任何一台装了 Python3 的电脑直接能跑；<strong>只做体检不改配置</strong>，凭据只存在进程内存里，退出即消失，不落盘；输出的是「断在第几层 + 怎么修」，而不是一堆原始日志。</p>
+<p>这个「分层体检」的思路对普通人特别友好：你去社区提问，只要说一句「doctor 说我断在 L2」，比贴十行报错日志有用得多。</p>
+<h2 id="五、踩坑实录：四条最有共鸣的"><a href="#五、踩坑实录：四条最有共鸣的" class="headerlink" title="五、踩坑实录：四条最有共鸣的"></a>五、踩坑实录：四条最有共鸣的</h2><p>开通流程走通不难，难的是走通之后反复遇到「改了不生效」。以下四条全部真实发生过（时间：2026-09）：</p>
+<h3 id="1-权限改了不生效-忘了发布"><a href="#1-权限改了不生效-忘了发布" class="headerlink" title="1. 权限改了不生效 &#x3D; 忘了发布"></a>1. 权限改了不生效 &#x3D; 忘了发布</h3><p>后台明明开了权限，机器人行为纹丝不动。根因就是上面说的两层结构：改动只落在草稿，必须创建版本并发布才生效。更隐蔽的是两侧各有一个「改了没生效」的开关——飞书侧要发布版本，agent 侧改完配置要重启——叠在一起极易漏掉一边。预防方法：<strong>把「改后台 → 发版本 → 重启 agent → 重测」当成一个不可拆分的固定动作链</strong>。</p>
+<h3 id="2-搜不到机器人-机器人能力没开"><a href="#2-搜不到机器人-机器人能力没开" class="headerlink" title="2. 搜不到机器人 &#x3D; 机器人能力没开"></a>2. 搜不到机器人 &#x3D; 机器人能力没开</h3><p>权限全开、版本也发了，飞书里就是搜不到这个应用。根因：应用能力和权限是两回事——没启用「机器人」能力，应用就没有可对话的实体，权限再全也是空转。因为建应用时默认不开，这个坑几乎人人踩一次。预防方法：开通顺序固定为「建应用 → 启用机器人能力 → 开权限 → 事件订阅 → 发布」。</p>
+<h3 id="3-restart-连坐自杀"><a href="#3-restart-连坐自杀" class="headerlink" title="3. restart 连坐自杀"></a>3. restart 连坐自杀</h3><p>改完配置，我在 agent 的会话里直接让它执行 <code>gateway restart</code>——结果网关把自己所在的会话一起 SIGTERM 杀掉了，restart 命令自己都没走完，会话凭空消失，一度以为 agent 罢工了。根因很直白：restart 会先杀掉旧网关进程，而你正坐在旧网关的会话里，命令执行者和被杀对象是同一个进程树。修复：开一个<strong>独立的</strong> shell 会话执行 restart，或者直接对 bot 发 <code>/restart</code>。这条写进肌肉记忆能少很多灵异事件。</p>
+<h3 id="4-一个-bot-绑两台机器，人格分裂"><a href="#4-一个-bot-绑两台机器，人格分裂" class="headerlink" title="4. 一个 bot 绑两台机器，人格分裂"></a>4. 一个 bot 绑两台机器，人格分裂</h3><p>换机器部署时没停掉旧机器，同一个 <code>app_id</code> 被两台机器的 gateway 同时长连接接管。表现为：消息时灵时不灵，回复「人格分裂」——有的回复来自旧机器的旧配置，事件被两边互相抢。根因是架构级的：<strong>一个 bot 只绑一个 gateway</strong>。修复和预防是同一句话：迁移机器时，旧机器先 stop，新机器再启动。</p>
+<h2 id="六、沉淀原则"><a href="#六、沉淀原则" class="headerlink" title="六、沉淀原则"></a>六、沉淀原则</h2><p>把向导和坑捋完，真正值得带走的是三条：</p>
+<ol>
+<li><strong>两层切开，各管各的。</strong> 飞书侧 80% 的配置对任何 agent 框架通用，别和具体框架的文档搅在一起读。</li>
+<li><strong>改动必发布，改配置必重启。</strong> 飞书侧的「发布版本」和 agent 侧的「restart」是两颗同名按钮，漏按任何一颗都等于没改。</li>
+<li><strong>坏了先分层，再动手。</strong> 不分层的排查是在黑暗中乱摸；有了 L1–L5 的切分，任何问题都能一句话定位。</li>
+</ol>
+<h2 id="七、写在最后"><a href="#七、写在最后" class="headerlink" title="七、写在最后"></a>七、写在最后</h2><p>这套开通流程我已经把它整理成了一份完整的向导包：六步开通文档、权限逐项清单、症状速查表和五层体检脚本都在里面，agent 侧附了我自己在用的 Hermes Agent 接入篇（Hermes 是开源项目，见<a target="_blank" rel="noopener" href="https://hermes-agent.nousresearch.com/docs">官方文档</a>）。包目前还是 private 的，正在打磨中——等把语音权限等几个 TODO 核对完，大概率会整理共享出来，欢迎到时候来拿。</p>
+<p>至此两篇就齐了：这篇讲「怎么把 AI 装进飞书」（开通），前一篇讲「AI 在飞书里怎么干活」（运行时）。装好和用好，中间隔的就是这两件事。</p>
+<hr>
+<p><em>（文中涉及的 Hermes Agent 为开源项目；飞书为字节跳动旗下产品，流程截图与后台 UI 以飞书开放平台官方文档为准。本文不包含任何真实凭据。）</em></p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7">效率工具</a>
+              
+                <a class="hover-with-bg" href="/tags/%E5%BC%80%E6%BA%90">开源</a>
+              
+                <a class="hover-with-bg" href="/tags/AI%20Agent">AI Agent</a>
+              
+                <a class="hover-with-bg" href="/tags/%E9%A3%9E%E4%B9%A6">飞书</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "普通人怎么把 AI 装进飞书：一份从零到能对话的开通向导&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>
