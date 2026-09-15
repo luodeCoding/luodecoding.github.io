@@ -155,7 +155,7 @@
 <p>一个管「源头」，一个管「运行端」，两个 MCP 正好补上这两个断层，形成闭环：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">蓝湖（需求/设计稿）→ AI 理解 → 写代码 → 真机跑起来 → Lookin（实时视图树）→ AI 比对 → 通过/差异</span><br></pre></td></tr></table></figure>
 
-<h2 id="三、落地一：lanhu-harness（设计源头）"><a href="#三、落地一：lanhu-harness（设计源头）" class="headerlink" title="三、落地一：lanhu-harness（设计源头）"></a>三、落地一：lanhu-harness（设计源头）</h2><p>蓝湖社区有一个很火的 MCP：<code>dsphper/lanhu-mcp</code>（2k+ star），把蓝湖的文档分析、设计稿识别暴露成 13 个 <code>lanhu_*</code> 工具。它解决了「连上」的问题，但直接用有几个不爽：</p>
+<h2 id="三、落地一：lanhu-harness（设计源头）"><a href="#三、落地一：lanhu-harness（设计源头）" class="headerlink" title="三、落地一：lanhu-harness（设计源头）"></a>三、落地一：lanhu-harness（设计源头）</h2><p>蓝湖社区有一个很火的 MCP：<a target="_blank" rel="noopener" href="https://github.com/dsphper/lanhu-mcp"><code>dsphper/lanhu-mcp</code></a>（2k+ star），把蓝湖的文档分析、设计稿识别暴露成 13 个 <code>lanhu_*</code> 工具。它解决了「连上」的问题，但直接用有几个不爽：</p>
 <ul>
 <li>依赖 IDE 的 MCP 集成，换工具就要重新配；</li>
 <li>没有统一的提示词模板，每次识别结果结构都不一样；</li>
@@ -166,7 +166,7 @@
 
 <p>关键设计是 <code>bin/lanhu-mcp</code>：一个<strong>不依赖任何 IDE 的 stdio MCP 客户端</strong>——按需拉起 server、调用工具、把结构化结果和页面截图落盘。终端能跑、脚本能调、任何 AI Agent 都能用。<code>doc</code> 子命令一条命令拉完一个 Axure 文档的指定页面（文本 + 截图 + 样式参考），之后把「截图 + 原文」交给 AI 按 <code>prompts/</code> 模板做内容识别。</p>
 <p>实战效果：在车企 APP 的 0931 迭代里，用它从蓝湖 Axure 里识别了 APP 端 6 页需求——需求跟踪表 7 条、变更类型逐项定性、UI 要点带截图锚点，直接作为迭代计划的需求输入。整个过程从「人肉扒原型」变成「一条命令 + AI 整理」。</p>
-<h2 id="四、落地二：lookin-harness（运行端）"><a href="#四、落地二：lookin-harness（运行端）" class="headerlink" title="四、落地二：lookin-harness（运行端）"></a>四、落地二：lookin-harness（运行端）</h2><p>Lookin 是 iOS 开发常用的 UI 调试工具（类似 Reveal，免费开源）：macOS 端连上跑着 LookinServer 的 Debug 包，就能看到实时视图树、改属性、看约束。它也有 MCP 服务（10 个工具：<code>get_hierarchy</code> &#x2F; <code>get_view</code> &#x2F; <code>get_view_attributes</code> &#x2F; <code>get_screenshot</code> &#x2F; <code>search_views</code> ……），让 AI 能直接读运行中的 App 视图层级。</p>
+<h2 id="四、落地二：lookin-harness（运行端）"><a href="#四、落地二：lookin-harness（运行端）" class="headerlink" title="四、落地二：lookin-harness（运行端）"></a>四、落地二：lookin-harness（运行端）</h2><p>Lookin（<a target="_blank" rel="noopener" href="https://github.com/hughkli/Lookin"><code>hughkli/Lookin</code></a> + <a target="_blank" rel="noopener" href="https://github.com/QMUI/LookinServer"><code>QMUI/LookinServer</code></a>）是 iOS 开发常用的 UI 调试工具（类似 Reveal，免费开源）：macOS 端连上跑着 LookinServer 的 Debug 包，就能看到实时视图树、改属性、看约束。它也有 MCP 服务（10 个工具：<code>get_hierarchy</code> &#x2F; <code>get_view</code> &#x2F; <code>get_view_attributes</code> &#x2F; <code>get_screenshot</code> &#x2F; <code>search_views</code> ……），让 AI 能直接读运行中的 App 视图层级。</p>
 <p>但原生的 Lookin MCP 是 HTTP&#x2F;SSE 常驻服务，接入不同 AI 工具时各有各的别扭。我们做了 <code>lookin-harness</code>，把它的能力<strong>桥接成标准 stdio MCP</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lookin-harness/</span><br><span class="line">├── bridge.py           # 标准 MCP stdio 桥（10 工具，FALLBACK 静态兜底）</span><br><span class="line">├── lookin_client.py    # 核心客户端：端口嗅探 + 会话保持 + 代理绕行</span><br><span class="line">├── lookin_cli.py       # 独立 CLI：doctor / status / search / hierarchy / attrs / screenshot…</span><br><span class="line">├── install.sh          # 多 IDE 自安装（WorkBuddy / Qoder / Claude / Antigravity / 项目级）</span><br><span class="line">├── .mcp.json           # 接入模板</span><br><span class="line">├── prompts/ui-verify.md # UI 实现验证提示词模板</span><br><span class="line">└── docs/               # 工具速查 + 实战坑位表</span><br></pre></td></tr></table></figure>
 
@@ -195,7 +195,7 @@
 <h2 id="六、写在最后"><a href="#六、写在最后" class="headerlink" title="六、写在最后"></a>六、写在最后</h2><p>这套东西目前还在我们自己的迭代里打磨——还有真机环境的完整复测、Cookie&#x2F;凭据的自动化刷新、一键安装脚本这些收尾没做完，所以<strong>暂时不打算封装发布</strong>。</p>
 <p>不过方向是明确的：MCP 生态会越来越丰富，但「怎么把 MCP 用好」这件事，值得每个团队自己沉淀一套 harness。等我们把坑填得差不多了，<strong>大概率会把这两套 harness 整理共享出来</strong>——如果你也在做类似的事情，欢迎到时候来拍砖。</p>
 <hr>
-<p><em>（文中项目信息已脱敏。lanhu-mcp 为开源项目 <code>dsphper/lanhu-mcp</code>；Lookin 为开源项目 <code>hughkli/Lookin</code> + <code>QMUI/LookinServer</code>。）</em></p>
+<p><em>（文中项目信息已脱敏。lanhu-mcp 为开源项目 <a target="_blank" rel="noopener" href="https://github.com/dsphper/lanhu-mcp">dsphper&#x2F;lanhu-mcp</a>；Lookin 为开源项目 <a target="_blank" rel="noopener" href="https://github.com/hughkli/Lookin">hughkli&#x2F;Lookin</a> + <a target="_blank" rel="noopener" href="https://github.com/QMUI/LookinServer">QMUI&#x2F;LookinServer</a>。）</em></p>
 
             <hr>
           </div>
