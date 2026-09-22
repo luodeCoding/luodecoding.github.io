@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" type="image/png" href="/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="一个涉世未深的小iOS">
+  <meta name="author" content="Roder">
+  <meta name="keywords" content="">
+  <title>AI 写的越多，越要练「读代码、定架构」：四层读法，加上人出图纸、AI 按图施工 ~ Roder</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Roder</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/default.png')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期二, 九月 22日 2026, 9:30 上午</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <blockquote>
+<p>一篇关于「AI 大量代写代码之后，自己写代码的能力会弱化，所以必须把「读代码」练深」的实践记录。讲四件事：为什么读是 AI 时代的新护城河、什么才算真正读懂（四层境界）、读 AI 代码的特殊性，以及再往上走一步——人出图纸、AI 按图施工的架构分工，和一套每天可练的清单。</p>
+</blockquote>
+<h2 id="一、承认一个不舒服的事实：写的手感会弱化"><a href="#一、承认一个不舒服的事实：写的手感会弱化" class="headerlink" title="一、承认一个不舒服的事实：写的手感会弱化"></a>一、承认一个不舒服的事实：写的手感会弱化</h2><p>现在我的日常开发，大部分代码不是自己敲的，而是「需求 → 派卡 → AI 写 → 我来验收」。这个流程效率很高，但有一个副作用我观察了很久，也跟不少同行聊过：<strong>手写代码的能力，确实在钝化。</strong></p>
+<p>具体来说，弱化发生在三个地方：</p>
+<ul>
+<li><strong>语法和 API 的记忆在衰减。</strong> 以前闭着眼睛能写的 API，现在会习惯性去问 AI；不是不会，是”想不起来”，大脑的检索路径被”问一下就有答案”替代了。</li>
+<li><strong>调试直觉在变钝。</strong> 以前定位 bug 靠的是对代码的熟悉和手感，现在下意识就是”把报错丢给 AI”。定位问题的肌肉记忆，用进废退。</li>
+<li><strong>对代码的”所有权感”在下降。</strong> 不是我亲手写的代码，出了问题第一反应是”看看 AI 写的什么”，而不是”我哪写错了”。</li>
+</ul>
+<p>但我要先说清楚：<strong>对抗这个趋势是徒劳的。</strong> AI 写代码是回不去的方向，回到”全部手写”既不现实也没必要。所以真正的问题不是”怎么让写的能力不退化”，而是——</p>
+<blockquote>
+<p><strong>写的能力被 AI 分摊了，读的能力必须由我自己持有。</strong></p>
+</blockquote>
+<h2 id="二、为什么「读代码」是-AI-时代的新护城河"><a href="#二、为什么「读代码」是-AI-时代的新护城河" class="headerlink" title="二、为什么「读代码」是 AI 时代的新护城河"></a>二、为什么「读代码」是 AI 时代的新护城河</h2><p>写和读，本质是两种完全不同的能力：</p>
+<ul>
+<li><strong>写是生成</strong>：顺着思路把想法变成代码，AI 已经做得很好，而且越来越便宜。</li>
+<li><strong>读是判断</strong>：从成品反推出意图，判断它对不对、好不好、该不该留。这件事 AI 帮不了你太多。</li>
+</ul>
+<p>AI 时代工程师的真实工作占比早就变了。你回想一下自己的一天：真正在”从零写一段新逻辑”的时间，和”审 AI 的产出 &#x2F; 改 AI 的代码 &#x2F; 接 AI 留下的烂摊子”的时间，哪个多？大概率是后者。</p>
+<p>而后者的每一环，都建立在同一个前提上：<strong>你读得懂这段代码。</strong></p>
+<p>这里有个残酷的对称：<strong>AI 能写出一百种实现，但只有你能判断哪一种是”对的”。</strong> 什么是”对的”？符合业务语义、不踩项目红线、可维护、跟现有架构一个路子——这些信息只存在于你的脑子里，AI 不拥有它们。判断力外包不出去，而判断力的地基就是读代码。</p>
+<p>还有一个很多人没意识到的点：<strong>读比写难。</strong> 写是顺着思路输出，一路通畅；读是从成品反推意图，是逆流。而 AI 替你写了之后，等于把”顺着写”这半边外包了，留给你的恰恰是更难的那半边——“逆着读”。</p>
+<h2 id="三、先定义清楚：什么才算「读懂」一段代码"><a href="#三、先定义清楚：什么才算「读懂」一段代码" class="headerlink" title="三、先定义清楚：什么才算「读懂」一段代码"></a>三、先定义清楚：什么才算「读懂」一段代码</h2><p>“看代码”和”读懂代码”差得很远。我习惯把读懂分成四层：</p>
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>状态</th>
+<th>一句话判据</th>
+<th>达不到的代价</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>L1 语法层</td>
+<td>看得懂</td>
+<td>能说出每一行在做什么</td>
+<td>只能看懂，不敢改</td>
+</tr>
+<tr>
+<td>L2 语义层</td>
+<td>知道它在做什么</td>
+<td>能画出数据流、状态怎么变、谁持有谁</td>
+<td>一改就崩，只敢加不敢动</td>
+</tr>
+<tr>
+<td>L3 意图层</td>
+<td>知道为什么这么写</td>
+<td>能说出它的设计取舍、踩过什么坑、约束是什么</td>
+<td>只会照抄，不会取舍</td>
+</tr>
+<tr>
+<td>L4 批判层</td>
+<td>知道哪里能更好</td>
+<td>能指出复杂度、耦合、隐患、可测性</td>
+<td>被烂代码拖着走</td>
+</tr>
+</tbody></table>
+<p>举个例子，iOS 里一行 <code>[weak self]</code>：L1 知道它是弱引用；L2 知道如果不写，闭包持有 self 会形成循环引用、对象释放不掉；L3 知道这是团队踩过内存泄漏的坑之后立下的规矩，所以”看到有闭包的地方就条件反射检查 self”；L4 会进一步想——这里到底需不需要持有 self，能不能干脆用值捕获，从根上避免这个问题。</p>
+<p><strong>多数人一辈子停在 L1-L2，而 AI 时代要求你练到 L3-L4。</strong> 原因很直接：AI 写的代码天然缺 L3——它没有”意图”，不知道这个项目为什么这么设计。这个空缺，正好是需要人来补的。你能补上，你就有不可替代性；补不上，你就只能当一个”语法翻译机”，而这恰恰是 AI 最容易替代的角色。</p>
+<h2 id="四、读-AI-代码的特殊性：它是”没有作者的代码”"><a href="#四、读-AI-代码的特殊性：它是”没有作者的代码”" class="headerlink" title="四、读 AI 代码的特殊性：它是”没有作者的代码”"></a>四、读 AI 代码的特殊性：它是”没有作者的代码”</h2><p>读别人写的代码，还能猜作者意图；读 AI 写的代码，麻烦在于它<strong>读起来太顺了，却没有意图锚点</strong>。语法漂亮、结构工整、注释齐全，但你不知道它为什么选这个方案。</p>
+<p>我总结 AI 代码的四个典型毛病，读的时候重点盯：</p>
+<ol>
+<li><strong>命名泛化。</strong> <code>data</code>、<code>temp</code>、<code>result</code>、<code>item</code> 满天飞——命名是压缩过的意图，命名越泛，说明它自己也没想清楚这块是什么。</li>
+<li><strong>抽象错位。</strong> 该封装的不封装（一堆重复逻辑平铺），不该封装的硬封装（为了”看起来干净”包了三层，改一行要穿三层）。</li>
+<li><strong>注释与实现脱节。</strong> 注释写得头头是道，代码根本不是那么回事。AI 是先写代码再补注释，注释是”解释”，不是”设计”。</li>
+<li><strong>防御性代码堆砌。</strong> 到处 <code>if let</code>、到处判空、到处 try-catch，看起来稳健，其实把真正的错误吞掉了——这正是”让失败不可见”。</li>
+</ol>
+<p>读 AI 代码的心态，我总结成四个字：<strong>不信任，不敌视。</strong> 不当粉丝（它写得再漂亮也要审），也不当敌人（它确实能给你省大量时间）。你的角色是看门人。</p>
+<p>这里有一个便宜好用的杠杆，我几乎每次验收都用：<strong>让 AI 解释它自己写的代码。</strong> AI 解释代码的能力比写代码还强——让它逐段讲”为什么这么写、这里在防什么、有没有边界没处理”，把它的解释当文档，再用你自己的 L3 判断去戳它。AI 是”作者自述”，你是”审稿人”，两者一碰撞，问题往往就浮出来了。</p>
+<h2 id="五、再往上走一层：人出图纸，AI-按图施工"><a href="#五、再往上走一层：人出图纸，AI-按图施工" class="headerlink" title="五、再往上走一层：人出图纸，AI 按图施工"></a>五、再往上走一层：人出图纸，AI 按图施工</h2><p>读代码读到 L3、L4，自然会长出下一项能力——<strong>架构判断</strong>。我觉得 AI 时代学架构，学的不是”怎么画一张漂亮的架构图”，而是两件事：<strong>给 AI 定约束，识破 AI 的顶层设计</strong>。</p>
+<p>先回答一个你可能正在纠结的问题：<strong>为什么 AI 给的顶层设计，直觉上总觉得”写下去肯定有问题”？</strong> 因为它的架构不是推导出来的，是统计出来的——它没见过你的业务约束，只能生成”看起来像架构”的架构。落到具体，AI 架构有四个典型病（比代码层的病高一层）：</p>
+<ol>
+<li><strong>没有业务约束锚点。</strong> 它不知道”金额不能为负””状态不能回跳””这个接口必须幂等”。所以它的架构通用、漂亮、没有灵魂，约束全靠实现阶段临时找补——找补出来的，就是一个个隐蔽 bug。</li>
+<li><strong>抽象位置错。</strong> 它优化的是”代码美感”（比如 DRY），不是”业务边界”。该收敛的重复逻辑散落各处，不该统一的硬统一成一套，改一处牵动全身。</li>
+<li><strong>只设计当下，不设计演进。</strong> 它没见过这个系统三个月后长什么样。所以要么没留变化点（加需求就伤筋动骨），要么留了一堆用不上的扩展点（过度设计，架子比内容还重）。</li>
+<li><strong>基础设施缺席。</strong> AI 默认世界是干净的：日志、错误码、监控、回滚、权限、幂等，它一概不主动建。没有这些，写出来就是空架子——本地能跑，一上线就塌。</li>
+</ol>
+<p>那”怎么提前看出它有问题”？答案是：<strong>你不需要预知所有细节，拿业务约束逐条审它的设计就行。</strong> 它没提幂等？没画状态机边界？没设计失败路径？三条审下来，问题基本现形。这就是把读代码的 L3&#x2F;L4 用到了架构上——读代码读的是”为什么这么写”，审架构审的是”这些约束它守住没有”。</p>
+<p>于是 AI 时代的架构分工就清晰了：<strong>人出图纸，AI 按图施工。</strong> 图纸上画的是分层、接口、数据流、状态机、错误处理约定、业务边界；施工是按着图纸把实现做出来。图纸越细，AI 的自由度越小，产出越可靠；图纸画错了，AI 盖出来的就是危楼；没有图纸，AI 搭出来的就是”看起来是房子”的空架子。所以图纸这活，必须人来干——这也是为什么基础设施要提前搭好，它不是搭给代码用的，是搭给 AI 用的。我每次派卡，都会把分层、接口、边界写死在卡里，AI 的自由度只留给实现细节。</p>
+<p>顺带回应一个细节：前面说”不一定要了解细节 API”——我的准确表述是<strong>不用背 API，但要知道去哪里查、怎么验证</strong>。读代码读到 L2 时，某个 API 的语义边界（线程安全吗？释放资源吗？）决定了你能不能判断对错，这时候”查证能力”比”记忆能力”值钱。</p>
+<h2 id="六、一套每天可以练的清单"><a href="#六、一套每天可以练的清单" class="headerlink" title="六、一套每天可以练的清单"></a>六、一套每天可以练的清单</h2><p>光知道”要读深”没用，得落到日常。我的做法是下面几条，前半是”怎么读”，后半是”怎么把读变成习惯”：</p>
+<p><strong>怎么读：</strong></p>
+<ol>
+<li><strong>逆向猜实现。</strong> 拿到一个接口或函数签名，先不看实现，自己猜它内部会怎么写、会踩什么坑，再打开源码对答案。猜错了的地方，就是你理解体系的漏洞。</li>
+<li><strong>带着问题审。</strong> 每读一段代码强制问四件事：并发&#x2F;线程安全了吗？边界（空值、超长、时区、精度）处理了吗？命名有没有表达意图？这逻辑放这里合不合适？这四条基本能审出 AI 代码 80% 的问题。</li>
+<li><strong>Feynman 输出。</strong> 把读懂的一段讲给 AI 听（或者写成两三句话），讲到它挑不出毛病，才算真懂。讲不出来的地方，就是你没读透的地方。</li>
+</ol>
+<p><strong>怎么养成习惯：</strong></p>
+<ol start="4">
+<li><strong>每天 30 分钟读陌生代码，写三句话。</strong> 读完写下：它在做什么 &#x2F; 为什么这么写 &#x2F; 哪里可以更好。有产出才叫读，没产出的阅读是无效阅读。</li>
+<li><strong>把”验收 AI 产出”当每日训练。</strong> 你本来就在每天 review AI 写的代码——把它从”走流程”升级成”练手艺”，每次强制走一遍上面第 2 条的四问。</li>
+<li><strong>读你项目里最老、最绕的那段代码。</strong> 它是你项目的”考古现场”，藏着最多的历史决策和踩坑记录，读它比读任何教科书都值。</li>
+<li><strong>每周反推一个模块的架构。</strong> 挑一个模块，不看设计文档，从代码反推它的分层、边界、约束，写三句话：它靠什么撑住业务 &#x2F; 哪里快撑不住了 &#x2F; 如果重来我会怎么定。这是从「读代码」长成「定架构」的必经练习。</li>
+</ol>
+<h2 id="七、写在最后"><a href="#七、写在最后" class="headerlink" title="七、写在最后"></a>七、写在最后</h2><p>写这篇文章，不是劝大家别用 AI——恰恰相反，AI 是我现在效率的来源。我想说的是另一件事：</p>
+<blockquote>
+<p><strong>AI 负责把代码写出来，你负责看懂它为什么不该这么写。会写代码的人会越来越多，会读代码、会画图纸的人才是稀缺的。</strong></p>
+</blockquote>
+<p>之前写过一篇《AI 时代，比开发经验更重要的三件事》，讲细心、负责、钻研，核心是”工程师要当最后一道把关的人”。这篇算是给”把关”补上了具体的手艺——怎么把代码读深、怎么给 AI 画好图纸。两篇合起来看，大概就是我对 AI 时代工程师的理解：<strong>用 AI 的快，补自己的慢；用读的深，守判断的权。</strong></p>
+<p>暂时没有把它扩展成课程的打算，大概率会继续在实践中更新这套读法，欢迎拍砖。</p>
+<p><em>你怎么看待 AI 时代的”读代码”和”定架构”能力？欢迎留言讨论。</em></p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E9%9A%8F%E7%AC%94%E6%80%9D%E8%80%83">随笔思考</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/AI">AI</a>
+              
+                <a class="hover-with-bg" href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%88%90%E9%95%BF">程序员成长</a>
+              
+                <a class="hover-with-bg" href="/tags/%E4%BB%A3%E7%A0%81%E9%98%85%E8%AF%BB">代码阅读</a>
+              
+                <a class="hover-with-bg" href="/tags/%E6%9E%B6%E6%9E%84">架构</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "AI 写的越多，越要练「读代码、定架构」：四层读法，加上人出图纸、AI 按图施工&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>
