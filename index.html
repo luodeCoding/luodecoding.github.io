@@ -119,6 +119,57 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2026/10/14/Kimi%E3%80%81ZCode%E3%80%81Qoder%E3%80%81WorkBuddy%20%EF%BC%8B%20%E4%B8%80%E4%B8%AA%E6%9C%AC%E5%9C%B0%E7%AE%A1%E5%AE%B6%EF%BC%9A%E7%AE%A1%E9%A1%B9%E7%9B%AE%E3%80%81%E6%B4%BE%E6%B4%BB%E3%80%81%E9%AA%8C%E6%94%B6%EF%BC%8C%E4%BA%BA%E5%8F%AA%E6%8B%8D%E6%9D%BF/">
+        <p class="h4 index-header">Kimi、ZCode、Qoder、WorkBuddy ＋ 一个本地管家：管项目、派活、验收，人只拍板</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">
+一篇关于「让本地跑着的 Hermes 当管家，把 Kimi、ZCode、Qoder、WorkBuddy 这些我用过的 AI 编码工具的免费额度拼成一支小队」的想法记录。这篇是预告，不讲实现细节，讲为什么这么想：免费额度为什么值得拼、管家管什么、人和 AI 怎么分工、边界划在哪。
+
+一、起因：工具很多，但都是「散装」的这两年 AI 编码工具一个接一个冒出来，Kimi、ZCode、Qoder、WorkBuddy……几乎每家都给免费额度。白给的东西，道理上讲，等于白嫖了一支外包小队。
+但用起来很快发现问题：这些工具全是散装的。
+
+额度分散。 这个用完了那个还有，全靠手动切，忘一次就浪费一次。
+项目分散。 手上有好几个项目在推进，每个干到哪个节点了，全靠记忆。
+上下文断裂。 换个工具，得把需求从头再讲一遍。
+
+转折点在于：我电脑上常年挂着一个本地 AI 助手 Hermes。它已经能理解需求、跑定时任务、记得我的习惯和红线。那为什么不干脆让它当调度员，把所有工具管起来？
+二、核心想法：管家不写代码，管家派活一句话讲清楚：Hermes 不直接写代码，它管「谁来做」。
+流程是这样的：丢一句话需求 </div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2026-10-14&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/AI">AI</a>&nbsp;
+          
+            <a href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7">效率工具</a>&nbsp;
+          
+            <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81">工作流</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2026/09/22/AI%E5%86%99%E7%9A%84%E8%B6%8A%E5%A4%9A%E8%B6%8A%E8%A6%81%E7%BB%83%E8%AF%BB%E4%BB%A3%E7%A0%81%E5%AE%9A%E6%9E%B6%E6%9E%84/">
         <p class="h4 index-header">AI 写的越多，越要学「框架层」：系统搭好底座，AI 写业务才扎实</p>
         
@@ -568,54 +619,6 @@ SOP-Forge 的思路：不直接帮 AI 干活，而是给 AI 造一条”接手�
             <a href="/tags/Agent">Agent</a>&nbsp;
           
             <a href="/tags/%E6%AF%95%E4%B8%9A%E8%AE%BA%E6%96%87">毕业论文</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2026/08/08/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%BA%94%E9%98%B6%E6%AE%B5/">
-        <p class="h4 index-header">Flutter学习-第五阶段：2026 年的现代 Flutter 开发</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">
-这个系列的前四个阶段写于 2020 年（环境配置 → 路由管理 → Widget 基础 → ListView）。6 年过去，Flutter 已经从 1.x 迭代到 3.4x，很多东西都变了。这一阶段把「现在的 Flutter」重新梳理一遍。
-
-我机器上的环境：Flutter 3.41.0-pre（master 通道），Dart 3.12。目前稳定版节奏是每年 4 个版本：3.41（2 月）、3.44（5 月）、3.47（8 月）、3.50（11 月）。
-
-一、2026 年 Flutter 的几个大变化1. Material &#x2F; Cupertino 库正在解耦官方正在把 Material 和 Cupertino 从 SDK 核心拆成独立 package。好处：
-
-设计库不用等季度版 SDK，随时升级
-iOS 出 “Liquid Glass”、Android 出 “Material 3 Expressive” 这种大改版时，Flutter 能更快跟上
-老项目可以锁 SDK 版本、只升设计包
-
-2. Impeller 渲染引擎成为默认当年iOS 上臭名昭著的「首次动画卡顿」（sh</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2026-08-08&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">学习笔记</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Flutter">Flutter</a>&nbsp;
-          
-            <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">学习笔记</a>&nbsp;
           
         
       </div>

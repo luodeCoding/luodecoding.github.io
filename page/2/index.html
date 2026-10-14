@@ -119,6 +119,54 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2026/08/08/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%BA%94%E9%98%B6%E6%AE%B5/">
+        <p class="h4 index-header">Flutter学习-第五阶段：2026 年的现代 Flutter 开发</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">
+这个系列的前四个阶段写于 2020 年（环境配置 → 路由管理 → Widget 基础 → ListView）。6 年过去，Flutter 已经从 1.x 迭代到 3.4x，很多东西都变了。这一阶段把「现在的 Flutter」重新梳理一遍。
+
+我机器上的环境：Flutter 3.41.0-pre（master 通道），Dart 3.12。目前稳定版节奏是每年 4 个版本：3.41（2 月）、3.44（5 月）、3.47（8 月）、3.50（11 月）。
+
+一、2026 年 Flutter 的几个大变化1. Material &#x2F; Cupertino 库正在解耦官方正在把 Material 和 Cupertino 从 SDK 核心拆成独立 package。好处：
+
+设计库不用等季度版 SDK，随时升级
+iOS 出 “Liquid Glass”、Android 出 “Material 3 Expressive” 这种大改版时，Flutter 能更快跟上
+老项目可以锁 SDK 版本、只升设计包
+
+2. Impeller 渲染引擎成为默认当年iOS 上臭名昭著的「首次动画卡顿」（sh</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2026-08-08&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">学习笔记</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Flutter">Flutter</a>&nbsp;
+          
+            <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">学习笔记</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2026/08/08/iOS%E4%B8%AA%E4%BA%BA%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91SOP/">
         <p class="h4 index-header">个人iOS独立开发SOP：一人+AI分饰整个团队的实战经验（已开源）</p>
         
@@ -550,46 +598,6 @@ deactivate()：当Sta</div>
       <div>
         
           <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-15&nbsp;&nbsp;
-        
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/01/14/Flutter%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5/">
-        <p class="h4 index-header">Flutter学习-第二阶段</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">应用
-
-
-路由管理
-
-路由就是页面（page），在iOS中主要是指（ViewController）,路由 管理就是管理页面之间如何跳转，导航管理在Android还是iOS中，都是维护一个路由栈，push（打开新页面）和pop（关闭页面）页面；
-Navigator.push( context,
-           MaterialPageRoute(builder: (context) &#123;
-              return NewRoute();
-           &#125;));
-
-
-Navigator 路由管理的组件，通过一个栈来管理活动路由集合；
-
-MaterialPageRoute 继承自PageRoute类，表示占有整个屏幕空间的一个模态路由页面，它还定义了路由构建及切换时过渡动画的相关接口及属性。MaterialPageRoute 是Material组件库提供的组件，它可以针对不同平台，实现与平台页面切换动画风格一致的路由切换动画；
-MaterialPageRoute({WidgetBuilder builder,RouteSettings sett</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-14&nbsp;&nbsp;
         
         
         
