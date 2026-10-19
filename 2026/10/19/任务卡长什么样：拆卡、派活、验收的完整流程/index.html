@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" type="image/png" href="/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="一个涉世未深的小iOS">
+  <meta name="author" content="Roder">
+  <meta name="keywords" content="">
+  <title>任务卡长什么样：拆卡、派活、验收的完整流程 ~ Roder</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Roder</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/default.png')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期一, 十月 19日 2026, 10:30 上午</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <blockquote>
+<p>上篇讲了为什么要把散装的 AI 工具拼成一支小队。这篇是落地篇：任务卡到底长什么样、怎么派下去、怎么验收，以及真正跑起来之后踩过的坑。</p>
+</blockquote>
+<h2 id="一、一张图看懂全流程"><a href="#一、一张图看懂全流程" class="headerlink" title="一、一张图看懂全流程"></a>一、一张图看懂全流程</h2><p>先放全貌，后面逐段拆：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">flowchart TD</span><br><span class="line">    A[需求/缺陷/新功能] --&gt; B&#123;能派 AI 做吗?&#125;</span><br><span class="line">    B -- 否 --&gt; B1[自己直做或等条件]</span><br><span class="line">    B -- 是 --&gt; C[写任务卡入收件箱]</span><br><span class="line"></span><br><span class="line">    C --&gt; C1&#123;写卡前四查&#125;</span><br><span class="line">    C1 --&gt; C1a[工作区是否干净]</span><br><span class="line">    C1 --&gt; C1b[编号防撞]</span><br><span class="line">    C1 --&gt; C1c[现状核实 防重复派卡]</span><br><span class="line">    C1 --&gt; C1d[文件锁]</span><br><span class="line"></span><br><span class="line">    C1 --&gt; D[卡结构六要素]</span><br><span class="line">    D --&gt; E&#123;选派发通道&#125;</span><br><span class="line">    E -- 有 CLI --&gt; E1[headless / 直发]</span><br><span class="line">    E -- 无 CLI --&gt; E2[驱动桌面窗口 / 手动话术]</span><br><span class="line"></span><br><span class="line">    E1 --&gt; F[执行者: 领卡→做→回填]</span><br><span class="line">    E2 --&gt; F</span><br><span class="line"></span><br><span class="line">    F --&gt; G&#123;验收: 不信自报&#125;</span><br><span class="line">    G --&gt; G1[核对文件锁]</span><br><span class="line">    G --&gt; G2[编译/测试/产物亲跑]</span><br><span class="line">    G --&gt; G3[验收标准逐条过]</span><br><span class="line"></span><br><span class="line">    G -- 通过 --&gt; H[归档 + 统一提交]</span><br><span class="line">    G -- 不通过 --&gt; I[退回+写原因] --&gt; F</span><br><span class="line"></span><br><span class="line">    H --&gt; J[沉淀日志 + 汇报]</span><br></pre></td></tr></table></figure>
+
+<p>一句话：<strong>写卡的人只负责把任务说清楚，执行的人只负责改，验收的人只认证据。</strong> 三个角色互相不信任，靠的是卡和证据链。</p>
+<h2 id="二、任务卡六要素"><a href="#二、任务卡六要素" class="headerlink" title="二、任务卡六要素"></a>二、任务卡六要素</h2><p>一张卡就是一个任务。写卡的人（管家）要保证：执行者不看聊天记录、不看项目文档，只看这张卡就能干活。所以卡上固定六段：</p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>写什么</th>
+<th>为什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>状态</td>
+<td>⬜待领 &#x2F; 🔄进行中 &#x2F; ✅完成 &#x2F; ❌受阻</td>
+<td>项目进度看卡状态就行，不用问人</td>
+</tr>
+<tr>
+<td>分发给</td>
+<td>哪个工具</td>
+<td>多工具并行时防串</td>
+</tr>
+<tr>
+<td>任务</td>
+<td>现状 + 要改成什么样</td>
+<td>卡自包含，执行者不猜</td>
+</tr>
+<tr>
+<td>文件锁</td>
+<td>只许改哪几个文件</td>
+<td>多 AI 同时改同一个文件 &#x3D; 互相覆盖</td>
+</tr>
+<tr>
+<td>红线</td>
+<td>不许动什么、不许越什么界</td>
+<td>边界写死，防越权</td>
+</tr>
+<tr>
+<td>验收标准</td>
+<td>怎么证明做完了</td>
+<td>可机检优先，别写”看着差不多”</td>
+</tr>
+</tbody></table>
+<p>一个脱敏示例（真实卡改的）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># Q032: 首页几个 MORE 按钮点击无反应</span><br><span class="line">状态: ⬜待领</span><br><span class="line">分发给: qoder</span><br><span class="line">优先级: P1</span><br><span class="line"></span><br><span class="line">## 现象（用户真机验证）</span><br><span class="line">首页顶部多个区块的 &quot;More&quot; 按钮点了没反应：</span><br><span class="line">- My circles / Manage</span><br><span class="line">- Hot discussions / View all</span><br><span class="line">- Featured / See all</span><br><span class="line"></span><br><span class="line">## 任务</span><br><span class="line">把三个 More 按钮分别绑定跳转目标页；</span><br><span class="line">跳转目标页已存在（Circles 页），复用即可，禁新建页面。</span><br><span class="line"></span><br><span class="line">## 文件锁</span><br><span class="line">只许改：Features/Home/HomeViewController.swift（+新增跳转方法）</span><br><span class="line">禁改：其他任何文件</span><br><span class="line"></span><br><span class="line">## 红线</span><br><span class="line">- 不 commit 不 push，完成回填卡状态即可</span><br><span class="line">- 禁改 UI 布局（用户明确只要按钮生效）</span><br><span class="line"></span><br><span class="line">## 验收标准</span><br><span class="line">- [ ] 三个按钮真机点击都能跳到对应页</span><br><span class="line">- [ ] 编译零 error</span><br></pre></td></tr></table></figure>
+
+<p>注意最后一行验收标准——**”真机点击”这条管家自己验不了**（管家没有真机），所以验收标准里凡是依赖环境的项，要么写清”谁验、怎么验”，要么换成可机检的等价项。这是后来才学到的，见第六节。</p>
+<h2 id="三、写卡前的四查"><a href="#三、写卡前的四查" class="headerlink" title="三、写卡前的四查"></a>三、写卡前的四查</h2><p>写卡不是想到就写。四件事不查，后面必翻车：</p>
+<ol>
+<li><strong>查编号</strong>：收件箱里已经有几张卡？编号有没有撞？——同一编号两张卡，两个执行者各做各的，合并时对不上账。</li>
+<li><strong>查工作区</strong>：git 干不干净？——上一个执行者没提交的代码，会卷进下一个人的提交里，验收时说不清谁改的。</li>
+<li><strong>查现状</strong>：这个活是不是已经有人做完了？——最经典的翻车：卡面基于过期的文档，执行者吭哧吭哧做完，复测才发现功能早就有了。<strong>建卡前必须用代码&#x2F;git 核实现状</strong>，不是信文档。</li>
+<li><strong>查文件锁</strong>：目标文件有没有其他执行者正在改？——有就换文件或排队，别硬塞。</li>
+</ol>
+<p>四查的本质：<strong>写卡的人要承担”任务真实存在”的责任</strong>。执行者不背这个锅，他只需要执行。</p>
+<h2 id="四、派发：三种通道"><a href="#四、派发：三种通道" class="headerlink" title="四、派发：三种通道"></a>四、派发：三种通道</h2><p>卡写好了，怎么送到执行者手里？取决于工具的”接口形态”：</p>
+<table>
+<thead>
+<tr>
+<th>通道</th>
+<th>适用</th>
+<th>代价</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CLI &#x2F; 命令行直发</td>
+<td>有正经 CLI 的工具（如 Kimi、ZCode 系）</td>
+<td>最稳，可脚本化</td>
+</tr>
+<tr>
+<td>驱动桌面窗口</td>
+<td>没有 CLI 的桌面工具（如 Qoder、WorkBuddy）</td>
+<td>要适配窗口定位、输入框识别，脆弱</td>
+</tr>
+<tr>
+<td>手动投递</td>
+<td>前两条都不通时</td>
+<td>人把卡复制过去，最慢但零风险</td>
+</tr>
+</tbody></table>
+<p>桌面窗口驱动是最折腾的：先得找到它的窗口、定位输入框、把指令注入进去、再验证”真的发出去了”（输入框清空了才算）。这套东西今天能跑，明天工具改个版式可能就断——上篇预告里说的”没啃下的骨头”，主要就是它。</p>
+<h2 id="五、执行者的纪律"><a href="#五、执行者的纪律" class="headerlink" title="五、执行者的纪律"></a>五、执行者的纪律</h2><p>卡派下去之后，执行者要遵守一套状态纪律：</p>
+<ul>
+<li>领卡：先把状态从 ⬜ 改成 🔄（告诉所有人”这活我接了”）</li>
+<li>干活：<strong>随做随写进度</strong>（PROGRESS 段），不是做完才写——卡中途断了，下一个人能接上</li>
+<li>完成：状态改 ✅，填产出段（改了哪些文件、验证了什么）</li>
+<li>红线内的延伸：发现卡外问题，先报备，等管家裁决，<strong>不擅自扩大范围</strong></li>
+</ul>
+<p>这套纪律看着简单，实际是踩出来的——执行者最常犯的错不是不会写代码，是”擅自动了卡外的东西”。</p>
+<h2 id="六、验收：为什么”自报完成”不算数"><a href="#六、验收：为什么”自报完成”不算数" class="headerlink" title="六、验收：为什么”自报完成”不算数"></a>六、验收：为什么”自报完成”不算数</h2><p>执行者说”完成了”，管家不能直接信。这一节是整篇最值钱的部分，全部来自真实事故：</p>
+<ol>
+<li><strong>编译通过 ≠ 代码入库</strong>：执行者说”编译双绿”，但 git 一看，改动根本没提交。自报是自报，仓库是仓库。</li>
+<li><strong>验收先列 commit，逐笔问授权</strong>：执行者自己 commit 了一堆东西，混着没授权的卡外改动——不逐笔确认就合入，等于默认他越权。</li>
+<li><strong>“完成”要过真实门禁</strong>：编译绿只是及格线，交互类改动要真机&#x2F;环境实跑。曾经出现”generic 编译过、真机一跑就崩”的经典事故——签名、设备家族这些坑，只有真实目标环境暴露。</li>
+<li><strong>文件锁要核对 diff</strong>：执行者改的文件必须和卡面文件锁一致，多改了就是越权，哪怕改得好。</li>
+<li><strong>证据链可回放</strong>：日志、截图、测试输出要留痕。出了问题能复盘，不是黑盒。</li>
+<li><strong>退回要说清原因</strong>：验收不通过退回时，把不合格点写进卡里，执行者才知道改什么。</li>
+</ol>
+<p>一句话总结验收：<strong>绿灯亮不亮，看证据链，不看嘴。</strong></p>
+<h2 id="七、没啃下的骨头（续）"><a href="#七、没啃下的骨头（续）" class="headerlink" title="七、没啃下的骨头（续）"></a>七、没啃下的骨头（续）</h2><p>上篇留了个尾巴，跑了几周，新的骨头也冒出来了：</p>
+<ul>
+<li><strong>视觉类验收绕不开人</strong>：图标、截图、UI 效果这类”好不好看”的判断，执行工具没有可靠的眼睛，只能管家（或人）来把关——这条链路目前是人工环节。</li>
+<li><strong>额度断供比想象的频繁</strong>：免费额度是消耗品，一个工具进入冷却期就得立刻轮转，轮转逻辑本身也要维护。</li>
+<li><strong>多工具并发时，文件锁是唯一防线</strong>：它防住了互相覆盖，但也意味着调度变复杂——同一文件的活必须排队，谁先谁后要管家排。</li>
+</ul>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>上篇说”AI 负责生成，人负责裁决”。这篇把”生成”这一层拆开了：拆卡是判断，派活是调度，验收是裁决——这三件事管家能做，但<strong>裁决的最终责任永远在人</strong>。</p>
+<p>后续还会整理：额度轮转怎么自动判断、怎么驯服没有 CLI 的桌面工具。大概率会继续共享，欢迎拍砖。</p>
+<p><em>（文中项目信息已脱敏；提及的工具均为公开产品；未包含任何私密配置与凭据。）</em></p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/AI">AI</a>
+              
+                <a class="hover-with-bg" href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7">效率工具</a>
+              
+                <a class="hover-with-bg" href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81">工作流</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "任务卡长什么样：拆卡、派活、验收的完整流程&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>
