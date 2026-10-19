@@ -119,6 +119,59 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2026/10/19/%E8%8D%AF%E5%BA%97%E6%99%BA%E8%83%BDAgent%E7%B3%BB%E7%BB%9F-%E4%B8%80%E4%B8%AALangGraph%E4%B8%8ERAG%E7%9A%84%E7%94%9F%E4%BA%A7%E7%BA%A7%E8%90%BD%E5%9C%B0%E6%A0%B7%E6%9C%AC/">
+        <p class="h4 index-header">药店智能 Agent 系统：一个 LangGraph + RAG 的生产级落地样本</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">
+一篇关于「药店智能 Agent 系统」的实践记录。这是我自己独立开发的全栈 AI Agent 项目：LangGraph 编排 11 节点工作流 + 三级 RAG（向量 &#x2F; BM25 &#x2F; 交叉编码重排）+ Function Calling 工具系统 + Guardrails + 真 SSE 流式输出，知识库 702 条，一套 FastAPI 服务端加 Web 前端。这篇是系列总纲，讲清楚系统长什么样、为什么这么设计，以及后续会拆开的几个技术点。
+
+一、为什么是药店？选药店场景不是随手挑的。
+Agent 落地最常见的形态就是客服助手——LangChain《State of AI Agents》报告里，客服场景占了生产用例的 45.8%。药店恰好是客服助手的理想样本：
+
+有真实检索需求：顾客问药，回答必须基于可靠的药品知识，不能靠模型硬编——RAG 的天然落地场；
+有工具调用场景：查库存、查销售、查药品相互作用，需要接数据、接 SQL，而不是纯聊天；
+有安全底线：医药回答错不得，幻觉检测、来源引用、Guardrails 都是刚需，正好把”安全”这个面试必考点做扎实。
+
+</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2026-10-19&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/AI%20Agent">AI Agent</a>&nbsp;
+          
+            <a href="/tags/LangGraph">LangGraph</a>&nbsp;
+          
+            <a href="/tags/RAG">RAG</a>&nbsp;
+          
+            <a href="/tags/FastAPI">FastAPI</a>&nbsp;
+          
+            <a href="/tags/Python">Python</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2026/10/19/%E4%BB%BB%E5%8A%A1%E5%8D%A1%E9%95%BF%E4%BB%80%E4%B9%88%E6%A0%B7%EF%BC%9A%E6%8B%86%E5%8D%A1%E3%80%81%E6%B4%BE%E6%B4%BB%E3%80%81%E9%AA%8C%E6%94%B6%E7%9A%84%E5%AE%8C%E6%95%B4%E6%B5%81%E7%A8%8B/">
         <p class="h4 index-header">任务卡长什么样：拆卡、派活、验收的完整流程</p>
         
@@ -565,56 +618,6 @@ AGENTS.md —— 给 AI Agent 看的操作手册：环境怎么装、文章怎�
             <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%88%90%E9%95%BF">程序员成长</a>&nbsp;
           
             <a href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7">效率工具</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2026/08/08/SOP%E9%94%BB%E9%80%A0%E5%8E%82-AI%E9%A1%B9%E7%9B%AE%E6%8E%A5%E6%89%8B%E6%B5%81%E6%B0%B4%E7%BA%BF/">
-        <p class="h4 index-header">SOP锻造厂：给 AI 用的&#34;项目接手流水线&#34;（SOP 系列第三篇）</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">前面发了两篇 SOP：公司级迭代开发 和 个人级独立开发。写完发现一个更根本的问题：这些 SOP 是怎么来的？换一个项目，能不能再造一套？
-答案是能——因为我还有一套”生产 SOP 的 SOP”，一个 AI 协作元框架，我叫它 SOP 锻造厂（SOP-Forge）。这篇就讲它。
-
-它解决什么问题用 AI 做项目，三个反复出现的痛：
-
-AI 接手项目时两眼一抹黑 — 不知道项目结构、技术栈、坑在哪，每次都是从零开始的实习生
-一套 SOP 打天下，水土不服 — 公司项目的流程套到个人项目上，重得跑不动；反过来又太野
-经验散落在对话里 — 这个项目踩的坑、验证过的好方案，对话一关就没了，下个项目接着踩
-
-SOP-Forge 的思路：不直接帮 AI 干活，而是给 AI 造一条”接手项目”的流水线。
-
-四阶段流水线12301-Scout 扫描 → 02-TeamForge 角色链 → 03-SOPForge 组装 → 04-Execution 执行                                                              ↓            </div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2026-08-08&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/AI">AI</a>&nbsp;
-          
-            <a href="/tags/Agent">Agent</a>&nbsp;
-          
-            <a href="/tags/SOP">SOP</a>&nbsp;
           
         
       </div>
