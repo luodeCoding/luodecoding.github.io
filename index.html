@@ -119,6 +119,91 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2026/11/12/%E8%AE%A9AI%E5%B0%8F%E9%98%9F%E4%B8%8A%E5%A4%9C%E7%8F%AD-%E6%97%A0%E4%BA%BA%E5%80%BC%E5%AE%88%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%80%8E%E4%B9%88%E5%81%9A%E5%88%B0%E6%97%A9%E4%B8%8A%E8%B5%B7%E6%9D%A5%E6%B4%BB%E5%B9%B2%E5%AE%8C%E4%BA%86/">
+        <p class="h4 index-header">让 AI 小队上夜班：无人值守流水线怎么做到早上起来活干完了</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">
+前两篇讲了为什么把散装 AI 工具拼成小队、任务卡长什么样。这篇是实战篇：怎么让这支小队在你睡觉的时候自己干活，早上起来活已经干完了。讲两件事——无人值守流水线由哪几块拼成、真正跑起来踩过的坑。所有数据来自一次真实的夜间运行，不是设想。
+
+一、先看一次真实的夜班不画饼，先放战绩。某天晚上到第二天凌晨，这条流水线的实际运行记录：
+
+
+
+时间
+发生了什么
+
+
+
+23:00
+额度窗口开启，自动派发启动
+
+
+01:27–02:02
+第一批任务卡陆续收口
+
+
+03:00–03:55
+崩溃面扫描、无障碍走查等卡完成
+
+
+04:39
+最后一次模型调用，额度基本打光
+
+
+08:30
+晨间战报自动推送：完成 25 张、受阻 4 张、剩余待领 14 张
+
+
+连续跑了约 5 小时 40 分钟，把 3 亿单位的夜间额度用到只剩万分之零点五，收口十几张任务卡，全程没有人干预。我早上起来看到的是一条汇总消息，而不是一堆待处理的报错。
+这不是 demo。是每天都在跑的东西。下面拆它是怎么拼起来的。
+二、流水线由哪几块拼成四个角色，各管一摊：
+
+
+
+块
+谁
+干什么
+
+
+
+大脑
+Hermes（本地常驻 AI 助手）
+</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2026-11-12&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/AI">AI</a>&nbsp;
+          
+            <a href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7">效率工具</a>&nbsp;
+          
+            <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81">工作流</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2026/10/19/%E8%8D%AF%E5%BA%97%E6%99%BA%E8%83%BDAgent%E7%B3%BB%E7%BB%9F-%E4%B8%80%E4%B8%AALangGraph%E4%B8%8ERAG%E7%9A%84%E7%94%9F%E4%BA%A7%E7%BA%A7%E8%90%BD%E5%9C%B0%E6%A0%B7%E6%9C%AC/">
         <p class="h4 index-header">药店智能 Agent 系统：一个 LangGraph + RAG 的生产级落地样本</p>
         
@@ -572,52 +657,6 @@ AGENTS.md —— 给 AI Agent 看的操作手册：环境怎么装、文章怎�
             <a href="/tags/%E5%9B%A2%E9%98%9F%E5%8D%8F%E4%BD%9C">团队协作</a>&nbsp;
           
             <a href="/tags/%E5%89%8D%E7%AB%AF">前端</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2026/08/24/AI%E6%97%B6%E4%BB%A3%E6%AF%94%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C%E6%9B%B4%E9%87%8D%E8%A6%81%E7%9A%84%E4%B8%89%E4%BB%B6%E4%BA%8B/">
-        <p class="h4 index-header">AI 时代，比开发经验更重要的三件事：细心、负责、钻研</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">一、一个正在发生的变化这两年，几乎每个程序员都能明显感觉到：写代码这件事本身，正在变得越来越”便宜”。
-以前需要一个下午才能搭出来的 CRUD 接口，现在 AI 几分钟就生成好了；以前要翻半天文档才能搞懂的 API 用法，现在问一句就有答案。代码的”产量”不再是瓶颈，甚至某种程度上，经验带来的”写代码速度优势”正在被 AI 拉平。
-一个工作三年的工程师和一个工作十年的工程师，在 AI 的辅助下，产出代码的速度可能差不了太多。
-那差距在哪里？
-我的观察是：差距转移到了代码之外的地方。AI 可以生成代码，但它生成的代码对不对、合不合适、上线后会不会出事，仍然需要人来判断和兜底。于是，有三种品质变得比”开发经验”本身更重要了——细心、负责任、肯钻研。
-二、细心：AI 时代的核心竞争力是”审稿子”的能力用过 AI 写代码的人都知道一个事实：AI 生成的代码，看起来总是对的。
-它语法工整、命名规范、注释齐全，甚至自信满满。但里面可能藏着一个空指针隐患、一个边界条件没处理、一个被”幻觉”出来的不存在的 API。AI 不会为自己的错误心虚，它错得理直气壮。
-这就意味着，工程师的工作重心正在从”写代码</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2026-08-24&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E9%9A%8F%E7%AC%94%E6%80%9D%E8%80%83">随笔思考</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/AI">AI</a>&nbsp;
-          
-            <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%88%90%E9%95%BF">程序员成长</a>&nbsp;
-          
-            <a href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7">效率工具</a>&nbsp;
           
         
       </div>
