@@ -119,6 +119,62 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2026/11/24/%E7%BB%99%E4%B8%80%E7%BE%A4AI%E6%89%A7%E8%A1%8C%E8%80%85%E5%BB%BA%E9%A1%B9%E7%9B%AE%E5%A4%A7%E8%84%91-DevKB%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E6%88%98/">
+        <p class="h4 index-header">给一群 AI 执行者建一个&#34;项目大脑&#34;：DevKB 的设计与实战</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">
+一篇关于「多 AI 执行者协作的状态管理」的实践记录：真相源留在 markdown，数据库只做可丢弃的索引，看板只建议不越权。讲清 DevKB 的设计决策与两周实战里踩的坑。
+
+
+脱敏状态：正文已用化名（项目A&#x3D;在做的社区 App、某车厂项目、机器狗项目等），发布前按文末清单再过一遍
+
+
+一、问题：AI 多了，记忆碎了我现在同时养着几个 AI 编码执行者——Kimi、ZCode、Qoder、WorkBuddy，各有额度窗口和擅长面。白天我拍板，夜里它们自动领卡干活，早上我验收。听起来很美，但跑了一个月后，真正的瓶颈不是 AI 的编码能力，而是状态管理：
+
+每个项目的任务卡、执行日志、阻塞项、Bug 散落在各自的 markdown 文件里，格式还不完全一样
+我想知道”现在哪个执行者闲着、哪张卡能派、哪个项目在等外部”，得翻四五个目录
+跨项目问一句”上周修过类似的崩溃吗”，没有任何东西能回答
+更糟的是双写风险：如果看板自己存一份状态，项目 md 改了它不知道，两边很快各说各话
+
+一句话：多个 AI 执行者缺一个共享大脑，而这个大脑不能变成第二个真相源。
+二、核心决策：md 是真</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2026-11-24&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/AI%20Agent">AI Agent</a>&nbsp;
+          
+            <a href="/tags/%E5%A4%9AAgent%E5%8D%8F%E4%BD%9C">多Agent协作</a>&nbsp;
+          
+            <a href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86">知识管理</a>&nbsp;
+          
+            <a href="/tags/SQLite">SQLite</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2026/11/12/%E8%AE%A9AI%E5%B0%8F%E9%98%9F%E4%B8%8A%E5%A4%9C%E7%8F%AD-%E6%97%A0%E4%BA%BA%E5%80%BC%E5%AE%88%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%80%8E%E4%B9%88%E5%81%9A%E5%88%B0%E6%97%A9%E4%B8%8A%E8%B5%B7%E6%9D%A5%E6%B4%BB%E5%B9%B2%E5%AE%8C%E4%BA%86/">
         <p class="h4 index-header">让 AI 小队上夜班：无人值守流水线怎么做到早上起来活干完了</p>
         
@@ -610,53 +666,6 @@ AGENTS.md —— 给 AI Agent 看的操作手册：环境怎么装、文章怎�
             <a href="/tags/Hexo">Hexo</a>&nbsp;
           
             <a href="/tags/%E5%BC%80%E6%BA%90">开源</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2026/08/24/%E7%94%A8AI%E7%94%9F%E6%88%90%E8%A7%84%E5%88%99%E6%96%87%E6%A1%A3%E8%A7%A3%E5%86%B3%E5%A4%9A%E7%AB%AF%E6%B2%9F%E9%80%9A%E6%AD%A7%E4%B9%89/">
-        <p class="h4 index-header">一种 AI 时代的新型沟通方式：用 Markdown 规则文档终结多端扯皮</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">一、先说一个我踩过的坑上个月做一个会员功能，规则是”连续包月用户，取消后已付费周期内权益保留”。规则是在群里聊定的，我（iOS）看完聊天记录的理解是：到期那一刻权益失效。Android 的理解是：取消那一刻还能用到周期末。后端的理解又是另一回事：他返回的字段里压根没有”到期时间”，只有一个”是否有效”的布尔值。
-联调那天三方一对，全对不上。翻聊天记录，产品原话是”取消了当然还能用到月底啊”——这句话同时支持我们三个人的三种理解。
-最后后端加字段、两端改逻辑，白花了两天。这种事的根源不是谁水平差，而是沟通介质有问题：群聊、语音、口头传达，天然就是模糊的、易丢失的、无法比对的。 而规则类、逻辑类的需求，恰恰是最经不起模糊的东西。
-尤其是一个需求涉及 iOS、Android、前端、后端好几个端的时候——同一条产品规则，后端是校验逻辑，前端是交互提示，客户端是本地展示加兜底，每个端的实现方式都不一样。没有一份统一的、精确的参照物，误解是必然，一致才是运气。
-二、解法：规则不靠”聊”，靠一份 AI 生成的 Markdown 文档后来我在项目里换了个流程，核心就一句话：
-
-任何涉及规则、逻辑的需求</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2026-08-24&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB">技术分享</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/AI">AI</a>&nbsp;
-          
-            <a href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7">效率工具</a>&nbsp;
-          
-            <a href="/tags/%E5%9B%A2%E9%98%9F%E5%8D%8F%E4%BD%9C">团队协作</a>&nbsp;
-          
-            <a href="/tags/%E5%89%8D%E7%AB%AF">前端</a>&nbsp;
           
         
       </div>
